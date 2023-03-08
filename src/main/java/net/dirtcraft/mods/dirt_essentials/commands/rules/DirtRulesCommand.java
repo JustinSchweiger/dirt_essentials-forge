@@ -1,4 +1,4 @@
-package net.dirtcraft.mods.dirt_essentials.commands;
+package net.dirtcraft.mods.dirt_essentials.commands.rules;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -68,7 +68,7 @@ public class DirtRulesCommand {
 		boolean isConsole = !(source.getEntity() instanceof ServerPlayer);
 
 		if (isConsole) {
-			source.sendSuccess(new TextComponent("You must be a player to use this command!"), true);
+			source.sendSuccess(new TextComponent(Strings.RULES_PREFIX + "You must be a player to use this command!"), true);
 			return Command.SINGLE_SUCCESS;
 		}
 
@@ -149,7 +149,7 @@ public class DirtRulesCommand {
 		boolean isConsole = !(source.getEntity() instanceof ServerPlayer);
 
 		if (isConsole) {
-			source.sendSuccess(new TextComponent("You must be a player to use this command!"), true);
+			source.sendSuccess(new TextComponent(Strings.RULES_PREFIX + "You must be a player to use this command!"), true);
 			return Command.SINGLE_SUCCESS;
 		}
 

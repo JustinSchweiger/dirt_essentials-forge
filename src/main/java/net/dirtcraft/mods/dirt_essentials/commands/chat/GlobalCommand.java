@@ -1,4 +1,4 @@
-package net.dirtcraft.mods.dirt_essentials.commands;
+package net.dirtcraft.mods.dirt_essentials.commands.chat;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -14,14 +14,14 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 
-public class StaffCommand {
+public class GlobalCommand {
 	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
 		LiteralArgumentBuilder<CommandSourceStack> argumentBuilder = Commands
-				.literal("staff")
-				.requires(source -> PermissionHandler.hasPermission(source, ChatPermissions.WRITE_STAFF))
-				.executes(StaffCommand::changeChannel)
+				.literal("global")
+				.requires(source -> PermissionHandler.hasPermission(source, ChatPermissions.WRITE_GLOBAL))
+				.executes(GlobalCommand::changeChannel)
 				.then(Commands.argument("message", StringArgumentType.greedyString())
-						.executes(StaffCommand::sendMessage));
+						.executes(GlobalCommand::sendMessage));
 
 		dispatcher.register(argumentBuilder);
 	}
@@ -31,12 +31,12 @@ public class StaffCommand {
 		boolean isConsole = !(source.getEntity() instanceof ServerPlayer);
 
 		if (isConsole) {
-			source.sendSuccess(new TextComponent("You cannot send messages to the staff channel from console!"), true);
+			source.sendSuccess(new TextComponent("Use the /say or /broadcast command from Console!"), true);
 			return 0;
 		}
 
 		String message = StringArgumentType.getString(commandSourceStackCommandContext, "message");
-		ChatManager.broadcastStaff(source.getPlayerOrException(), message);
+		ChatManager.broadcastGlobal(source.getPlayerOrException(), message);
 
 		return Command.SINGLE_SUCCESS;
 	}
@@ -46,11 +46,11 @@ public class StaffCommand {
 		boolean isConsole = !(source.getEntity() instanceof ServerPlayer);
 
 		if (isConsole) {
-			source.sendSuccess(new TextComponent("You cannot do that from console!"), true);
+			source.sendSuccess(new TextComponent("Use the /say or /broadcast command from Console!"), true);
 			return 0;
 		}
 
-		ChatManager.chatStaff(source.getPlayerOrException());
+		ChatManager.chatGlobal(source.getPlayerOrException());
 
 		return Command.SINGLE_SUCCESS;
 	}

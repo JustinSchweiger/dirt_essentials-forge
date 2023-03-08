@@ -13,7 +13,7 @@ public class EssentialsConfig {
 		BUILDER.push("Economy");
 
 		DEFAULT_BALANCE = BUILDER
-				.comment("The default balance for new players")
+				.comment("#.", "The default balance for new players")
 				.defineInRange("defaultBalance", 1000.0, 0.0, Double.MAX_VALUE);
 
 		BUILDER.pop();

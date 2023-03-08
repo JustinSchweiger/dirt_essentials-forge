@@ -11,17 +11,19 @@ public class RulesConfig {
 	public static final ForgeConfigSpec.ConfigValue<Integer> REMINDER_INTERVAL;
 
 	static  {
-		BUILDER.push("Config for Dirt Rules");
+		BUILDER.comment("Config for Dirt Rules");
+		BUILDER.push("general");
+
 		ENABLED = BUILDER
-				.comment("Whether or not the restart feature is enabled.")
+				.comment("#.", "Whether or not the restart feature is enabled.")
 				.define("enabled", true);
 
 		ACCEPT_AGAIN_ON_CHANGE = BUILDER
-				.comment("Whether or not players will have to accept the rules again if they change.")
+				.comment("#.", "Whether or not players will have to accept the rules again if they change.")
 				.define("acceptAgainOnChange", true);
 
 		REMINDER_INTERVAL = BUILDER
-				.comment("How often the rules reminder will be sent to players in seconds.")
+				.comment("#.", "How often the rules reminder will be sent to players in seconds.")
 				.defineInRange("reminderInterval", 30, 10, 1800);
 
 		BUILDER.pop();

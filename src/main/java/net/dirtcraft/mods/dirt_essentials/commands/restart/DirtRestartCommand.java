@@ -1,4 +1,4 @@
-package net.dirtcraft.mods.dirt_essentials.commands;
+package net.dirtcraft.mods.dirt_essentials.commands.restart;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;

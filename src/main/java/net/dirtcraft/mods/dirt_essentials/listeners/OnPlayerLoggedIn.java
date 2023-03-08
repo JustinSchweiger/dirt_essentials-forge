@@ -14,6 +14,7 @@ import java.util.UUID;
 
 public class OnPlayerLoggedIn {
 	private static final Logger LOGGER = LogUtils.getLogger();
+
 	@SubscribeEvent
 	public static void event(PlayerEvent.PlayerLoggedInEvent event) {
 		UUID uuid = event.getPlayer().getUUID();
