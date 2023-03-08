@@ -1,6 +1,6 @@
 package net.dirtcraft.mods.dirt_essentials.manager;
 
-import net.dirtcraft.mods.dirt_essentials.Main;
+import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
 import net.dirtcraft.mods.dirt_essentials.config.RestartConfig;
 import net.dirtcraft.mods.dirt_essentials.data.TimeUnit;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
@@ -33,7 +33,7 @@ public class RestartManager {
 		if (!running)
 			return;
 
-		if (Main.SERVER == null)
+		if (DirtEssentials.SERVER == null)
 			return;
 
 		if (tickCounter != 20) {
@@ -70,7 +70,7 @@ public class RestartManager {
 
 		notificationsSent.add(timeLeft);
 
-		for (ServerPlayer player : Main.SERVER.getPlayerList().getPlayers()) {
+		for (ServerPlayer player : DirtEssentials.SERVER.getPlayerList().getPlayers()) {
 			player.sendMessage(new TextComponent(Strings.RESTART_PREFIX + "§b⌚ §c" + timeLeft + "§7!"), Util.NIL_UUID);
 			player.connection.send(new ClientboundCustomSoundPacket(new ResourceLocation("minecraft:block.note_block.bell"), SoundSource.AMBIENT, new Vec3(player.getX(), player.getY(), player.getZ()), 1.0F, 1.0F));
 			player.connection.send(new ClientboundSetTitleTextPacket(new TextComponent("§7Server restart in")));
@@ -96,11 +96,11 @@ public class RestartManager {
 	}
 
 	public static void restart() {
-		for (ServerPlayer player : Main.SERVER.getPlayerList().getPlayers()) {
+		for (ServerPlayer player : DirtEssentials.SERVER.getPlayerList().getPlayers()) {
 			player.connection.disconnect(new TextComponent(RestartConfig.RESTART_MESSAGE.get()));
 		}
 
-		Main.SERVER.halt(false);
+		DirtEssentials.SERVER.halt(false);
 	}
 
 	public static void pauseTimer() {

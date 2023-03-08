@@ -5,9 +5,11 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import net.dirtcraft.mods.dirt_essentials.Main;
+import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
 import net.dirtcraft.mods.dirt_essentials.manager.RestartManager;
 import net.dirtcraft.mods.dirt_essentials.data.TimeUnit;
+import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
+import net.dirtcraft.mods.dirt_essentials.permissions.RestartPermissions;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
 import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
@@ -19,22 +21,27 @@ public class DirtRestartCommand {
 	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
 		LiteralArgumentBuilder<CommandSourceStack> argumentBuilder = Commands
 				.literal("dirtrestart")
-				.requires(source -> source.hasPermission(4))
+				.requires(source -> PermissionHandler.hasPermission(source, RestartPermissions.BASE))
 				.then(Commands.literal("now")
+						.requires(source -> PermissionHandler.hasPermission(source, RestartPermissions.RESTART_NOW))
 						.executes(DirtRestartCommand::now))
 				.then(Commands.literal("in")
+						.requires(source -> PermissionHandler.hasPermission(source, RestartPermissions.RESTART_IN))
 						.then(Commands.argument("time", IntegerArgumentType.integer(1))
 								.then(Commands.literal("s").executes(context -> in(context, TimeUnit.SECONDS)))
 								.then(Commands.literal("m").executes(context -> in(context, TimeUnit.MINUTES)))
 								.then(Commands.literal("h").executes(context -> in(context, TimeUnit.HOURS)))))
 				.then(Commands.literal("pause")
+						.requires(source -> PermissionHandler.hasPermission(source, RestartPermissions.RESTART_PAUSE))
 						.executes(DirtRestartCommand::pause))
 				.then(Commands.literal("resume")
+						.requires(source -> PermissionHandler.hasPermission(source, RestartPermissions.RESTART_RESUME))
 						.executes(DirtRestartCommand::resume))
 				.then(Commands.literal("time")
+						.requires(source -> PermissionHandler.hasPermission(source, RestartPermissions.RESTART_TIME))
 						.executes(DirtRestartCommand::time));
 
-		dispatcher.register(Commands.literal("restart").redirect(dispatcher.register(argumentBuilder)));
+		dispatcher.register(Commands.literal("restart").requires(source -> PermissionHandler.hasPermission(source, RestartPermissions.BASE)).redirect(dispatcher.register(argumentBuilder)));
 	}
 
 	private static int time(CommandContext<CommandSourceStack> commandSourceStackCommandContext) {
@@ -56,30 +63,30 @@ public class DirtRestartCommand {
 		if (seconds > 0)
 			timeBuilder.append("§c").append(seconds).append("§7s");
 
-		commandSourceStackCommandContext.getSource().sendSuccess(new TextComponent(Strings.RESTART_PREFIX + "§7The server will restart in " + timeBuilder.toString().trim() + "!"), false);
+		commandSourceStackCommandContext.getSource().sendSuccess(new TextComponent(Strings.RESTART_PREFIX + "§7The server will restart in " + timeBuilder.toString().trim() + "!"), true);
 
 		return Command.SINGLE_SUCCESS;
 	}
 
 	private static int resume(CommandContext<CommandSourceStack> commandSourceStackCommandContext) {
 		if (!RestartManager.isPaused()) {
-			commandSourceStackCommandContext.getSource().sendSuccess(new TextComponent(Strings.RESTART_PREFIX + "§cThe restart timer is not paused!"), false);
+			commandSourceStackCommandContext.getSource().sendSuccess(new TextComponent(Strings.RESTART_PREFIX + "§cThe restart timer is not paused!"), true);
 			return Command.SINGLE_SUCCESS;
 		}
 
 		RestartManager.resumeTimer();
-		commandSourceStackCommandContext.getSource().sendSuccess(new TextComponent(Strings.RESTART_PREFIX + "§aThe restart timer has been resumed!"), false);
+		commandSourceStackCommandContext.getSource().sendSuccess(new TextComponent(Strings.RESTART_PREFIX + "§aThe restart timer has been resumed!"), true);
 		return Command.SINGLE_SUCCESS;
 	}
 
 	private static int pause(CommandContext<CommandSourceStack> commandSourceStackCommandContext) {
 		if (RestartManager.isPaused()) {
-			commandSourceStackCommandContext.getSource().sendSuccess(new TextComponent(Strings.RESTART_PREFIX + "§cThe restart timer is already paused!"), false);
+			commandSourceStackCommandContext.getSource().sendSuccess(new TextComponent(Strings.RESTART_PREFIX + "§cThe restart timer is already paused!"), true);
 			return Command.SINGLE_SUCCESS;
 		}
 
 		RestartManager.pauseTimer();
-		commandSourceStackCommandContext.getSource().sendSuccess(new TextComponent(Strings.RESTART_PREFIX + "§aThe restart timer has been paused!"), false);
+		commandSourceStackCommandContext.getSource().sendSuccess(new TextComponent(Strings.RESTART_PREFIX + "§aThe restart timer has been paused!"), true);
 		return Command.SINGLE_SUCCESS;
 	}
 
@@ -102,7 +109,7 @@ public class DirtRestartCommand {
 		else if (time == 1 && timeUnit == TimeUnit.SECONDS)
 			inBuilder.append(time).append(" second");
 
-		Main.SERVER.getPlayerList().getPlayers().forEach(player -> player.sendMessage(
+		DirtEssentials.SERVER.getPlayerList().getPlayers().forEach(player -> player.sendMessage(
 				new TextComponent(
 						Strings.RESTART_PREFIX +
 								"§7New restart queued by §b" + (isConsole ? "CONSOLE" : ((ServerPlayer) source.getEntity()).getGameProfile().getName()) + "§7! " +

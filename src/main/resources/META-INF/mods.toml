@@ -56,3 +56,9 @@ mandatory = true
 versionRange = "[1.18.2,1.19)"
 ordering = "NONE"
 side = "BOTH"
+[[dependencies.dirt_essentials]]
+modId = "luckperms"
+mandatory = true
+versionRange = "[5.3.47,)"
+ordering = "AFTER"
+side = "SERVER"

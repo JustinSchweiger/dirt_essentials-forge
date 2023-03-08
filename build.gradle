@@ -1,6 +1,7 @@
 plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 jarJar.enable()
@@ -89,14 +90,21 @@ tasks.jarJar.configure {
     classifier ''
 }
 
+configurations {
+    shade
+    implementation.extendsFrom shade
+}
+
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'
 
+    compileOnly 'net.luckperms:api:5.4'
+
     minecraftLibrary 'org.hibernate:hibernate-core:6.1.7.Final'
-    jarJar 'org.hibernate:hibernate-core:[6.1.6.Final,6.1.7.Final)'
+    shade 'org.hibernate:hibernate-core:6.1.7.Final'
 
     minecraftLibrary 'com.h2database:h2:2.1.214'
-    jarJar 'com.h2database:h2:[2.1.200,2.1.214)'
+    shade 'com.h2database:h2:2.1.214'
 
     compileOnly 'org.projectlombok:lombok:1.18.26'
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
@@ -117,11 +125,20 @@ jar {
     }
 }
 
-reobf {
-    jarJar {}
+shadowJar {
+    archiveClassifier = ''
+    configurations = [project.configurations.shade]
+    relocate 'org.antlr.v4.runtime', 'net.dirtcraft.mods.libs.org.antlr.v4.runtime'
+    relocate 'org.hibernate', 'net.dirtcraft.mods.libs.org.hibernate'
+    relocate 'com.h2database', 'net.dirtcraft.mods.libs.com.h2database'
+    finalizedBy 'reobfShadowJar'
 }
 
-jar.finalizedBy('reobfJar')
+assemble.dependsOn shadowJar
+
+reobf {
+    shadowJar {}
+}
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
