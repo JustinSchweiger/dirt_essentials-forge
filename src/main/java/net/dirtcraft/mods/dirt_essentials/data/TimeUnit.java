@@ -12,4 +12,12 @@ public enum TimeUnit {
 			case HOURS -> time * 60L * 60L;
 		};
 	}
+
+	public static String getString(TimeUnit unit) {
+		return switch (unit) {
+			case SECONDS -> "second";
+			case MINUTES -> "minute";
+			case HOURS -> "hour";
+		};
+	}
 }

@@ -4,8 +4,6 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
-jarJar.enable()
-
 group = 'net.dirtcraft.mods'
 version = '1.0'
 
@@ -84,10 +82,6 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
-}
-
-tasks.jarJar.configure {
-    classifier ''
 }
 
 configurations {

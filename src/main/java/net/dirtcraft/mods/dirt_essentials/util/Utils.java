@@ -1,8 +1,10 @@
 package net.dirtcraft.mods.dirt_essentials.util;
 
+import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.network.chat.*;
 import net.minecraft.world.item.ItemStack;
 
 public class Utils {
@@ -18,5 +20,62 @@ public class Utils {
 			tag.add(StringTag.valueOf("{\"text\":\"" + s + "\"}"));
 		}
 		display.put("Lore", tag);
+	}
+
+	public static String formatTimePlayed(DirtPlayer player) {
+		int hours = (int) Math.floor(player.getTimePlayed() / 3600F);
+		int minutes = (int) Math.floor((player.getTimePlayed() - (hours * 3600)) / 60F);
+		int seconds = (int) Math.floor(player.getTimePlayed() % 60F);
+
+		StringBuilder builder = new StringBuilder();
+		if (hours == 1)
+			builder.append(hours).append(" hour ");
+		if (hours > 1)
+			builder.append(hours).append(" hours ");
+		if (minutes == 1)
+			builder.append(minutes).append(" minute ");
+		if (minutes > 1)
+			builder.append(minutes).append(" minutes ");
+		if (seconds == 1)
+			builder.append(seconds).append(" second");
+		if (seconds > 1)
+			builder.append(seconds).append(" seconds");
+
+		return builder.toString();
+	}
+
+	public static Component getPaginator(int page, int maxPages, String command) {
+		MutableComponent paginator = new TextComponent("");
+
+		TextComponent pagePrev;
+		if (page == 1) {
+			pagePrev = new TextComponent("  §7§l◀  ");
+			HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("§cYou are already on the first page!"));
+			pagePrev.setStyle(pagePrev.getStyle().withHoverEvent(hover));
+		} else {
+			pagePrev = new TextComponent("  §a§l◀  ");
+			HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("§aClick to go to the previous page!"));
+			ClickEvent click = new ClickEvent(ClickEvent.Action.RUN_COMMAND, command + " " + (page - 1));
+			pagePrev.setStyle(pagePrev.getStyle().withHoverEvent(hover).withClickEvent(click));
+		}
+		paginator.append(pagePrev);
+
+		paginator.append(new TextComponent("§7Page §8" + page + " §7of §8" + maxPages));
+
+		TextComponent pageNext;
+		if (page == maxPages) {
+			pageNext = new TextComponent("  §7§l▶  ");
+			HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("§cYou are already on the last page!"));
+			pageNext.setStyle(pageNext.getStyle().withHoverEvent(hover));
+		} else {
+			pageNext = new TextComponent("  §a§l▶  ");
+			HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("§aClick to go to the next page!"));
+			ClickEvent click = new ClickEvent(ClickEvent.Action.RUN_COMMAND, command + " " + (page + 1));
+			pageNext.setStyle(pageNext.getStyle().withHoverEvent(hover).withClickEvent(click));
+		}
+
+		paginator.append(pageNext);
+
+		return paginator;
 	}
 }

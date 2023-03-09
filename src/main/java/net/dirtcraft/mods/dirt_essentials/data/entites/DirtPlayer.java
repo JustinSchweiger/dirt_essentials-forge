@@ -14,6 +14,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import org.hibernate.Session;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -35,6 +36,26 @@ public class DirtPlayer implements User {
 
 	private double balance;
 
+	@Getter
+	@Setter
+	private long timePlayed;
+
+	@Getter
+	@Setter
+	private long timesJoined;
+
+	@Getter
+	@Setter
+	private LocalDateTime firstJoined;
+
+	@Getter
+	@Setter
+	private LocalDateTime lastJoined;
+
+	@Getter
+	@Setter
+	private String currentPath;
+
 	public DirtPlayer() {}
 
 	public DirtPlayer(UUID uuid) {
@@ -43,6 +64,11 @@ public class DirtPlayer implements User {
 		this.rulesAccepted = false;
 		this.isStaff = false;
 		this.balance = EssentialsConfig.DEFAULT_BALANCE.get();
+		this.timePlayed = 0;
+		this.timesJoined = 0;
+		this.firstJoined = LocalDateTime.now();
+		this.lastJoined = null;
+		this.currentPath = null;
 	}
 
 	public static @NonNull DirtPlayer get(Player player) {
@@ -72,6 +98,10 @@ public class DirtPlayer implements User {
 
 	@Override
 	public Component getFormattedBalance() {
+		return new TextComponent("§a" + String.format("%.2f", balance) + "§e$");
+	}
+
+	public static Component getFormattedBalance(double balance) {
 		return new TextComponent("§a" + String.format("%.2f", balance) + "§e$");
 	}
 

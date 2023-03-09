@@ -30,4 +30,8 @@ public class PermissionHandler {
 	public static String getPrefix(UUID uuid) {
 		return getUser(uuid).getCachedData().getMetaData().getPrefix();
 	}
+
+	public static String getGroupPrefix(String group) {
+		return DirtEssentials.LUCKPERMS.getGroupManager().getGroup(group).getCachedData().getMetaData().getPrefix();
+	}
 }

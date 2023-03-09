@@ -3,6 +3,7 @@ package net.dirtcraft.mods.dirt_essentials;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.logging.LogUtils;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.WorldCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.playtime.PlaytimeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.restart.DirtRestartCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.rtp.RtpCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.rtp.RtpcCommand;
@@ -15,6 +16,7 @@ import net.dirtcraft.mods.dirt_essentials.filter.Log4jFilter;
 import net.dirtcraft.mods.dirt_essentials.filter.SystemFilter;
 import net.dirtcraft.mods.dirt_essentials.listeners.OnPlayerLoggedIn;
 import net.dirtcraft.mods.dirt_essentials.listeners.OnServerChat;
+import net.dirtcraft.mods.dirt_essentials.manager.PlaytimeManager;
 import net.dirtcraft.mods.dirt_essentials.manager.RestartManager;
 import net.dirtcraft.mods.dirt_essentials.manager.RulesManager;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
@@ -46,7 +48,8 @@ public class DirtEssentials {
 
 	public DirtEssentials() {
 		ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
-		java.util.logging.Logger.getLogger("net.dirtcraft.mods.libs.org.hibernate").setLevel(Level.SEVERE);
+		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
+
 		registerConfigs();
 		enableFeatures();
 
@@ -64,6 +67,7 @@ public class DirtEssentials {
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, EssentialsConfig.SPEC, "dirt_essentials-server.toml");
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, RtpConfig.SPEC, "dirt_rtp-server.toml");
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SpamFixConfig.SPEC, "dirt_spamfix-server.toml");
+		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, PlaytimeConfig.SPEC, "dirt_playtime-server.toml");
 	}
 
 	@SubscribeEvent
@@ -106,6 +110,10 @@ public class DirtEssentials {
 			RtpcCommand.register(dispatcher);
 		}
 
+		if (PlaytimeConfig.ENABLED.get()) {
+			PlaytimeCommand.register(dispatcher);
+		}
+
 		// Chat Commands
 		GlobalCommand.register(dispatcher);
 		StaffCommand.register(dispatcher);
@@ -139,6 +147,12 @@ public class DirtEssentials {
 			Log4jFilter.applyFilter();
 			SystemFilter.applyFilter();
 			LOGGER.info("» SpamFix feature enabled.");
+		}
+
+		if (PlaytimeConfig.ENABLED.get()) {
+			MinecraftForge.EVENT_BUS.addListener(PlaytimeManager::tick);
+			PlaytimeManager.init();
+			LOGGER.info("» Playtime feature enabled.");
 		}
 	}
 }
