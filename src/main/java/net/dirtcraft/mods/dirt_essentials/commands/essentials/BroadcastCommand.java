@@ -24,7 +24,9 @@ public class BroadcastCommand {
 				.then(Commands.argument("message", StringArgumentType.greedyString())
 						.executes(BroadcastCommand::execute));
 
-		dispatcher.register(commandBuilder);
+		dispatcher.register(Commands.literal("say")
+				.requires(source -> PermissionHandler.hasPermission(source, EssentialsPermissions.BROADCAST))
+				.redirect(dispatcher.register(commandBuilder)));
 	}
 
 	private static int execute(CommandContext<CommandSourceStack> commandSourceStackCommandContext) {

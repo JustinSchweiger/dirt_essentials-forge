@@ -31,7 +31,7 @@ public class ClearCommand {
 						.then(Commands.argument("item", ItemArgument.item())
 								.executes(ClearCommand::clearTargetItem)));
 
-		dispatcher.register(Commands.literal("clear").requires(source -> PermissionHandler.hasPermission(source, EssentialsPermissions.CLEAR)).redirect(dispatcher.register(commandBuilder)));
+		dispatcher.register(commandBuilder);
 	}
 
 	private static int clearTargetItem(CommandContext<CommandSourceStack> commandSourceStackCommandContext) throws CommandSyntaxException {
