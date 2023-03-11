@@ -38,8 +38,8 @@ public class FeedCommand {
 		ServerPlayer target = EntityArgument.getPlayer(commandSourceStackCommandContext, "player");
 
 		target.getFoodData().eat(20, 20);
-		player.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "§aYou have fed §6" + target.getName().getString() + "§a!"), player.getUUID());
-		target.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "§aYou have been fed by §6" + player.getName().getString() + "§a!"), target.getUUID());
+		player.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "§7You have §efed §6" + target.getName().getString() + "§7!"), player.getUUID());
+		target.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "§7You have been §efed §7by §6" + player.getName().getString() + "§7!"), target.getUUID());
 		return Command.SINGLE_SUCCESS;
 	}
 
@@ -53,7 +53,7 @@ public class FeedCommand {
 		ServerPlayer player = source.getPlayerOrException();
 		player.getFoodData().eat(20, 20);
 
-		source.sendSuccess(new TextComponent(Strings.ESSENTIALS_PREFIX + "§aYou have been fed!"), false);
+		source.sendSuccess(new TextComponent(Strings.ESSENTIALS_PREFIX + "§7You have been §efed§7!"), false);
 		return Command.SINGLE_SUCCESS;
 	}
 }

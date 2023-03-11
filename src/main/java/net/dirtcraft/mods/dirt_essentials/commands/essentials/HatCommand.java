@@ -2,30 +2,26 @@ package net.dirtcraft.mods.dirt_essentials.commands.essentials;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
+import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.ItemEnchantmentArgument;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
 
-public class EnchantCommand {
+public class HatCommand {
 	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-		LiteralArgumentBuilder<CommandSourceStack> commandBuilder = Commands
-				.literal("enchant")
-				.requires(source -> PermissionHandler.hasPermission(source, EssentialsPermissions.ENCHANT))
-				.then(Commands.argument("enchantment", ItemEnchantmentArgument.enchantment())
-						.then(Commands.argument("level", IntegerArgumentType.integer(1, 10))
-								.executes(EnchantCommand::execute)));
-
-		dispatcher.register(commandBuilder);
+		dispatcher.register(Commands
+				.literal("hat")
+				.requires(source -> PermissionHandler.hasPermission(source, EssentialsPermissions.HAT))
+				.executes(HatCommand::execute));
 	}
 
 	private static int execute(CommandContext<CommandSourceStack> commandSourceStackCommandContext) throws CommandSyntaxException {
@@ -36,11 +32,17 @@ public class EnchantCommand {
 		}
 
 		ServerPlayer player = source.getPlayerOrException();
-		int level = IntegerArgumentType.getInteger(commandSourceStackCommandContext, "level");
-		Enchantment enchantment = ItemEnchantmentArgument.getEnchantment(commandSourceStackCommandContext, "enchantment");
+		ItemStack helmet = player.getItemBySlot(EquipmentSlot.HEAD);
+		ItemStack heldItem = player.getMainHandItem();
 
-		player.getMainHandItem().enchant(enchantment, level);
-		source.sendSuccess(new TextComponent(Strings.ESSENTIALS_PREFIX + "§7Enchanted item with §b" + enchantment.getRegistryName() + " §d" + level), false);
+		if (helmet.isEmpty()) {
+			player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+		} else {
+			player.setItemInHand(InteractionHand.MAIN_HAND, helmet);
+		}
+
+		player.setItemSlot(EquipmentSlot.HEAD, heldItem);
+		player.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "§7Your hat is now §d" + heldItem.getItem().getRegistryName()), Util.NIL_UUID);
 
 		return Command.SINGLE_SUCCESS;
 	}

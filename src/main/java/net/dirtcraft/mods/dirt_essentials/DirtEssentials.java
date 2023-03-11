@@ -25,9 +25,16 @@ import net.dirtcraft.mods.dirt_essentials.commands.essentials.EnderchestCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.EntityzapCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.FeedCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.FlyCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.GamemodeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.GcCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.GodCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.GrindstoneCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.HatCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.HealCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.HomeCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.HomebalanceCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.HomesCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.ItemCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.KitCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.KitsCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.OtherhomeCommand;
@@ -59,6 +66,7 @@ import net.dirtcraft.mods.dirt_essentials.listeners.OnServerChat;
 import net.dirtcraft.mods.dirt_essentials.manager.AfkManager;
 import net.dirtcraft.mods.dirt_essentials.manager.BackManager;
 import net.dirtcraft.mods.dirt_essentials.manager.GcManager;
+import net.dirtcraft.mods.dirt_essentials.manager.GodManager;
 import net.dirtcraft.mods.dirt_essentials.manager.PlayerManager;
 import net.dirtcraft.mods.dirt_essentials.manager.PlaytimeManager;
 import net.dirtcraft.mods.dirt_essentials.manager.RestartManager;
@@ -122,8 +130,9 @@ public class DirtEssentials {
 		File serverDir = SERVER.getServerDirectory();
 		DIRT_MODS_DIR = new File(serverDir, "dirt_mods");
 		if (!DIRT_MODS_DIR.exists()) {
-			DIRT_MODS_DIR.mkdir();
-			LOGGER.info("» Created dirt_mods directory.");
+			boolean created = DIRT_MODS_DIR.mkdir();
+			if (created)
+				LOGGER.info("» Created dirt_mods directory.");
 		}
 
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -160,6 +169,7 @@ public class DirtEssentials {
 		commandsToRemove.add("kick");
 		commandsToRemove.add("kill");
 		commandsToRemove.add("bossbar");
+		commandsToRemove.add("item");
 		commandsToRemove.add("me");
 		commandsToRemove.add("msg");
 		commandsToRemove.add("tell");
@@ -219,6 +229,7 @@ public class DirtEssentials {
 		DeletekitCommand.register(dispatcher);
 		DelwarpCommand.register(dispatcher);
 		EcoCommand.register(dispatcher);
+		EditwarpiconCommand.register(dispatcher);
 		EnchantCommand.register(dispatcher);
 		EnderchestCommand.register(dispatcher);
 		EntityzapCommand.register(dispatcher);
@@ -226,11 +237,16 @@ public class DirtEssentials {
 		FeedCommand.register(dispatcher);
 		FlyCommand.register(dispatcher);
 		GcCommand.register(dispatcher);
+		GamemodeCommand.register(dispatcher);
+		GodCommand.register(dispatcher);
+		GrindstoneCommand.register(dispatcher);
+		HatCommand.register(dispatcher);
+		HealCommand.register(dispatcher);
 
-
-		EditwarpiconCommand.register(dispatcher);
+		HomebalanceCommand.register(dispatcher);
 		HomeCommand.register(dispatcher);
 		HomesCommand.register(dispatcher);
+		ItemCommand.register(dispatcher);
 
 		KitCommand.register(dispatcher);
 		KitsCommand.register(dispatcher);
@@ -294,5 +310,7 @@ public class DirtEssentials {
 		MinecraftForge.EVENT_BUS.addListener(BackManager::entityDeathEvent);
 		MinecraftForge.EVENT_BUS.addListener(BackManager::teleportCommandEvent);
 		MinecraftForge.EVENT_BUS.addListener(BackManager::spreadCommandEvent);
+		MinecraftForge.EVENT_BUS.addListener(GodManager::onLivingHurt);
+		MinecraftForge.EVENT_BUS.addListener(GodManager::onLivingAttack);
 	}
 }

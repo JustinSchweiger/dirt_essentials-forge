@@ -33,6 +33,21 @@ public class Utils {
 		display.put("Lore", tag);
 	}
 
+	public static List<String> getLore(ItemStack stack) {
+		List<String> lore = new ArrayList<>();
+		CompoundTag display = stack.getOrCreateTagElement("display");
+		ListTag tag = display.getList("Lore", 8);
+		for (int i = 0; i < tag.size(); i++) {
+			lore.add(tag.getString(i));
+		}
+		return lore;
+	}
+
+	public static void clearLore(ItemStack stack) {
+		CompoundTag display = stack.getOrCreateTagElement("display");
+		display.remove("Lore");
+	}
+
 	public static String formatTimePlayed(DirtPlayer player) {
 		int hours = (int) Math.floor(player.getTimePlayed() / 3600F);
 		int minutes = (int) Math.floor((player.getTimePlayed() - (hours * 3600)) / 60F);
@@ -107,5 +122,12 @@ public class Utils {
 		}
 
 		return summonableEntities;
+	}
+
+	public static void removeLore(ItemStack stack, int line) {
+		CompoundTag display = stack.getOrCreateTagElement("display");
+		ListTag tag = display.getList("Lore", 8);
+		tag.remove(line);
+		display.put("Lore", tag);
 	}
 }

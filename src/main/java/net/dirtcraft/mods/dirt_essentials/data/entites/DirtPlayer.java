@@ -79,6 +79,10 @@ public class DirtPlayer implements User {
 	@Setter
 	private boolean flyingWhenLoggedOut;
 
+	@Getter
+	@Setter
+	private boolean godModeEnabled;
+
 	public DirtPlayer() {}
 
 	public DirtPlayer(UUID uuid) {
@@ -97,6 +101,7 @@ public class DirtPlayer implements User {
 		this.homes = new ArrayList<>();
 		this.homeAmount = EssentialsConfig.HOMES_SIZE.get();
 		this.flyingWhenLoggedOut = false;
+		this.godModeEnabled = false;
 	}
 
 	public static @NonNull DirtPlayer get(Player player) {

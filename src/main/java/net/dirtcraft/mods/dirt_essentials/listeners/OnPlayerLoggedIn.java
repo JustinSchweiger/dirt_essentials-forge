@@ -3,6 +3,7 @@ package net.dirtcraft.mods.dirt_essentials.listeners;
 import com.mojang.logging.LogUtils;
 import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
 import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
+import net.dirtcraft.mods.dirt_essentials.manager.GodManager;
 import net.dirtcraft.mods.dirt_essentials.manager.PlayerManager;
 import net.dirtcraft.mods.dirt_essentials.permissions.ChatPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;
@@ -47,6 +48,11 @@ public class OnPlayerLoggedIn {
 				serverPlayer.getAbilities().mayfly = true;
 				serverPlayer.onUpdateAbilities();
 				serverPlayer.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "Creative flight is now §aenabled§7!"), Util.NIL_UUID);
+			}
+
+			if (player.isGodModeEnabled() && PermissionHandler.hasPermission(uuid, EssentialsPermissions.GOD)) {
+				serverPlayer.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "God mode is now §aenabled§7!"), Util.NIL_UUID);
+				GodManager.setGodModeEnabled(uuid, true);
 			}
 
 			player.setUsername(event.getPlayer().getGameProfile().getName());
