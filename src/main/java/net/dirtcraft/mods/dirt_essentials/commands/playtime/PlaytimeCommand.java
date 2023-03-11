@@ -90,6 +90,7 @@ public class PlaytimeCommand {
 			dirtPlayer.setTimePlayed(0);
 			dirtPlayer.setCurrentPath(PlaytimeManager.getFirstRank().getName());
 			dirtPlayer.setTimesJoined(0);
+			session.beginTransaction();
 			session.merge(dirtPlayer);
 			session.getTransaction().commit();
 
@@ -114,9 +115,10 @@ public class PlaytimeCommand {
 
 			long timeToSet = TimeUnit.convertToSeconds(time, timeUnit);
 			dirtPlayer.setTimePlayed(timeToSet);
+			session.beginTransaction();
 			session.merge(dirtPlayer);
 			session.getTransaction().commit();
-			source.sendSuccess(new TextComponent(Strings.PLAYTIME_PREFIX + "§7Successfully set §6" + dirtPlayer.getDisplayName() + "§7's playtime to §3" + time + " " + timeUnit.name().toLowerCase()), false);
+			source.sendSuccess(new TextComponent(Strings.PLAYTIME_PREFIX + "§7Successfully set §6" + dirtPlayer.getUsername() + "§7's playtime to §3" + time + " " + timeUnit.name().toLowerCase()), false);
 		}
 		return Command.SINGLE_SUCCESS;
 	}
@@ -135,6 +137,7 @@ public class PlaytimeCommand {
 
 			long timeToRemove = TimeUnit.convertToSeconds(time, timeUnit);
 			dirtPlayer.setTimePlayed(dirtPlayer.getTimePlayed() - timeToRemove);
+			session.beginTransaction();
 			session.merge(dirtPlayer);
 			session.getTransaction().commit();
 			source.sendSuccess(new TextComponent(Strings.PLAYTIME_PREFIX + "§7Successfully removed §3" + time + " " + (time > 1 ? TimeUnit.getString(timeUnit) + "s" : TimeUnit.getString(timeUnit)) + " §7from §6" + player.getName().getString() + "§7's playtime!"), false);
@@ -160,7 +163,7 @@ public class PlaytimeCommand {
 			session.beginTransaction();
 			session.merge(dirtPlayer);
 			session.getTransaction().commit();
-			source.sendSuccess(new TextComponent(Strings.PLAYTIME_PREFIX + "§7Added §3" + time + " " + (time > 1 ? TimeUnit.getString(timeUnit) + "s" : TimeUnit.getString(timeUnit)) + " §7to §6" + dirtPlayer.getDisplayName() + "§7's playtime!"), false);
+			source.sendSuccess(new TextComponent(Strings.PLAYTIME_PREFIX + "§7Added §3" + time + " " + (time > 1 ? TimeUnit.getString(timeUnit) + "s" : TimeUnit.getString(timeUnit)) + " §7to §6" + dirtPlayer.getUsername() + "§7's playtime!"), false);
 		}
 
 		return Command.SINGLE_SUCCESS;
@@ -186,7 +189,7 @@ public class PlaytimeCommand {
 				DirtPlayer player = players.get(i);
 				String builder = Utils.formatTimePlayed(player);
 
-				TextComponent component = new TextComponent("  §a" + (i + 1) + ". §b" + player.getDisplayName());
+				TextComponent component = new TextComponent("  §a" + (i + 1) + ". §b" + player.getUsername());
 				HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(
 						"§bPlaytime §3» §7" + builder + "\n" +
 								"§bTimes Joined §3» §7" + player.getTimesJoined() + "\n" +
@@ -235,7 +238,7 @@ public class PlaytimeCommand {
 
 		source.sendSuccess(new TextComponent(""), false);
 		if (isOtherCheck) {
-			source.sendSuccess(new TextComponent(Strings.PLAYTIME_PREFIX + "§b" + player.getDisplayName() + "§3's Playtime:"), false);
+			source.sendSuccess(new TextComponent(Strings.PLAYTIME_PREFIX + "§b" + player.getUsername() + "§3's Playtime:"), false);
 		} else {
 			source.sendSuccess(new TextComponent(Strings.PLAYTIME_PREFIX + "§3Your Playtime:"), false);
 		}
@@ -245,6 +248,14 @@ public class PlaytimeCommand {
 		source.sendSuccess(new TextComponent("§bTimes Joined §3» §7" + player.getTimesJoined()), false);
 		source.sendSuccess(new TextComponent("§bFirst Joined §3» §7" + player.getFirstJoined().format(DateTimeFormatter.ofPattern("dd. MMMM yyyy")) + " §3at §7" + player.getFirstJoined().format(DateTimeFormatter.ofPattern("HH:mm"))), false);
 		source.sendSuccess(new TextComponent(""), false);
+
+		String currentGroupPrefix = PermissionHandler.getGroupPrefix(currentRank.getName());
+		if (currentGroupPrefix.isBlank())
+			currentGroupPrefix = currentRank.getName();
+
+		String nextGroupPrefix = PermissionHandler.getGroupPrefix(nextRank.getName());
+		if (nextGroupPrefix.isBlank())
+			nextGroupPrefix = nextRank.getName();
 
 		if (nextRank != null) {
 			int remainingHours = (int) Math.floor((nextRank.getTimeRequirement() - player.getTimePlayed()) / 3600F);
@@ -265,9 +276,9 @@ public class PlaytimeCommand {
 			if (remainingSeconds > 1)
 				remainingTimeBuilder.append(remainingSeconds).append(" seconds");
 
-			source.sendSuccess(new TextComponent(PermissionHandler.getGroupPrefix(currentRank.getName()) + " §3» " + PermissionHandler.getGroupPrefix(nextRank.getName()) + " §3in §7" + remainingTimeBuilder), false);
+			source.sendSuccess(new TextComponent(currentGroupPrefix + " §3» " + nextGroupPrefix + " §3in §7" + remainingTimeBuilder), false);
 		} else {
-			source.sendSuccess(new TextComponent(PermissionHandler.getGroupPrefix(currentRank.getName()) + " §3» §7No more ranks!"), false);
+			source.sendSuccess(new TextComponent(currentGroupPrefix + " §3» §7No more ranks!"), false);
 		}
 
 		source.sendSuccess(new TextComponent(""), false);

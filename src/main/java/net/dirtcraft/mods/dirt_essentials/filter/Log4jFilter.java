@@ -12,6 +12,8 @@ import org.apache.logging.log4j.message.Message;
 public class Log4jFilter implements Filter {
 	@Override
 	public Result filter(LogEvent event) {
+		if (event.getLoggerName().contains("org.hibernate")) return Filter.Result.DENY;
+
 		for (String s : SpamFixConfig.MESSAGES_TO_FILTER.get()) {
 			Message m = event.getMessage();
 			if (m.toString().contains(s) || m.getFormattedMessage().contains(s)) {

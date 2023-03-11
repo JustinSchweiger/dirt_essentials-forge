@@ -17,7 +17,8 @@ public class PlaytimeConfig {
 	public static final ForgeConfigSpec.ConfigValue<List<? extends String>> RANKS;
 
 	static {
-		BUILDER.push("Config for Dirt Playtime");
+		BUILDER.comment("Config for Dirt Playtime");
+		BUILDER.push("General");
 		ENABLED = BUILDER
 				.comment(".", "Whether or not the playtime feature is enabled.")
 				.define("enabled", true);
@@ -32,15 +33,17 @@ public class PlaytimeConfig {
 
 		LEADERBOARD_SIZE = BUILDER
 				.comment(".", "The size of the leaderboard.")
-				.defineInRange("leaderboardSize", 10, 3, 20);
+				.defineInRange("leaderboardSize", 10, 1, 20);
 
-		BUILDER.push("ranks");
+		BUILDER.pop();
+		BUILDER.push("Ranks");
 		RANKS = BUILDER
 				.comment(
 						".",
 						"The ranks that will be given to players when the server restarts.",
 						"Each rank is defined by:",
 						"  - name: The name of the rank. Must be unique.",
+						"  - displayName: The name of the rank that will be displayed in chat.",
 						"  - prerequisite: The name of the rank that must be achieved before this rank can be achieved.",
 						"  - nextRank: The name of the rank that will be achieved after this rank.",
 						"  - time: The amount of time that must be played before this rank can be achieved.",

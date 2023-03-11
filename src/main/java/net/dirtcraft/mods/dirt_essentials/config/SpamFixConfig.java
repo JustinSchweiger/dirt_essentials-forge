@@ -13,14 +13,15 @@ public class SpamFixConfig {
 	public static final ForgeConfigSpec.ConfigValue<List<? extends String>> MESSAGES_TO_FILTER;
 
 	static  {
-		BUILDER.push("Config for Dirt Spam Fix");
+		BUILDER.comment("Config for Dirt Spam Fix");
+		BUILDER.push("General");
 		ENABLED = BUILDER
 				.comment(".", "Whether or not the spam fix feature is enabled.")
 				.define("enabled", true);
 
 		MESSAGES_TO_FILTER = BUILDER
 				.comment(".", "Messages to filter from the console. You dont have to specify the entire message, just the part that is unique to it.")
-				.defineList("messagesToFilter", ArrayList::new, o -> o instanceof String);
+				.defineList("messagesToFilter", List.of("Ambiguity between arguments"), o -> o instanceof String);
 
 		BUILDER.pop();
 		SPEC = BUILDER.build();

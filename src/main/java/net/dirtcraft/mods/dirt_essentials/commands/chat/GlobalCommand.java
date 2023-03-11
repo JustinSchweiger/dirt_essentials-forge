@@ -6,11 +6,13 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
 import net.dirtcraft.mods.dirt_essentials.manager.ChatManager;
 import net.dirtcraft.mods.dirt_essentials.permissions.ChatPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -36,7 +38,14 @@ public class GlobalCommand {
 		}
 
 		String message = StringArgumentType.getString(commandSourceStackCommandContext, "message");
-		ChatManager.broadcastGlobal(source.getPlayerOrException(), message);
+		Component component = ChatManager.global(source.getPlayerOrException(), message);
+
+		DirtEssentials.SERVER.sendMessage(component, source.getPlayerOrException().getUUID());
+		DirtEssentials.SERVER.getPlayerList().getPlayers().forEach(player -> {
+			if (PermissionHandler.hasPermission(player.getUUID(), ChatPermissions.READ_GLOBAL)) {
+				player.sendMessage(component, player.getUUID());
+			}
+		});
 
 		return Command.SINGLE_SUCCESS;
 	}

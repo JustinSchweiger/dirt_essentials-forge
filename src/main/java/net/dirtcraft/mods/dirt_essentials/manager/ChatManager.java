@@ -37,19 +37,15 @@ public class ChatManager {
 		channelTracker.put(player.getUUID(), Channel.STAFF);
 	}
 
-	public static void broadcastGlobal(ServerPlayer player, String message) {
+	public static Component global(ServerPlayer player, String message) {
 		Component messageComponent = getNormalChat(player, message);
 		GlobalChatEvent event = new GlobalChatEvent(messageComponent);
 		MinecraftForge.EVENT_BUS.post(event);
 
-		DirtEssentials.SERVER.sendMessage(messageComponent, player.getUUID());
-		for (ServerPlayer onlinePlayer : DirtEssentials.SERVER.getPlayerList().getPlayers()) {
-			if (PermissionHandler.hasPermission(onlinePlayer.getUUID(), ChatPermissions.READ_GLOBAL))
-				onlinePlayer.sendMessage(messageComponent, player.getUUID());
-		}
+		return messageComponent;
 	}
 
-	public static void broadcastStaff(ServerPlayer player, String message) {
+	public static Component staff(ServerPlayer player, String message) {
 		Component messageComponent = getNormalChat(player, message);
 
 		MutableComponent staffMessageComponent = new TextComponent("")
@@ -60,12 +56,7 @@ public class ChatManager {
 		StaffChatEvent event = new StaffChatEvent(messageComponent, staffMessageComponent);
 		MinecraftForge.EVENT_BUS.post(event);
 
-		DirtEssentials.SERVER.sendMessage(staffMessageComponent, player.getUUID());
-		for (ServerPlayer onlinePlayer : DirtEssentials.SERVER.getPlayerList().getPlayers()) {
-			if (PermissionHandler.hasPermission(onlinePlayer.getUUID(), ChatPermissions.READ_STAFF)) {
-				onlinePlayer.sendMessage(staffMessageComponent, player.getUUID());
-			}
-		}
+		return staffMessageComponent;
 	}
 
 	private static Component getNormalChat(ServerPlayer player, String message) {
@@ -74,14 +65,18 @@ public class ChatManager {
 		if (prefix == null)
 			prefix = "";
 
+		String groupPrefix = PermissionHandler.getGroupPrefix(PermissionHandler.getPrimaryGroup(player.getUUID()));
+		if (groupPrefix.isBlank())
+			groupPrefix = "";
+
 		TextComponent prefixComponent = new TextComponent(prefix);
 		TextComponent playerComponent = (TextComponent) player.getDisplayName();
 		HoverEvent playerHover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(
-				"§6Name§7: " + player.getGameProfile().getName() + "\n" +
+				"§6Name§7: " + dirtPlayer.getUsername() + "\n" +
 						"§6Nickname§7: " + player.getDisplayName().getString() + "\n" +
-						"§6Rank§7: " + PermissionHandler.getPrimaryGroup(player.getUUID()) + "\n" +
+						"§6Rank§7: " + groupPrefix.replaceAll("[^a-zA-Z§0-9]", "") + "\n" +
 						"§6Staff§7: " + (PermissionHandler.hasPermission(player.getUUID(), ChatPermissions.STAFF) ? "§atrue" : "§5false") + "\n" +
-						"§6Balance§7: §a" + dirtPlayer.getFormattedBalance().getString()
+						"§6Balance§7: §a" + dirtPlayer.getFormattedBalance()
 		));
 		ClickEvent playerClick = new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getGameProfile().getName() + " ");
 

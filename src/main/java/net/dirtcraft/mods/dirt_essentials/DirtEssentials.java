@@ -1,8 +1,7 @@
 package net.dirtcraft.mods.dirt_essentials;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.logging.LogUtils;
-import net.dirtcraft.mods.dirt_essentials.commands.essentials.WorldCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.*;
 import net.dirtcraft.mods.dirt_essentials.commands.playtime.PlaytimeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.restart.DirtRestartCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.rtp.RtpCommand;
@@ -11,51 +10,60 @@ import net.dirtcraft.mods.dirt_essentials.commands.rules.DirtRulesCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.chat.GlobalCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.chat.StaffCommand;
 import net.dirtcraft.mods.dirt_essentials.config.*;
+import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
+import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
 import net.dirtcraft.mods.dirt_essentials.filter.JavaFilter;
 import net.dirtcraft.mods.dirt_essentials.filter.Log4jFilter;
 import net.dirtcraft.mods.dirt_essentials.filter.SystemFilter;
+import net.dirtcraft.mods.dirt_essentials.listeners.OnCommand;
 import net.dirtcraft.mods.dirt_essentials.listeners.OnPlayerLoggedIn;
 import net.dirtcraft.mods.dirt_essentials.listeners.OnServerChat;
-import net.dirtcraft.mods.dirt_essentials.manager.PlaytimeManager;
-import net.dirtcraft.mods.dirt_essentials.manager.RestartManager;
-import net.dirtcraft.mods.dirt_essentials.manager.RulesManager;
+import net.dirtcraft.mods.dirt_essentials.manager.*;
+import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.event.EventBus;
+import net.luckperms.api.event.user.UserDataRecalculateEvent;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.network.NetworkConstants;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 
 import java.io.File;
+import java.util.List;
 import java.util.logging.Level;
 
 @Mod(Strings.MOD_ID)
 public class DirtEssentials {
-	public static final Logger LOGGER = LogUtils.getLogger();
+	public static final Logger LOGGER = LogManager.getLogger(Strings.MOD_ID);
 	public static MinecraftServer SERVER = null;
 	public static File DIRT_MODS_DIR = null;
 	public static LuckPerms LUCKPERMS = null;
+	private final DirtEssentials INSTANCE;
 
 	public DirtEssentials() {
+		INSTANCE = this;
 		ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
-		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
 
 		registerConfigs();
 		enableFeatures();
 
-		MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
 		MinecraftForge.EVENT_BUS.addListener(OnServerChat::event);
 		MinecraftForge.EVENT_BUS.addListener(OnPlayerLoggedIn::event);
+		MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
 		MinecraftForge.EVENT_BUS.addListener(this::serverStartedEvent);
 		MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStartEvent);
 		MinecraftForge.EVENT_BUS.register(this);
@@ -79,6 +87,13 @@ public class DirtEssentials {
 			LOGGER.info("» Created dirt_mods directory.");
 		}
 
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			List<DirtPlayer> players = session.createQuery("from DirtPlayer", DirtPlayer.class).list();
+			for (DirtPlayer player : players) {
+				PlayerManager.addPlayerData(player.getUuid(), player.getUsername());
+			}
+		}
+
 		if (RestartConfig.ENABLED.get()) {
 			RestartManager.startTimer();
 		}
@@ -86,8 +101,8 @@ public class DirtEssentials {
 
 	@SubscribeEvent
 	public void serverAboutToStartEvent(final ServerAboutToStartEvent event) {
-		LUCKPERMS = LuckPermsProvider.get();
 		SERVER = event.getServer();
+		LUCKPERMS = LuckPermsProvider.get();
 	}
 
 	@SubscribeEvent
@@ -119,10 +134,42 @@ public class DirtEssentials {
 		StaffCommand.register(dispatcher);
 
 		// Essential Commands
-		WorldCommand.register(dispatcher);
+		AfkCommand.register(dispatcher);
+		BackCommand.register(dispatcher);
+		BalCommand.register(dispatcher);
+		BaltopCommand.register(dispatcher);
+		BillCommand.register(dispatcher);
+		BlockzapCommand.register(dispatcher);
+		BreakCommand.register(dispatcher);
+		BroadcastCommand.register(dispatcher);
+		CartographytableCommand.register(dispatcher);
+		ClearCommand.register(dispatcher);
+		CraftCommand.register(dispatcher);
+		CreatekitCommand.register(dispatcher);
+		DelhomeCommand.register(dispatcher);
+		DeletekitCommand.register(dispatcher);
+
+
+		HomeCommand.register(dispatcher);
+		HomesCommand.register(dispatcher);
+
+		KitCommand.register(dispatcher);
+		KitsCommand.register(dispatcher);
+
+		OtherhomeCommand.register(dispatcher);
+
+		SethomeCommand.register(dispatcher);
+
+		ShowkitCommand.register(dispatcher);
+
 	}
 
 	private void enableFeatures() {
+		if (EssentialsConfig.COMMAND_LISTENER_ENABLED.get()) {
+			MinecraftForge.EVENT_BUS.addListener(OnCommand::event);
+			LOGGER.info("» Initialized Command Listener.");
+		}
+
 		if (RestartConfig.ENABLED.get()) {
 			MinecraftForge.EVENT_BUS.addListener(RestartManager::tick);
 			LOGGER.info("» Restart feature enabled.");
@@ -154,5 +201,16 @@ public class DirtEssentials {
 			PlaytimeManager.init();
 			LOGGER.info("» Playtime feature enabled.");
 		}
+
+		LOGGER.info("» Essentials feature enabled.");
+		MinecraftForge.EVENT_BUS.addListener(AfkManager::tick);
+		MinecraftForge.EVENT_BUS.addListener(AfkManager::onPlayerJoin);
+		MinecraftForge.EVENT_BUS.addListener(AfkManager::onChat);
+		MinecraftForge.EVENT_BUS.addListener(AfkManager::onPlayerLeave);
+		MinecraftForge.EVENT_BUS.addListener(AfkManager::onPlayerMove);
+		MinecraftForge.EVENT_BUS.addListener(BackManager::teleportEvent);
+		MinecraftForge.EVENT_BUS.addListener(BackManager::entityDeathEvent);
+		MinecraftForge.EVENT_BUS.addListener(BackManager::teleportCommandEvent);
+		MinecraftForge.EVENT_BUS.addListener(BackManager::spreadCommandEvent);
 	}
 }

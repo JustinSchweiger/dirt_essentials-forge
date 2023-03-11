@@ -11,6 +11,7 @@ public class JavaFilter implements Filter {
 	public boolean isLoggable(LogRecord record) {
 		for (String message : SpamFixConfig.MESSAGES_TO_FILTER.get()) {
 			if (record.getMessage().contains(message)) return false;
+			if (record.getLoggerName().contains("org.hibernate")) return false;
 		}
 
 		return true;

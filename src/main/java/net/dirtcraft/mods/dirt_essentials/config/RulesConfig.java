@@ -12,7 +12,7 @@ public class RulesConfig {
 
 	static  {
 		BUILDER.comment("Config for Dirt Rules");
-		BUILDER.push("general");
+		BUILDER.push("General");
 
 		ENABLED = BUILDER
 				.comment(".", "Whether or not the restart feature is enabled.")

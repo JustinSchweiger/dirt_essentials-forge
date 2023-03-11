@@ -14,7 +14,7 @@ public class RestartConfig {
 
 	static {
 		BUILDER.comment("Config for Dirt Restart");
-		BUILDER.push("general");
+		BUILDER.push("General");
 
 		ENABLED = BUILDER
 				.comment(".", "Whether or not the restart feature is enabled.")

@@ -70,6 +70,8 @@ public class RulesManager {
 
 	@SubscribeEvent
 	public static void tick(TickEvent.ServerTickEvent event) {
+		if (event.phase != TickEvent.Phase.END) return;
+
 		if (DirtEssentials.SERVER == null)
 			return;
 

@@ -20,7 +20,7 @@ public class RtpConfig {
 
 	static {
 		BUILDER.comment("Config for Dirt Rtp");
-		BUILDER.push("general");
+		BUILDER.push("General");
 
 		ENABLED = BUILDER
 				.comment(".", "Whether or not the rtp feature is enabled.")
@@ -46,7 +46,8 @@ public class RtpConfig {
 				.comment(".", "The maximum height that the rtp command can teleport you to in the nether.")
 				.defineInRange("netherRoof", 128, 0, 255);
 
-		BUILDER.push("world");
+		BUILDER.pop();
+		BUILDER.push("World");
 		WORLD_LIST = BUILDER
 				.comment(".", "The list of worlds that the rtp command is either blacklisted or whitelisted from.")
 				.defineList("worlds", List.of("minecraft:overworld"), o -> o instanceof String);
@@ -58,7 +59,6 @@ public class RtpConfig {
 		BLACKLISTED_BIOMES = BUILDER
 				.comment(".", "The list of biomes that you cannot rtp to.")
 				.defineList("blacklistedBiomes", List.of(
-						"minecraft:",
 						"minecraft:cold_ocean",
 						"minecraft:deep_cold_ocean",
 						"minecraft:deep_frozen_ocean",

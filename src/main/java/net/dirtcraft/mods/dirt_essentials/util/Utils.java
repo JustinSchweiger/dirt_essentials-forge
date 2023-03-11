@@ -7,6 +7,8 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.*;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Locale;
+
 public class Utils {
 	public static String formatColorString(String string) {
 		return string.replaceAll("&", "§");
@@ -77,5 +79,9 @@ public class Utils {
 		paginator.append(pageNext);
 
 		return paginator;
+	}
+
+	public static String formatCoordinates(double x, double y, double z) {
+		return String.format(Locale.US, "§b%.2f§7, §b%.2f§7, §b%.2f", x, y, z);
 	}
 }

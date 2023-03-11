@@ -49,6 +49,8 @@ public class PlaytimeManager {
 
 	@SubscribeEvent
 	public static void tick(TickEvent.ServerTickEvent event) {
+		if (event.phase != TickEvent.Phase.END) return;
+
 		if (!running)
 			return;
 
@@ -65,7 +67,6 @@ public class PlaytimeManager {
 			return;
 
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			session.beginTransaction();
 			for (ServerPlayer player : DirtEssentials.SERVER.getPlayerList().getPlayers()) {
 				DirtPlayer dirtPlayer = session.get(DirtPlayer.class, player.getUUID());
 				dirtPlayer.setTimePlayed(dirtPlayer.getTimePlayed() + (getTime() - lastTime));
@@ -77,9 +78,13 @@ public class PlaytimeManager {
 					continue;
 
 				if (dirtPlayer.getTimePlayed() >= nextRank.getTimeRequirement()) {
+					String nextGroupPrefix = PermissionHandler.getGroupPrefix(nextRank.getName());
+					if (nextGroupPrefix.isBlank())
+						nextGroupPrefix = nextRank.getName();
+
 					if (PlaytimeConfig.ANNOUNCE_RANKUPS_IN_CHAT.get()) {
 						DirtEssentials.SERVER.getPlayerList().broadcastMessage(
-								new TextComponent(Strings.PLAYTIME_PREFIX + "§3" + dirtPlayer.getDisplayName() + " §7just ranked up to " + PermissionHandler.getGroupPrefix(nextRank.getName()) + "§7!"),
+								new TextComponent(Strings.PLAYTIME_PREFIX + "§3" + dirtPlayer.getUsername() + " §7just ranked up to " + nextGroupPrefix + "§7!"),
 								ChatType.CHAT,
 								Util.NIL_UUID
 						);
@@ -87,7 +92,7 @@ public class PlaytimeManager {
 
 					if (PlaytimeConfig.ANNOUNCE_RANKUPS_IN_TITLE.get()) {
 						player.connection.send(new ClientboundSetTitleTextPacket(new TextComponent("§bYou just ranked up to")));
-						player.connection.send(new ClientboundSetSubtitleTextPacket(new TextComponent(PermissionHandler.getGroupPrefix(nextRank.getName()))));
+						player.connection.send(new ClientboundSetSubtitleTextPacket(new TextComponent(nextGroupPrefix)));
 						player.connection.send(new ClientboundSetTitlesAnimationPacket(10, 70, 20));
 					}
 
@@ -99,7 +104,7 @@ public class PlaytimeManager {
 
 					if (nextRank.getMoney() > 0) {
 						dirtPlayer.setBalance(dirtPlayer.getBalance() + nextRank.getMoney());
-						player.sendMessage(new TextComponent(Strings.PLAYTIME_PREFIX + "§7You have been awarded " + DirtPlayer.getFormattedBalance(nextRank.getMoney()).getString() + "§7 for ranking up!"), Util.NIL_UUID);
+						player.sendMessage(new TextComponent(Strings.PLAYTIME_PREFIX + "§7You have been awarded " + DirtPlayer.getFormattedBalance(nextRank.getMoney()) + "§7 for ranking up!"), Util.NIL_UUID);
 					}
 
 					dirtPlayer.setCurrentPath(nextRank.getName());
@@ -109,10 +114,10 @@ public class PlaytimeManager {
 						DirtEssentials.SERVER.getCommands().performCommand(DirtEssentials.SERVER.createCommandSourceStack(), "lp user " + player.getGameProfile().getName() + " parent remove " + currentRank.getName() + " " + DirtEssentials.LUCKPERMS.getServerName());
 				}
 
-				session.merge(dirtPlayer);
+				session.beginTransaction();
+				session.persist(dirtPlayer);
+				session.getTransaction().commit();
 			}
-
-			session.getTransaction().commit();
 		}
 
 		lastTime = getTime();

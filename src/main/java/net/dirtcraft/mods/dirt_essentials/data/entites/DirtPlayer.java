@@ -2,6 +2,7 @@ package net.dirtcraft.mods.dirt_essentials.data.entites;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -9,12 +10,14 @@ import net.dirtcraft.mods.dirt_essentials.config.EssentialsConfig;
 import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
 import net.dirtcraft.mods.dirt_essentials.economy.backend.transaction.Transaction;
 import net.dirtcraft.mods.dirt_essentials.economy.backend.user.User;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+import net.dirtcraft.mods.dirt_essentials.manager.PlaytimeManager;
 import net.minecraft.world.entity.player.Player;
 import org.hibernate.Session;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @Entity
@@ -25,6 +28,10 @@ public class DirtPlayer implements User {
 
 	@Setter
 	private String username;
+
+	@Getter
+	@Setter
+	private String displayName;
 
 	@Getter
 	@Setter
@@ -56,11 +63,24 @@ public class DirtPlayer implements User {
 	@Setter
 	private String currentPath;
 
+	@OneToMany
+	@Getter
+	private List<KitTracker> kitTrackers;
+
+	@OneToMany
+	@Getter
+	private List<Home> homes;
+
+	@Getter
+	@Setter
+	private int homeAmount;
+
 	public DirtPlayer() {}
 
 	public DirtPlayer(UUID uuid) {
 		this.uuid = uuid;
 		this.username = "Unknown";
+		this.displayName = "Unknown";
 		this.rulesAccepted = false;
 		this.isStaff = false;
 		this.balance = EssentialsConfig.DEFAULT_BALANCE.get();
@@ -68,7 +88,10 @@ public class DirtPlayer implements User {
 		this.timesJoined = 0;
 		this.firstJoined = LocalDateTime.now();
 		this.lastJoined = null;
-		this.currentPath = null;
+		this.currentPath = PlaytimeManager.getFirstRank().getName();
+		this.kitTrackers = new ArrayList<>();
+		this.homes = new ArrayList<>();
+		this.homeAmount = EssentialsConfig.HOMES_SIZE.get();
 	}
 
 	public static @NonNull DirtPlayer get(Player player) {
@@ -86,8 +109,23 @@ public class DirtPlayer implements User {
 		}
 	}
 
+	public static @NonNull DirtPlayer get(UUID uuid) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			session.beginTransaction();
+
+			DirtPlayer dirtPlayer = session.get(DirtPlayer.class, uuid);
+			if (dirtPlayer == null) {
+				dirtPlayer = new DirtPlayer(uuid);
+				session.persist(dirtPlayer);
+			}
+			session.getTransaction().commit();
+
+			return dirtPlayer;
+		}
+	}
+
 	@Override
-	public String getDisplayName() {
+	public String getUsername() {
 		return username;
 	}
 
@@ -97,12 +135,12 @@ public class DirtPlayer implements User {
 	}
 
 	@Override
-	public Component getFormattedBalance() {
-		return new TextComponent("§a" + String.format("%.2f", balance) + "§e$");
+	public String getFormattedBalance() {
+		return "§a" + String.format(Locale.US, "%.2f", balance) + "§e" + EssentialsConfig.ECONOMY_CHARACTER.get();
 	}
 
-	public static Component getFormattedBalance(double balance) {
-		return new TextComponent("§a" + String.format("%.2f", balance) + "§e$");
+	public static String getFormattedBalance(double balance) {
+		return "§a" + String.format(Locale.US, "%.2f", balance) + "§e" + EssentialsConfig.ECONOMY_CHARACTER.get();
 	}
 
 	@Override
@@ -150,7 +188,7 @@ public class DirtPlayer implements User {
 			session.beginTransaction();
 
 			balance -= amount;
-			user.depositMoney(amount, "Money sent from " + getDisplayName());
+			user.depositMoney(amount, "Money sent from " + getUsername());
 			session.merge(this);
 			session.getTransaction().commit();
 			return Transaction.Response.SUCCESS;
@@ -191,6 +229,24 @@ public class DirtPlayer implements User {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Transaction.Response.FAIL;
+		}
+	}
+
+	public Home getHome(String name) {
+		for (Home home : homes) {
+			if (home.getName().equals(name)) {
+				return home;
+			}
+		}
+		return null;
+	}
+
+	public void removeHome(Home home) {
+		for (Home h : homes) {
+			if (h.getName().equals(home.getName())) {
+				homes.remove(h);
+				return;
+			}
 		}
 	}
 }

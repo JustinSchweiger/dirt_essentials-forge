@@ -20,4 +20,8 @@ public enum TimeUnit {
 			case HOURS -> "hour";
 		};
 	}
+
+	public String getString() {
+		return getString(this);
+	}
 }

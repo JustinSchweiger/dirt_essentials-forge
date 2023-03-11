@@ -30,6 +30,8 @@ public class RestartManager {
 
 	@SubscribeEvent
 	public static void tick(TickEvent.ServerTickEvent event) {
+		if (event.phase != TickEvent.Phase.END) return;
+
 		if (!running)
 			return;
 
@@ -77,6 +79,8 @@ public class RestartManager {
 			player.connection.send(new ClientboundSetSubtitleTextPacket(new TextComponent("§c" + timeLeft + "§7!")));
 			player.connection.send(new ClientboundSetTitlesAnimationPacket(10, 60, 10));
 		}
+
+		DirtEssentials.LOGGER.info(Strings.RESTART_PREFIX + "§b⌚ §c" + timeLeft + "§7!");
 	}
 
 	public static void startTimer() {

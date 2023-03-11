@@ -12,9 +12,9 @@ public interface User {
 	 * Should return a display name that is meant for end-user viewing.
 	 * @return A display name for the User.
 	 */
-	String getDisplayName();
+	String getUsername();
 	double getBalance();
-	Component getFormattedBalance();
+	String getFormattedBalance();
 
 	boolean hasAmount(double amount);
 

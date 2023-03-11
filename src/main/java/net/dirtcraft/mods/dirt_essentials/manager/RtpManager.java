@@ -1,8 +1,7 @@
 package net.dirtcraft.mods.dirt_essentials.manager;
 
-import com.mojang.brigadier.Command;
-import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
 import net.dirtcraft.mods.dirt_essentials.config.RtpConfig;
+import net.dirtcraft.mods.dirt_essentials.events.PlayerTeleportEvent;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.dirtcraft.mods.dirt_essentials.permissions.RtpPermissions;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
@@ -25,6 +24,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -106,6 +106,9 @@ public class RtpManager {
 		int y = world.getHeight(Heightmap.Types.WORLD_SURFACE, islandX, islandZ) + 3;
 
 		String coords = String.format("§b%d§7, §b%d§7, §b%d", islandX, y, islandZ);
+
+		PlayerTeleportEvent event = new PlayerTeleportEvent(player, player.getX(), player.getY(), player.getZ());
+		MinecraftForge.EVENT_BUS.post(event);
 
 		player.teleportTo(world, islandX, y, islandZ, player.getYRot(), player.getXRot());
 		player.connection.send(new ClientboundCustomSoundPacket(new ResourceLocation("minecraft:entity.enderman.teleport"), SoundSource.PLAYERS, new Vec3(player.getX(), player.getY(), player.getZ()), 1.0F, 1.0F));
@@ -219,6 +222,9 @@ public class RtpManager {
 			}
 
 			String coords = String.format("§b%d§7, §b%d§7, §b%d", x, y, z);
+
+			PlayerTeleportEvent event = new PlayerTeleportEvent(player, player.getX(), player.getY(), player.getZ());
+			MinecraftForge.EVENT_BUS.post(event);
 
 			player.teleportTo(level, x + 0.5, y, z + 0.5, player.getYRot(), player.getXRot());
 			player.connection.send(new ClientboundCustomSoundPacket(new ResourceLocation("minecraft:entity.enderman.teleport"), SoundSource.PLAYERS, new Vec3(player.getX(), player.getY(), player.getZ()), 1.0F, 1.0F));

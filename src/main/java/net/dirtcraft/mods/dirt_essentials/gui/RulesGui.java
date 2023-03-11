@@ -18,6 +18,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -102,7 +103,7 @@ public class RulesGui extends ServerOnlyScreenHandler {
 			Utils.addLore(item, "§7Last Updated: §e" + rule.getLastEditDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " §7at §e" + rule.getLastEditDate().format(DateTimeFormatter.ofPattern("HH:mm")));
 			Utils.addLore(item, "§7Added: §e" + rule.getCreationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " §7at §e" + rule.getCreationDate().format(DateTimeFormatter.ofPattern("HH:mm")));
 			Utils.addLore(item, " ");
-			Utils.addLore(item, "§7Added by: §3" + rule.getCreator().getDisplayName());
+			Utils.addLore(item, "§7Added by: §3" + rule.getCreator().getUsername());
 		}
 
 		return item;
