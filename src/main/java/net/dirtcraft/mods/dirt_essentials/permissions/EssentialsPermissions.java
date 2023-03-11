@@ -29,4 +29,10 @@ public class EssentialsPermissions {
 	public static final String HOMES_OTHERS = HOMES + ".others";
 	public static final String DELHOME_OTHERS = DELHOME + ".others";
 	public static final String OTHERHOME = HOME_BASE + ".otherhome";
+	public static final String WARP_BASE = BASE + ".warp";
+	public static final String DELWARP = WARP_BASE + ".del";
+	public static final String SETWARP = WARP_BASE + ".set";
+	public static final String WARP = WARP_BASE + ".warp";
+	public static final String WARPS = WARP_BASE + ".warps";
+	public static final String EDIT_WARP = WARP_BASE + ".edit";
 }

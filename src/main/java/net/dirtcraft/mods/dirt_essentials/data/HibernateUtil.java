@@ -20,6 +20,7 @@ public class HibernateUtil {
 						.addAnnotatedClass(Kit.class)
 						.addAnnotatedClass(KitTracker.class)
 						.addAnnotatedClass(Home.class)
+						.addAnnotatedClass(Warp.class)
 						.setProperty("hibernate.connection.driver_class", "org.h2.Driver")
 						.setProperty("hibernate.connection.url", "jdbc:h2:" + DirtEssentials.DIRT_MODS_DIR + "/dirt_essentials")
 						.setProperty("hibernate.connection.pool_size", "3")

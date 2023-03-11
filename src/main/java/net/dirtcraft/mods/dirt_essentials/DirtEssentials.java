@@ -52,10 +52,8 @@ public class DirtEssentials {
 	public static MinecraftServer SERVER = null;
 	public static File DIRT_MODS_DIR = null;
 	public static LuckPerms LUCKPERMS = null;
-	private final DirtEssentials INSTANCE;
 
 	public DirtEssentials() {
-		INSTANCE = this;
 		ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
 
 		registerConfigs();
@@ -148,8 +146,10 @@ public class DirtEssentials {
 		CreatekitCommand.register(dispatcher);
 		DelhomeCommand.register(dispatcher);
 		DeletekitCommand.register(dispatcher);
+		DelwarpCommand.register(dispatcher);
 
 
+		EditwarpiconCommand.register(dispatcher);
 		HomeCommand.register(dispatcher);
 		HomesCommand.register(dispatcher);
 
@@ -159,9 +159,12 @@ public class DirtEssentials {
 		OtherhomeCommand.register(dispatcher);
 
 		SethomeCommand.register(dispatcher);
+		SetwarpCommand.register(dispatcher);
 
 		ShowkitCommand.register(dispatcher);
 
+		WarpCommand.register(dispatcher);
+		WarpsCommand.register(dispatcher);
 	}
 
 	private void enableFeatures() {
