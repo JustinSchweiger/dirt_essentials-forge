@@ -46,7 +46,7 @@ public class BaltopCommand {
 			source.sendSuccess(new TextComponent(""), false);
 			source.sendSuccess(new TextComponent(Strings.ESSENTIALS_PREFIX + "§6Top §a" + (start + 1) + " §c- §a" + end + " §6players balance:"), false);
 			source.sendSuccess(new TextComponent(""), false);
-			source.sendSuccess(new TextComponent("§eServers Total Balance§7: "+ DirtPlayer.getFormattedBalance(players.stream().mapToDouble(DirtPlayer::getBalance).sum())), false);
+			source.sendSuccess(new TextComponent("§eServers Total Balance§7: " + DirtPlayer.getFormattedBalance(players.stream().mapToDouble(DirtPlayer::getBalance).sum())), false);
 			source.sendSuccess(new TextComponent(""), false);
 
 			for (int i = start; i < end; i++) {

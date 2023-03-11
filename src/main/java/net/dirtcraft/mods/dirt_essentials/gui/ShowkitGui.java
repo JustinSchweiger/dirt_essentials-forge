@@ -50,7 +50,8 @@ public class ShowkitGui extends ServerOnlyScreenHandler {
 
 		List<ItemStack> items = kit.getItems();
 		for (int i = 0; i < items.size(); i++) {
-			if (i > 26) break;
+			if (i > 26)
+				break;
 			inv.updateStack(i, items.get(i));
 		}
 

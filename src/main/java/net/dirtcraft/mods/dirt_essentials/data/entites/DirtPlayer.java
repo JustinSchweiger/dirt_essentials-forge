@@ -124,6 +124,10 @@ public class DirtPlayer implements User {
 		}
 	}
 
+	public static String getFormattedBalance(double balance) {
+		return "§a" + String.format(Locale.US, "%.2f", balance) + "§e" + EssentialsConfig.ECONOMY_CHARACTER.get();
+	}
+
 	@Override
 	public String getUsername() {
 		return username;
@@ -136,10 +140,6 @@ public class DirtPlayer implements User {
 
 	@Override
 	public String getFormattedBalance() {
-		return "§a" + String.format(Locale.US, "%.2f", balance) + "§e" + EssentialsConfig.ECONOMY_CHARACTER.get();
-	}
-
-	public static String getFormattedBalance(double balance) {
 		return "§a" + String.format(Locale.US, "%.2f", balance) + "§e" + EssentialsConfig.ECONOMY_CHARACTER.get();
 	}
 

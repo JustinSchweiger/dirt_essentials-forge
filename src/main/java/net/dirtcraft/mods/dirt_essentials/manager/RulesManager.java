@@ -21,8 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 public class RulesManager {
-	private static int tickCounter = 0;
 	public static int reminderInterval = 1;
+	private static int tickCounter = 0;
+
 	public static int getRulesCount() {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			return session.createQuery("SELECT COUNT(*) FROM Rule", Number.class).getSingleResult().intValue();
@@ -70,7 +71,8 @@ public class RulesManager {
 
 	@SubscribeEvent
 	public static void tick(TickEvent.ServerTickEvent event) {
-		if (event.phase != TickEvent.Phase.END) return;
+		if (event.phase != TickEvent.Phase.END)
+			return;
 
 		if (DirtEssentials.SERVER == null)
 			return;
@@ -81,7 +83,8 @@ public class RulesManager {
 		}
 		tickCounter = 0;
 
-		if (getRulesCount() == 0) return;
+		if (getRulesCount() == 0)
+			return;
 
 		List<ServerPlayer> onlinePlayers = DirtEssentials.SERVER.getPlayerList().getPlayers();
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {

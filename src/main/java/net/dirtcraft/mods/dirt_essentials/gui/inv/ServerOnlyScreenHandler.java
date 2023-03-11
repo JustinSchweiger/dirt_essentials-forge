@@ -3,13 +3,17 @@ package net.dirtcraft.mods.dirt_essentials.gui.inv;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.*;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class ServerOnlyScreenHandler extends AbstractContainerMenu {
-	private final SeparateInventoryImpl inventory;
 	public final int rows;
+	private final SeparateInventoryImpl inventory;
 
 	protected ServerOnlyScreenHandler(int syncId, Inventory playerInventory, int rows) {
 		super(getMenuType(rows), syncId);

@@ -14,6 +14,7 @@ public class SeparateInventoryImpl extends SimpleContainer implements SeparateIn
 	public SeparateInventoryImpl(int size) {
 		super(size);
 	}
+
 	@Override
 	public @NotNull ItemStack getItem(int slot) {
 		return ItemStack.EMPTY;

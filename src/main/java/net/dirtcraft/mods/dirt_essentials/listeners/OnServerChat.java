@@ -1,11 +1,10 @@
 package net.dirtcraft.mods.dirt_essentials.listeners;
 
 import net.dirtcraft.mods.dirt_essentials.manager.ChatManager;
-import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.dirtcraft.mods.dirt_essentials.permissions.ChatPermissions;
+import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 

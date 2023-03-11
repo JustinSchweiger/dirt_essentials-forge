@@ -10,7 +10,7 @@ public class RulesConfig {
 	public static final ForgeConfigSpec.ConfigValue<Boolean> ACCEPT_AGAIN_ON_CHANGE;
 	public static final ForgeConfigSpec.ConfigValue<Integer> REMINDER_INTERVAL;
 
-	static  {
+	static {
 		BUILDER.comment("Config for Dirt Rules");
 		BUILDER.push("General");
 

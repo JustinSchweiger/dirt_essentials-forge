@@ -66,13 +66,20 @@ public class PlaytimeConfig {
 	}
 
 	public static class Rank {
-		@Getter private final String name;
-		@Getter private final String prerequisite;
-		@Getter private final String nextRank;
-		@Getter private final int time;
-		@Getter private final TimeUnit timeUnit;
-		@Getter private final int money;
-		@Getter private final List<String> commands;
+		@Getter
+		private final String name;
+		@Getter
+		private final String prerequisite;
+		@Getter
+		private final String nextRank;
+		@Getter
+		private final int time;
+		@Getter
+		private final TimeUnit timeUnit;
+		@Getter
+		private final int money;
+		@Getter
+		private final List<String> commands;
 
 		public Rank(String name, String prerequisite, String nextRank, int time, TimeUnit timeUnit, int money, List<String> commands) {
 			this.name = name;
@@ -82,18 +89,6 @@ public class PlaytimeConfig {
 			this.timeUnit = timeUnit;
 			this.money = money;
 			this.commands = commands;
-		}
-
-		public String serialize() {
-			return String.join(",",
-					name,
-					prerequisite,
-					nextRank,
-					String.valueOf(time),
-					timeUnit.name(),
-					String.valueOf(money),
-					String.join(";", commands)
-			);
 		}
 
 		public static Rank deserialize(String string) {
@@ -117,6 +112,18 @@ public class PlaytimeConfig {
 					TimeUnit.valueOf(split[4]),
 					Integer.parseInt(split[5]),
 					List.of(split[6].split(";"))
+			);
+		}
+
+		public String serialize() {
+			return String.join(",",
+					name,
+					prerequisite,
+					nextRank,
+					String.valueOf(time),
+					timeUnit.name(),
+					String.valueOf(money),
+					String.join(";", commands)
 			);
 		}
 

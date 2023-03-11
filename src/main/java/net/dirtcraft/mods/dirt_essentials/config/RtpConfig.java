@@ -41,7 +41,7 @@ public class RtpConfig {
 		MAX_ATTEMPTS = BUILDER
 				.comment(".", "The maximum number of attempts to find a safe location.")
 				.defineInRange("maxAttempts", 5, 1, 10);
-		
+
 		NETHER_ROOF = BUILDER
 				.comment(".", "The maximum height that the rtp command can teleport you to in the nether.")
 				.defineInRange("netherRoof", 128, 0, 255);

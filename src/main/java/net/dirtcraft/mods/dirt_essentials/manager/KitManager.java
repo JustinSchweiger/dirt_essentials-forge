@@ -26,7 +26,8 @@ public class KitManager {
 	}
 
 	public static List<Kit> getAllKitsWithPermission(CommandSourceStack source) {
-		if (source.getEntity() == null) return getAllKits();
+		if (source.getEntity() == null)
+			return getAllKits();
 		UUID uuid = source.getEntity().getUUID();
 
 		List<Kit> kits = getAllKits();
@@ -43,12 +44,14 @@ public class KitManager {
 					.setParameter("kit", kit.getName())
 					.uniqueResult();
 
-			if (tracker == null) return true;
+			if (tracker == null)
+				return true;
 
 			LocalDateTime lastClaimed = tracker.getLastClaimed();
 			LocalDateTime now = LocalDateTime.now();
 
-			if (kit.getCooldown() < 0) return false;
+			if (kit.getCooldown() < 0)
+				return false;
 
 			return switch (kit.getTimeUnit()) {
 				case SECONDS -> lastClaimed.plusSeconds(kit.getCooldown()).isBefore(now);
@@ -108,12 +111,14 @@ public class KitManager {
 					.setParameter("kit", kit.getName())
 					.uniqueResult();
 
-			if (tracker == null) return "§cThere was an error!";
+			if (tracker == null)
+				return "§cThere was an error!";
 
 			LocalDateTime lastClaimed = tracker.getLastClaimed();
 			LocalDateTime now = LocalDateTime.now();
 
-			if (kit.getCooldown() < 0) return "§cThis kit can only be claimed once!";
+			if (kit.getCooldown() < 0)
+				return "§cThis kit can only be claimed once!";
 
 			long secondsLeft = 0;
 			switch (kit.getTimeUnit()) {

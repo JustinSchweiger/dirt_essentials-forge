@@ -15,7 +15,11 @@ import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class BackManager {
 	private static final Map<UUID, BackLocation> backLocations = new HashMap<>();
@@ -34,28 +38,32 @@ public class BackManager {
 
 	@SubscribeEvent
 	public static void teleportCommandEvent(EntityTeleportEvent.TeleportCommand event) {
-		if (!(event.getEntity() instanceof ServerPlayer player)) return;
+		if (!(event.getEntity() instanceof ServerPlayer player))
+			return;
 
 		setBackLocation(player.getUUID(), new BackLocation(player.getCommandSenderWorld().dimension(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot()));
 	}
 
 	@SubscribeEvent
 	public static void spreadCommandEvent(EntityTeleportEvent.SpreadPlayersCommand event) {
-		if (!(event.getEntity() instanceof ServerPlayer player)) return;
+		if (!(event.getEntity() instanceof ServerPlayer player))
+			return;
 
 		setBackLocation(player.getUUID(), new BackLocation(player.getCommandSenderWorld().dimension(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot()));
 	}
 
 	@SubscribeEvent
 	public static void teleportEvent(PlayerTeleportEvent event) {
-		if (!(event.getEntity() instanceof ServerPlayer player)) return;
+		if (!(event.getEntity() instanceof ServerPlayer player))
+			return;
 
 		setBackLocation(player.getUUID(), new BackLocation(player.getCommandSenderWorld().dimension(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot()));
 	}
 
 	@SubscribeEvent
 	public static void entityDeathEvent(LivingDeathEvent event) {
-		if (!(event.getEntity() instanceof ServerPlayer player)) return;
+		if (!(event.getEntity() instanceof ServerPlayer player))
+			return;
 
 		List<String> backWorlds = new ArrayList<>(EssentialsConfig.BACK_WORLDS.get());
 		List<ResourceKey<Level>> worlds = new ArrayList<>();

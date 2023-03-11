@@ -1,7 +1,11 @@
 package net.dirtcraft.mods.dirt_essentials.manager;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class PlayerManager {
 	private static final Map<UUID, String> playerData = new HashMap<>();

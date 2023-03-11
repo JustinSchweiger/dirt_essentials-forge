@@ -21,16 +21,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RestartManager {
+	private static final List<String> notificationsSent = new ArrayList<>();
 	private static boolean running = false;
 	private static long restartTime;
 	private static long remainingTime;
 	private static boolean isPaused = false;
 	private static int tickCounter = 0;
-	private static final List<String> notificationsSent = new ArrayList<>();
 
 	@SubscribeEvent
 	public static void tick(TickEvent.ServerTickEvent event) {
-		if (event.phase != TickEvent.Phase.END) return;
+		if (event.phase != TickEvent.Phase.END)
+			return;
 
 		if (!running)
 			return;

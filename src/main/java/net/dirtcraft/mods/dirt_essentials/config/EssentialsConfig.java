@@ -28,7 +28,7 @@ public class EssentialsConfig {
 	public static final ForgeConfigSpec.ConfigValue<Boolean> COMMAND_LISTENER_ENABLED;
 
 
-	static  {
+	static {
 		BUILDER.comment("Config for Dirt Essentials");
 		BUILDER.push("General");
 

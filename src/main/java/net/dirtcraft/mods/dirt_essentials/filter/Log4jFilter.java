@@ -10,9 +10,14 @@ import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.message.Message;
 
 public class Log4jFilter implements Filter {
+	public static void applyFilter() {
+		((Logger) LogManager.getRootLogger()).addFilter(new Log4jFilter());
+	}
+
 	@Override
 	public Result filter(LogEvent event) {
-		if (event.getLoggerName().contains("org.hibernate")) return Filter.Result.DENY;
+		if (event.getLoggerName().contains("org.hibernate"))
+			return Filter.Result.DENY;
 
 		for (String s : SpamFixConfig.MESSAGES_TO_FILTER.get()) {
 			Message m = event.getMessage();
@@ -21,10 +26,6 @@ public class Log4jFilter implements Filter {
 			}
 		}
 		return null;
-	}
-
-	public static void applyFilter() {
-		((Logger) LogManager.getRootLogger()).addFilter(new Log4jFilter());
 	}
 
 	@Override

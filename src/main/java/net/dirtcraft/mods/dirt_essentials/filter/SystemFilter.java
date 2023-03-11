@@ -11,6 +11,10 @@ public class SystemFilter extends PrintStream {
 		super(out, true);
 	}
 
+	public static void applyFilter() {
+		System.setOut(new SystemFilter(System.out));
+	}
+
 	@Override
 	public void println(String s) {
 		if (!shouldFilter(s)) {
@@ -25,9 +29,5 @@ public class SystemFilter extends PrintStream {
 			}
 		}
 		return false;
-	}
-
-	public static void applyFilter() {
-		System.setOut(new SystemFilter(System.out));
 	}
 }

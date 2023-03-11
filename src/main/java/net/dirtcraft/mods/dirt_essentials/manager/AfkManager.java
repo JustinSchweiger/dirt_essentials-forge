@@ -7,7 +7,6 @@ import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.minecraft.Util;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -25,7 +24,8 @@ public class AfkManager {
 	private static int tickCounter = 0;
 
 	public static void setAfk(ServerPlayer player) {
-		if (afkPlayers.containsKey(player.getUUID())) return;
+		if (afkPlayers.containsKey(player.getUUID()))
+			return;
 
 		afkPlayers.put(player.getUUID(), System.currentTimeMillis());
 		activePlayers.remove(player.getUUID());
@@ -40,7 +40,8 @@ public class AfkManager {
 	}
 
 	public static void removeAfk(ServerPlayer player) {
-		if (!afkPlayers.containsKey(player.getUUID())) return;
+		if (!afkPlayers.containsKey(player.getUUID()))
+			return;
 
 		afkPlayers.remove(player.getUUID());
 		activePlayers.put(player.getUUID(), System.currentTimeMillis());
@@ -60,7 +61,8 @@ public class AfkManager {
 
 	@SubscribeEvent
 	public static void tick(TickEvent.ServerTickEvent event) {
-		if (event.phase != TickEvent.Phase.END) return;
+		if (event.phase != TickEvent.Phase.END)
+			return;
 		if (DirtEssentials.SERVER == null)
 			return;
 
@@ -74,20 +76,24 @@ public class AfkManager {
 
 		activePlayers.forEach((key, value) -> {
 			ServerPlayer player = onlinePlayers.stream().filter(p -> p.getUUID().equals(key)).findFirst().orElse(null);
-			if (player == null) return;
+			if (player == null)
+				return;
 
 			if (System.currentTimeMillis() - value >= EssentialsConfig.AFK_TIME.get() * 1000)
 				setAfk(player);
 		});
 
-		if (!EssentialsConfig.AFK_KICK.get()) return;
+		if (!EssentialsConfig.AFK_KICK.get())
+			return;
 
 		afkPlayers.forEach((key, value) -> {
 			if (System.currentTimeMillis() - value >= EssentialsConfig.AFK_KICK_TIME.get() * 1000) {
 				ServerPlayer player = onlinePlayers.stream().filter(p -> p.getUUID().equals(key)).findFirst().orElse(null);
-				if (player == null) return;
+				if (player == null)
+					return;
 
-				if (PermissionHandler.hasPermission(player.getUUID(), EssentialsPermissions.AFK_BYPASS)) return;
+				if (PermissionHandler.hasPermission(player.getUUID(), EssentialsPermissions.AFK_BYPASS))
+					return;
 
 				player.connection.disconnect(new TextComponent(EssentialsConfig.AFK_KICK_MESSAGE.get()));
 			}
@@ -108,7 +114,8 @@ public class AfkManager {
 
 	@SubscribeEvent
 	public static void onPlayerMove(LivingEvent.LivingUpdateEvent event) {
-		if (!(event.getEntity() instanceof ServerPlayer player)) return;
+		if (!(event.getEntity() instanceof ServerPlayer player))
+			return;
 
 		if (isPlayerAfk(player)) {
 			removeAfk(player);

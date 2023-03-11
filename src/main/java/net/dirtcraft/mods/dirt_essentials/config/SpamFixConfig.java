@@ -2,7 +2,6 @@ package net.dirtcraft.mods.dirt_essentials.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SpamFixConfig {
@@ -12,7 +11,7 @@ public class SpamFixConfig {
 	public static final ForgeConfigSpec.ConfigValue<Boolean> ENABLED;
 	public static final ForgeConfigSpec.ConfigValue<List<? extends String>> MESSAGES_TO_FILTER;
 
-	static  {
+	static {
 		BUILDER.comment("Config for Dirt Spam Fix");
 		BUILDER.push("General");
 		ENABLED = BUILDER

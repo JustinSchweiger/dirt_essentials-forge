@@ -28,7 +28,12 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
 public class RtpManager {
 	private static final Map<UUID, LocalDateTime> rtpcCooldown = new HashMap<>();
@@ -216,7 +221,7 @@ public class RtpManager {
 				continue;
 			}
 
-			if (level.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.WATER || level.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.LAVA ) {
+			if (level.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.WATER || level.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.LAVA) {
 				attempts++;
 				continue;
 			}

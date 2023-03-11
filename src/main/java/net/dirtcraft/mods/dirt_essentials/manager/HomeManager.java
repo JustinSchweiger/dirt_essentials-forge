@@ -59,7 +59,8 @@ public class HomeManager {
 
 	public static Iterable<String> getHomes(String name) {
 		UUID uuid = PlayerManager.getUuid(name);
-		if (uuid == null) return new ArrayList<>();
+		if (uuid == null)
+			return new ArrayList<>();
 
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			DirtPlayer player = session.get(DirtPlayer.class, uuid);

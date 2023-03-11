@@ -9,10 +9,12 @@ import org.apache.logging.log4j.Logger;
 
 public class OnCommand {
 	private static final Logger LOGGER = LogManager.getLogger(Strings.MOD_ID + "/CommandListener");
+
 	@SubscribeEvent
 	public static void event(CommandEvent event) {
 		String command = event.getParseResults().getReader().getString();
-		if (command.startsWith("/")) command = command.substring(1);
+		if (command.startsWith("/"))
+			command = command.substring(1);
 
 		if (event.getParseResults().getContext().getSource().getEntity() instanceof ServerPlayer player) {
 			LOGGER.info(String.format("%s issued server command: /%s", player.getGameProfile().getName(), command));

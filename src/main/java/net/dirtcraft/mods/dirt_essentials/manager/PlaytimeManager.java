@@ -24,10 +24,10 @@ import org.hibernate.Session;
 import java.util.LinkedHashSet;
 
 public class PlaytimeManager {
+	private static final LinkedHashSet<PlaytimeConfig.Rank> ranks = new LinkedHashSet<>();
 	private static int tickCounter = 0;
 	private static long lastTime = 0;
 	private static boolean running = false;
-	private static final LinkedHashSet<PlaytimeConfig.Rank> ranks = new LinkedHashSet<>();
 
 	public static void init() {
 		for (String rankString : PlaytimeConfig.RANKS.get()) {
@@ -49,7 +49,8 @@ public class PlaytimeManager {
 
 	@SubscribeEvent
 	public static void tick(TickEvent.ServerTickEvent event) {
-		if (event.phase != TickEvent.Phase.END) return;
+		if (event.phase != TickEvent.Phase.END)
+			return;
 
 		if (!running)
 			return;

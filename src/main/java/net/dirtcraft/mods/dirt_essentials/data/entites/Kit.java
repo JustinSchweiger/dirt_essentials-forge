@@ -1,11 +1,15 @@
 package net.dirtcraft.mods.dirt_essentials.data.entites;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
 import net.dirtcraft.mods.dirt_essentials.data.TimeUnit;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.world.item.ItemStack;
 import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;
@@ -43,10 +47,6 @@ public class Kit {
 		this.items = serialize(items);
 	}
 
-	public List<ItemStack> getItems() {
-		return deserialize(items);
-	}
-
 	@Nullable
 	public static Kit get(String name) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -79,5 +79,9 @@ public class Kit {
 		}
 
 		return list;
+	}
+
+	public List<ItemStack> getItems() {
+		return deserialize(items);
 	}
 }
