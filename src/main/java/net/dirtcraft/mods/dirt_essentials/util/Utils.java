@@ -9,8 +9,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class Utils {
@@ -87,5 +92,20 @@ public class Utils {
 
 	public static String formatCoordinates(double x, double y, double z) {
 		return String.format(Locale.US, "§b%.2f§7, §b%.2f§7, §b%.2f", x, y, z);
+	}
+
+	public static List<String> getSummonableEntities() {
+		List<String> summonableEntities = new ArrayList<>();
+		for (EntityType<?> entityType : ForgeRegistries.ENTITIES.getValues()) {
+			if (entityType.canSummon()) {
+				ResourceLocation registryName = entityType.getRegistryName();
+				if (registryName == null) continue;
+
+				summonableEntities.add(registryName.toString());
+			}
+
+		}
+
+		return summonableEntities;
 	}
 }

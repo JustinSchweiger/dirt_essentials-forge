@@ -21,6 +21,11 @@ import net.dirtcraft.mods.dirt_essentials.commands.essentials.DelwarpCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.EcoCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.EditwarpiconCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.EnchantCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.EnderchestCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.EntityzapCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.FeedCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.FlyCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.GcCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.HomeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.HomesCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.KitCommand;
@@ -49,9 +54,11 @@ import net.dirtcraft.mods.dirt_essentials.filter.Log4jFilter;
 import net.dirtcraft.mods.dirt_essentials.filter.SystemFilter;
 import net.dirtcraft.mods.dirt_essentials.listeners.OnCommand;
 import net.dirtcraft.mods.dirt_essentials.listeners.OnPlayerLoggedIn;
+import net.dirtcraft.mods.dirt_essentials.listeners.OnPlayerLoggedOut;
 import net.dirtcraft.mods.dirt_essentials.listeners.OnServerChat;
 import net.dirtcraft.mods.dirt_essentials.manager.AfkManager;
 import net.dirtcraft.mods.dirt_essentials.manager.BackManager;
+import net.dirtcraft.mods.dirt_essentials.manager.GcManager;
 import net.dirtcraft.mods.dirt_essentials.manager.PlayerManager;
 import net.dirtcraft.mods.dirt_essentials.manager.PlaytimeManager;
 import net.dirtcraft.mods.dirt_essentials.manager.RestartManager;
@@ -94,6 +101,7 @@ public class DirtEssentials {
 
 		MinecraftForge.EVENT_BUS.addListener(OnServerChat::event);
 		MinecraftForge.EVENT_BUS.addListener(OnPlayerLoggedIn::event);
+		MinecraftForge.EVENT_BUS.addListener(OnPlayerLoggedOut::event);
 		MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
 		MinecraftForge.EVENT_BUS.addListener(this::serverStartedEvent);
 		MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStartEvent);
@@ -128,6 +136,8 @@ public class DirtEssentials {
 		if (RestartConfig.ENABLED.get()) {
 			RestartManager.startTimer();
 		}
+
+		GcManager.init();
 	}
 
 	@SubscribeEvent
@@ -210,6 +220,12 @@ public class DirtEssentials {
 		DelwarpCommand.register(dispatcher);
 		EcoCommand.register(dispatcher);
 		EnchantCommand.register(dispatcher);
+		EnderchestCommand.register(dispatcher);
+		EntityzapCommand.register(dispatcher);
+
+		FeedCommand.register(dispatcher);
+		FlyCommand.register(dispatcher);
+		GcCommand.register(dispatcher);
 
 
 		EditwarpiconCommand.register(dispatcher);

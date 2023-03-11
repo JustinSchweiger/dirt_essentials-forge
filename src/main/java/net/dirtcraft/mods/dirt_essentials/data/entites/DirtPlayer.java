@@ -75,6 +75,10 @@ public class DirtPlayer implements User {
 	@Setter
 	private int homeAmount;
 
+	@Getter
+	@Setter
+	private boolean flyingWhenLoggedOut;
+
 	public DirtPlayer() {}
 
 	public DirtPlayer(UUID uuid) {
@@ -92,6 +96,7 @@ public class DirtPlayer implements User {
 		this.kitTrackers = new ArrayList<>();
 		this.homes = new ArrayList<>();
 		this.homeAmount = EssentialsConfig.HOMES_SIZE.get();
+		this.flyingWhenLoggedOut = false;
 	}
 
 	public static @NonNull DirtPlayer get(Player player) {

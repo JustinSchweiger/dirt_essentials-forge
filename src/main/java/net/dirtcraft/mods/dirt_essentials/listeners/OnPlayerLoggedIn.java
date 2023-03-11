@@ -5,7 +5,12 @@ import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
 import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
 import net.dirtcraft.mods.dirt_essentials.manager.PlayerManager;
 import net.dirtcraft.mods.dirt_essentials.permissions.ChatPermissions;
+import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
+import net.dirtcraft.mods.dirt_essentials.util.Strings;
+import net.minecraft.Util;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.hibernate.Session;
@@ -19,6 +24,7 @@ public class OnPlayerLoggedIn {
 
 	@SubscribeEvent
 	public static void event(PlayerEvent.PlayerLoggedInEvent event) {
+		ServerPlayer serverPlayer = (ServerPlayer) event.getPlayer();
 		UUID uuid = event.getPlayer().getUUID();
 
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -35,6 +41,13 @@ public class OnPlayerLoggedIn {
 
 			if (PermissionHandler.hasPermission(uuid, ChatPermissions.STAFF))
 				player.setStaff(true);
+
+			if (player.isFlyingWhenLoggedOut() && PermissionHandler.hasPermission(uuid, EssentialsPermissions.FLY)) {
+				serverPlayer.getAbilities().flying = true;
+				serverPlayer.getAbilities().mayfly = true;
+				serverPlayer.onUpdateAbilities();
+				serverPlayer.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "Creative flight is now §aenabled§7!"), Util.NIL_UUID);
+			}
 
 			player.setUsername(event.getPlayer().getGameProfile().getName());
 			player.setTimesJoined(player.getTimesJoined() + 1);

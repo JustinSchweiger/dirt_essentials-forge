@@ -40,4 +40,12 @@ public class EssentialsPermissions {
 	public static final String ECO_REMOVE = ECO + ".remove";
 	public static final String ECO_SET = ECO + ".set";
 	public static final String ENCHANT = BASE + ".enchant";
+	public static final String ENDERCHEST = BASE + ".enderchest";
+	public static final String ENDERCHEST_OTHERS = ENDERCHEST + ".others";
+	public static final String ENTITYZAP = BASE + ".entityzap";
+	public static final String FEED = BASE + ".feed";
+	public static final String FEED_OTHERS = FEED + ".others";
+	public static final String FLY = BASE + ".fly";
+	public static final String FLY_OTHERS = FLY + ".others";
+	public static final String GC = BASE + ".gc";
 }
