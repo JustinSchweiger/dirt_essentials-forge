@@ -35,4 +35,8 @@ public class EssentialsPermissions {
 	public static final String WARP = WARP_BASE + ".warp";
 	public static final String WARPS = WARP_BASE + ".warps";
 	public static final String EDIT_WARP = WARP_BASE + ".edit";
+	public static final String ECO = BASE + ".eco";
+	public static final String ECO_GIVE = ECO + ".give";
+	public static final String ECO_REMOVE = ECO + ".remove";
+	public static final String ECO_SET = ECO + ".set";
 }

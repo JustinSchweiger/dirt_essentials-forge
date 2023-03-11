@@ -147,6 +147,7 @@ public class DirtEssentials {
 		DelhomeCommand.register(dispatcher);
 		DeletekitCommand.register(dispatcher);
 		DelwarpCommand.register(dispatcher);
+		EcoCommand.register(dispatcher);
 
 
 		EditwarpiconCommand.register(dispatcher);

@@ -168,7 +168,11 @@ public class DirtPlayer implements User {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			session.beginTransaction();
 
-			balance = amount;
+			if (amount < 0) {
+				balance = 0;
+			} else {
+				balance = amount;
+			}
 			session.merge(this);
 			session.getTransaction().commit();
 			return Transaction.Response.SUCCESS;
