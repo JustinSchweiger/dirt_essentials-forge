@@ -19,19 +19,15 @@ import net.dirtcraft.mods.dirt_essentials.listeners.OnCommand;
 import net.dirtcraft.mods.dirt_essentials.listeners.OnPlayerLoggedIn;
 import net.dirtcraft.mods.dirt_essentials.listeners.OnServerChat;
 import net.dirtcraft.mods.dirt_essentials.manager.*;
-import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
-import net.luckperms.api.event.EventBus;
-import net.luckperms.api.event.user.UserDataRecalculateEvent;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -43,8 +39,8 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 @Mod(Strings.MOD_ID)
 public class DirtEssentials {
@@ -106,6 +102,34 @@ public class DirtEssentials {
 	@SubscribeEvent
 	public void registerCommands(RegisterCommandsEvent event) {
 		CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
+		List<String> commandsToRemove = new ArrayList<>();
+		commandsToRemove.add("enchant");
+		commandsToRemove.add("clear");
+		commandsToRemove.add("xp");
+		commandsToRemove.add("experience");
+		commandsToRemove.add("gamemode");
+		commandsToRemove.add("give");
+		commandsToRemove.add("help");
+		commandsToRemove.add("kick");
+		commandsToRemove.add("kill");
+		commandsToRemove.add("bossbar");
+		commandsToRemove.add("me");
+		commandsToRemove.add("msg");
+		commandsToRemove.add("tell");
+		commandsToRemove.add("w");
+		commandsToRemove.add("say");
+		commandsToRemove.add("tp");
+		commandsToRemove.add("teleport");
+		commandsToRemove.add("time");
+		commandsToRemove.add("weather");
+		commandsToRemove.add("ban-ip");
+		commandsToRemove.add("banlist");
+		commandsToRemove.add("ban");
+		commandsToRemove.add("pardon");
+		commandsToRemove.add("pardon-ip");
+
+		dispatcher.getRoot().getChildren().removeIf(commandNode -> commandsToRemove.contains(commandNode.getName()));
+
 		if (RestartConfig.ENABLED.get()) {
 			DirtRestartCommand.register(dispatcher);
 		}
@@ -148,6 +172,7 @@ public class DirtEssentials {
 		DeletekitCommand.register(dispatcher);
 		DelwarpCommand.register(dispatcher);
 		EcoCommand.register(dispatcher);
+		EnchantCommand.register(dispatcher);
 
 
 		EditwarpiconCommand.register(dispatcher);

@@ -39,4 +39,5 @@ public class EssentialsPermissions {
 	public static final String ECO_GIVE = ECO + ".give";
 	public static final String ECO_REMOVE = ECO + ".remove";
 	public static final String ECO_SET = ECO + ".set";
+	public static final String ENCHANT = BASE + ".enchant";
 }
