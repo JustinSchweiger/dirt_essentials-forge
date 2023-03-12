@@ -51,9 +51,13 @@ public class OnPlayerLoggedIn {
 				PlayerManager.addPlayerData(uuid, event.getPlayer().getGameProfile().getName());
 			}
 
+			player.setUsername(event.getPlayer().getGameProfile().getName());
+			player.setTimesJoined(player.getTimesJoined() + 1);
+			player.setLastJoined(LocalDateTime.now());
+
 			String message;
 			if (player.getCustomJoinMessage().isBlank()) {
-				message = "§6" + player.getUsername();
+				message = player.getUsername();
 			} else {
 				message = player.getCustomJoinMessage();
 			}

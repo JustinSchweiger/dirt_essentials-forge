@@ -24,7 +24,7 @@ public class OnPlayerLoggedOut {
 
 			String message;
 			if (dirtPlayer.getCustomLeaveMessage().isBlank()) {
-				message = "§7" + dirtPlayer.getUsername();
+				message = dirtPlayer.getUsername();
 			} else {
 				message = dirtPlayer.getCustomLeaveMessage();
 			}
