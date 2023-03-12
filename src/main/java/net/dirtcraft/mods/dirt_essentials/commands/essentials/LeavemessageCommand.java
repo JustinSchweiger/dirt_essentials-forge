@@ -56,6 +56,10 @@ public class LeavemessageCommand {
 		}
 
 		UUID target = isOther ? PlayerManager.getUuid(StringArgumentType.getString(commandSourceStackCommandContext, "player")) : source.getEntity().getUUID();
+		if (target == null) {
+			source.sendFailure(new TextComponent(Strings.ESSENTIALS_PREFIX + "§cThat player does not exist!"));
+			return Command.SINGLE_SUCCESS;
+		}
 
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			DirtPlayer player = session.get(DirtPlayer.class, target);
@@ -90,6 +94,10 @@ public class LeavemessageCommand {
 		}
 
 		UUID target = isOther ? PlayerManager.getUuid(StringArgumentType.getString(commandSourceStackCommandContext, "player")) : source.getEntity().getUUID();
+		if (target == null) {
+			source.sendFailure(new TextComponent(Strings.ESSENTIALS_PREFIX + "§cThat player does not exist!"));
+			return Command.SINGLE_SUCCESS;
+		}
 
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			DirtPlayer player = session.get(DirtPlayer.class, target);
@@ -116,8 +124,12 @@ public class LeavemessageCommand {
 		}
 
 		UUID target = isOther ? PlayerManager.getUuid(StringArgumentType.getString(commandSourceStackCommandContext, "player")) : source.getEntity().getUUID();
-		message = Utils.formatColorString(message);
+		if (target == null) {
+			source.sendFailure(new TextComponent(Strings.ESSENTIALS_PREFIX + "§cThat player does not exist!"));
+			return Command.SINGLE_SUCCESS;
+		}
 
+		message = Utils.formatColorString(message);
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			DirtPlayer player = session.get(DirtPlayer.class, target);
 			player.setCustomLeaveMessage(message);
