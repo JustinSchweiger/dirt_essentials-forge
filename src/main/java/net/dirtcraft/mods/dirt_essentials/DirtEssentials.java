@@ -31,12 +31,15 @@ import net.dirtcraft.mods.dirt_essentials.commands.essentials.GodCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.GrindstoneCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.HatCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.HealCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.HelpCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.HomeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.HomebalanceCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.HomesCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.ItemCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.KillCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.KitCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.KitsCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.ListautobroadcastsCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.OtherhomeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SethomeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SetwarpCommand;
@@ -168,6 +171,7 @@ public class DirtEssentials {
 		commandsToRemove.add("help");
 		commandsToRemove.add("kick");
 		commandsToRemove.add("kill");
+		commandsToRemove.add("list");
 		commandsToRemove.add("bossbar");
 		commandsToRemove.add("item");
 		commandsToRemove.add("me");
@@ -242,14 +246,15 @@ public class DirtEssentials {
 		GrindstoneCommand.register(dispatcher);
 		HatCommand.register(dispatcher);
 		HealCommand.register(dispatcher);
-
+		HelpCommand.register(dispatcher);
 		HomebalanceCommand.register(dispatcher);
 		HomeCommand.register(dispatcher);
 		HomesCommand.register(dispatcher);
 		ItemCommand.register(dispatcher);
-
+		KillCommand.register(dispatcher);
 		KitCommand.register(dispatcher);
 		KitsCommand.register(dispatcher);
+		ListautobroadcastsCommand.register(dispatcher);
 
 		OtherhomeCommand.register(dispatcher);
 

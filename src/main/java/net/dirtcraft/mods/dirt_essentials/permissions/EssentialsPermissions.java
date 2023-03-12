@@ -73,4 +73,8 @@ public class EssentialsPermissions {
 	public static final String ITEM_LORE_ADD = ITEM_LORE + ".add";
 	public static final String ITEM_LORE_REMOVE = ITEM_LORE + ".remove";
 	public static final String ITEM_LORE_CLEAR = ITEM_LORE + ".clear";
+	public static final String KILL = BASE + ".kill";
+	public static final String KILL_OTHERS = KILL + ".others";
+	public static final String HELP = BASE + ".help";
+	public static final String LISTAUTOBROADCASTS = BASE + ".listautobroadcasts";
 }

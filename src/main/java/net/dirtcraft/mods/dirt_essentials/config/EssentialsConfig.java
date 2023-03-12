@@ -1,7 +1,10 @@
 package net.dirtcraft.mods.dirt_essentials.config;
 
+import lombok.Getter;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class EssentialsConfig {
@@ -26,7 +29,9 @@ public class EssentialsConfig {
 	public static final ForgeConfigSpec.ConfigValue<Integer> HOME_COOLDOWN;
 	public static final ForgeConfigSpec.ConfigValue<Integer> HOMES_SIZE;
 	public static final ForgeConfigSpec.ConfigValue<Boolean> COMMAND_LISTENER_ENABLED;
-
+	public static final ForgeConfigSpec.ConfigValue<List<? extends String>> HELP;
+	public static final ForgeConfigSpec.ConfigValue<Integer> AUTOBROADCAST_DELAY;
+	public static final ForgeConfigSpec.ConfigValue<List<? extends String>> AUTOBROADCASTS;
 
 	static {
 		BUILDER.comment("Config for Dirt Essentials");
@@ -120,6 +125,142 @@ public class EssentialsConfig {
 				.defineInRange("homesSize", 10, 1, 20);
 
 		BUILDER.pop();
+		BUILDER.push("Help");
+
+		HELP = BUILDER
+				.comment(
+						".",
+						"The help entries to display in /help",
+						"Each entry is defined by:",
+						"  - name: The name of the help entry. This acts as a unique identifier.",
+						"  - title: The title of the help entry. This is displayed in the help menu.",
+						"  - lines: The lines of the help entry. Only supports plain text right now."
+				)
+				.defineList("helpEntries", List.of(
+						new Help("home", "§6Homes",
+								List.of(
+										"§7Make sure to set your home using §3/sethome §7once you find a nice place to settle down!",
+										"§7To return to your home you can use §3/home [name]§7.",
+										"",
+										"§7You can list/delete your homes using §3/homes §7or §3/delhome <name>§7."
+								)
+						).serialize()
+				), o -> o instanceof String);
+
+		BUILDER.pop();
+		BUILDER.push("AutoBroadcast");
+
+		AUTOBROADCAST_DELAY = BUILDER
+				.comment(".", "The delay in seconds between each broadcast.")
+				.defineInRange("autobroadcastDelay", 300, 0, Integer.MAX_VALUE);
+
+		AUTOBROADCASTS = BUILDER
+				.comment(
+						".",
+						"The automatic broadcasts to display.",
+						"Each entry is defined by:",
+						"  - clickEventAction: The action to execute when clicking on the message. Possible values are 'open_url', 'run_command', 'suggest_command' and 'copy_to_clipboard'.",
+						"  - clickValue: The string to open/run/suggest/copy when clicking on the message.",
+						"  - hoverEventText: The text to display when hovering over the message.",
+						"  - lines: The lines of the message."
+				)
+				.defineList("helpEntries", List.of(
+						new Autobroadcast(
+								ClickEvent.Action.OPEN_URL,
+								"https://discord.gg/dirtcraft",
+								"§3Click to join our Discord!",
+								List.of(
+										"  ",
+										"    §8< §3ℹ §8>",
+										"  §7If you ever find yourself in need of §ehelp",
+										"  §7and no §cstaff §7are online, you can always join",
+										"  our §3Discord server §7and ask for help there!",
+										"  ",
+										"  §bIt's also a great place to meet other players and have fun!",
+										"  "
+								)
+						).serialize()
+				), o -> o instanceof String);
+
+		BUILDER.pop();
 		SPEC = BUILDER.build();
+	}
+
+	public static class Autobroadcast {
+		@Getter
+		private final ClickEvent.Action action;
+
+		@Getter
+		private final String clickValue;
+
+		@Getter
+		private final String hoverEventText;
+
+		@Getter
+		private final List<String> lines;
+
+		public Autobroadcast(ClickEvent.Action action, String clickValue, String hoverEventText, List<String> lines) {
+			this.action = action;
+			this.clickValue = clickValue;
+			this.hoverEventText = hoverEventText;
+			this.lines = lines;
+		}
+
+		public static Autobroadcast deserialize(String serialized) {
+			String[] parts = serialized.split(";;;;");
+			ClickEvent.Action action = null;
+
+			if (!parts[0].equalsIgnoreCase(""))
+				action = ClickEvent.Action.valueOf(parts[0]);
+
+			String clickValue = parts[1];
+			String hoverEventText = parts[2];
+			List<String> lines = Arrays.asList(parts[3].split(";;"));
+
+			return new Autobroadcast(action, clickValue, hoverEventText, lines);
+		}
+
+		public String serialize() {
+			return action.name() + ";;;;" + clickValue + ";;;;" + hoverEventText + ";;;;" + String.join(";;", lines);
+		}
+	}
+
+	public static class Help {
+		@Getter
+		private final String name;
+
+		@Getter
+		private final String title;
+
+		@Getter
+		private final List<String> lines;
+
+		public Help(String name, String title, List<String> lines) {
+			this.name = name;
+			this.title = title;
+			this.lines = lines;
+		}
+
+		public static Help deserialize(String serialized) {
+			String[] parts = serialized.split(";;;;");
+			String name = parts[0];
+			String title = parts[1];
+			List<String> lines = Arrays.asList(parts[2].split(";"));
+
+			return new Help(name, title, lines);
+		}
+
+		public String serialize() {
+			return name + ";;;;" + title + ";;;;" + String.join(";", lines);
+		}
+
+		public static Help get(String name) {
+			return deserialize(HELP.get()
+					.stream()
+					.map(s -> (String) s)
+					.filter(s -> s.startsWith(name + ";;;;"))
+					.findFirst()
+					.orElse(null));
+		}
 	}
 }
