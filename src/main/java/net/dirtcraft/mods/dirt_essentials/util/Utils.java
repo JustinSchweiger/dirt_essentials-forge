@@ -10,6 +10,7 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -129,5 +130,14 @@ public class Utils {
 		ListTag tag = display.getList("Lore", 8);
 		tag.remove(line);
 		display.put("Lore", tag);
+	}
+
+	/**
+	 * Returns the player's custom name if it exists, otherwise returns the player's display name.
+	 * @param player The player to get the name of.
+	 * @return The player's custom name if it exists, otherwise returns the player's display name.
+	 */
+	public static Component getCustomName(ServerPlayer player) {
+		return player.getCustomName() == null ? player.getDisplayName() : player.getCustomName();
 	}
 }

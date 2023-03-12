@@ -32,12 +32,12 @@ public class ChatManager {
 	}
 
 	public static void chatGlobal(ServerPlayer player) {
-		player.sendMessage(new TextComponent(Strings.CHAT_PREFIX + "§7You are now in the channel §9GLOBAL§7."), Util.NIL_UUID);
+		player.sendMessage(new TextComponent(Strings.CHAT_PREFIX + "§7You are now in the channel §aGLOBAL§7."), Util.NIL_UUID);
 		channelTracker.put(player.getUUID(), Channel.GLOBAL);
 	}
 
 	public static void chatStaff(ServerPlayer player) {
-		player.sendMessage(new TextComponent(Strings.CHAT_PREFIX + "§7You are now in the channel §9STAFF§7."), Util.NIL_UUID);
+		player.sendMessage(new TextComponent(Strings.CHAT_PREFIX + "§7You are now in the channel §cSTAFF§7."), Util.NIL_UUID);
 		channelTracker.put(player.getUUID(), Channel.STAFF);
 	}
 
@@ -74,10 +74,10 @@ public class ChatManager {
 			groupPrefix = "";
 
 		TextComponent prefixComponent = new TextComponent(prefix);
-		TextComponent playerComponent = (TextComponent) player.getDisplayName();
+		TextComponent playerComponent = (TextComponent) Utils.getCustomName(player);
 		HoverEvent playerHover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(
 				"§6Name§7: " + dirtPlayer.getUsername() + "\n" +
-						"§6Nickname§7: " + player.getDisplayName().getString() + "\n" +
+						"§6Nickname§7: " + Utils.getCustomName(player).getString() + "\n" +
 						"§6Rank§7: " + groupPrefix.replaceAll("[^a-zA-Z§0-9]", "") + "\n" +
 						"§6Staff§7: " + (PermissionHandler.hasPermission(player.getUUID(), ChatPermissions.STAFF) ? "§atrue" : "§5false") + "\n" +
 						"§6Balance§7: §a" + dirtPlayer.getFormattedBalance()

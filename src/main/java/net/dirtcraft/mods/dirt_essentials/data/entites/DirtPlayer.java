@@ -31,10 +31,6 @@ public class DirtPlayer implements User {
 
 	@Getter
 	@Setter
-	private String displayName;
-
-	@Getter
-	@Setter
 	private boolean rulesAccepted;
 
 	@Getter
@@ -88,7 +84,6 @@ public class DirtPlayer implements User {
 	public DirtPlayer(UUID uuid) {
 		this.uuid = uuid;
 		this.username = "Unknown";
-		this.displayName = "Unknown";
 		this.rulesAccepted = false;
 		this.isStaff = false;
 		this.balance = EssentialsConfig.DEFAULT_BALANCE.get();

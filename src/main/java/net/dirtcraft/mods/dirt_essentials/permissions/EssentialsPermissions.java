@@ -81,4 +81,6 @@ public class EssentialsPermissions {
 	public static final String LOOM = BASE + ".loom";
 	public static final String MSG = BASE + ".msg";
 	public static final String NBT = BASE + ".nbt";
+	public static final String NICK = BASE + ".nick";
+	public static final String NICK_OTHERS = NICK + ".others";
 }

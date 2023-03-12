@@ -35,7 +35,6 @@ public class OnPlayerLoggedIn {
 			if (player == null) {
 				player = new DirtPlayer(uuid);
 
-				player.setDisplayName(event.getPlayer().getGameProfile().getName());
 				LOGGER.info("» Creating new DirtPlayer for " + event.getPlayer().getGameProfile().getName());
 				PlayerManager.addPlayerData(uuid, event.getPlayer().getGameProfile().getName());
 			}
