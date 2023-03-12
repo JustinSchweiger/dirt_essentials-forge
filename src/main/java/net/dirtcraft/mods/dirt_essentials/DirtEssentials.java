@@ -39,7 +39,11 @@ import net.dirtcraft.mods.dirt_essentials.commands.essentials.ItemCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.KillCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.KitCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.KitsCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.ListCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.ListautobroadcastsCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.LoomCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.MsgCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.NbtCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.OtherhomeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SethomeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SetwarpCommand;
@@ -255,6 +259,10 @@ public class DirtEssentials {
 		KitCommand.register(dispatcher);
 		KitsCommand.register(dispatcher);
 		ListautobroadcastsCommand.register(dispatcher);
+		ListCommand.register(dispatcher);
+		LoomCommand.register(dispatcher);
+		MsgCommand.register(dispatcher);
+		NbtCommand.register(dispatcher);
 
 		OtherhomeCommand.register(dispatcher);
 

@@ -77,4 +77,8 @@ public class EssentialsPermissions {
 	public static final String KILL_OTHERS = KILL + ".others";
 	public static final String HELP = BASE + ".help";
 	public static final String LISTAUTOBROADCASTS = BASE + ".listautobroadcasts";
+	public static final String LIST = BASE + ".list";
+	public static final String LOOM = BASE + ".loom";
+	public static final String MSG = BASE + ".msg";
+	public static final String NBT = BASE + ".nbt";
 }

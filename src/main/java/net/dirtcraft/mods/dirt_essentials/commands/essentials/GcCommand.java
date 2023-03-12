@@ -29,14 +29,14 @@ public class GcCommand {
 
 	private static int execute(CommandContext<CommandSourceStack> commandSourceStackCommandContext) {
 		CommandSourceStack source = commandSourceStackCommandContext.getSource();
-		int bars = 20;
+		int bars = 40;
 		float used = GcManager.getUsedMemory();
 		float max = GcManager.getMaxMemory();
 		float percent = used / max;
 		int usedBars = (int) (percent * bars);
 		int freeBars = bars - usedBars;
-		String usedBar = String.join("", Collections.nCopies(usedBars, "§e|"));
-		String freeBar = String.join("", Collections.nCopies(freeBars, "§6|"));
+		String usedBar = String.join("", Collections.nCopies(usedBars, "§e❘"));
+		String freeBar = String.join("", Collections.nCopies(freeBars, "§6❘"));
 
 		source.sendSuccess(new TextComponent(""), false);
 		source.sendSuccess(new TextComponent(Strings.ESSENTIALS_PREFIX + "§bSystem Performance Information§7:"), false);
@@ -57,7 +57,7 @@ public class GcCommand {
 		source.sendSuccess(new TextComponent("§7▼ §8§oHover for more info! §7▼"), false);
 		source.sendSuccess(new TextComponent(""), false);
 		for (ServerLevel level : levels) {
-			TextComponent worldComponent = new TextComponent("§3⚑ §a§o" + level.dimension().registry() + " §r§7| §e§o" + level.dimension().location());
+			TextComponent worldComponent = new TextComponent("§3▪ §a§o" + level.dimension().registry() + " §r§7| §e§o" + level.dimension().location());
 			worldComponent.setStyle(worldComponent.getStyle().withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(
 					"§6Mean Tick§7:\n" +
 							"  §8▪ " + GcManager.formatTickTime(GcManager.getMeanTickTime(level)) + "\n" +
