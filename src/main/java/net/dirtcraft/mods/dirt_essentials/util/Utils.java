@@ -1,6 +1,9 @@
 package net.dirtcraft.mods.dirt_essentials.util;
 
+import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
 import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
+import net.dirtcraft.mods.dirt_essentials.permissions.ChatPermissions;
+import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -42,6 +45,12 @@ public class Utils {
 			lore.add(tag.getString(i));
 		}
 		return lore;
+	}
+
+	public static List<ServerPlayer> getOnlineStaff() {
+		return DirtEssentials.SERVER.getPlayerList().getPlayers().stream()
+				.filter(player -> PermissionHandler.hasPermission(player.getUUID(), ChatPermissions.STAFF))
+				.toList();
 	}
 
 	public static void clearLore(ItemStack stack) {
@@ -115,7 +124,8 @@ public class Utils {
 		for (EntityType<?> entityType : ForgeRegistries.ENTITIES.getValues()) {
 			if (entityType.canSummon()) {
 				ResourceLocation registryName = entityType.getRegistryName();
-				if (registryName == null) continue;
+				if (registryName == null)
+					continue;
 
 				summonableEntities.add(registryName.toString());
 			}
@@ -134,7 +144,9 @@ public class Utils {
 
 	/**
 	 * Returns the player's custom name if it exists, otherwise returns the player's display name.
+	 *
 	 * @param player The player to get the name of.
+	 *
 	 * @return The player's custom name if it exists, otherwise returns the player's display name.
 	 */
 	public static Component getCustomName(ServerPlayer player) {

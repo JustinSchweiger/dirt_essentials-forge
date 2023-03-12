@@ -5,6 +5,7 @@ import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
 import net.dirtcraft.mods.dirt_essentials.data.entites.Home;
 import net.dirtcraft.mods.dirt_essentials.data.entites.Kit;
 import net.dirtcraft.mods.dirt_essentials.data.entites.KitTracker;
+import net.dirtcraft.mods.dirt_essentials.data.entites.Note;
 import net.dirtcraft.mods.dirt_essentials.data.entites.Rule;
 import net.dirtcraft.mods.dirt_essentials.data.entites.Warp;
 import org.hibernate.SessionFactory;
@@ -26,6 +27,7 @@ public class HibernateUtil {
 						.addAnnotatedClass(KitTracker.class)
 						.addAnnotatedClass(Home.class)
 						.addAnnotatedClass(Warp.class)
+						.addAnnotatedClass(Note.class)
 						.setProperty("hibernate.connection.driver_class", "org.h2.Driver")
 						.setProperty("hibernate.connection.url", "jdbc:h2:" + DirtEssentials.DIRT_MODS_DIR + "/dirt_essentials")
 						.setProperty("hibernate.connection.pool_size", "3")

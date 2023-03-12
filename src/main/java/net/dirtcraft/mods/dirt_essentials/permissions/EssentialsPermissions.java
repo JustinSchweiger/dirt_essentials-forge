@@ -87,4 +87,5 @@ public class EssentialsPermissions {
 	public static final String JOINMESSAGE_OTHERS = JOINMESSAGE + ".others";
 	public static final String LEAVEMESSAGE = BASE + ".leavemessage";
 	public static final String LEAVEMESSAGE_OTHERS = LEAVEMESSAGE + ".others";
+	public static final String NOTE = BASE + ".note";
 }

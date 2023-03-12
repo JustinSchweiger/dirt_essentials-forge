@@ -47,6 +47,7 @@ import net.dirtcraft.mods.dirt_essentials.commands.essentials.LoomCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.MsgCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.NbtCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.NickCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.NoteCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.OtherhomeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SethomeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SetwarpCommand;
@@ -269,7 +270,7 @@ public class DirtEssentials {
 		MsgCommand.register(dispatcher);
 		NbtCommand.register(dispatcher);
 		NickCommand.register(dispatcher);
-
+		NoteCommand.register(dispatcher);
 		OtherhomeCommand.register(dispatcher);
 
 		SethomeCommand.register(dispatcher);

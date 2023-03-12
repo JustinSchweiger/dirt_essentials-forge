@@ -87,6 +87,10 @@ public class DirtPlayer implements User {
 	@Setter
 	private String customLeaveMessage;
 
+	@Getter
+	@OneToMany
+	private List<Note> notes;
+
 	public DirtPlayer() {}
 
 	public DirtPlayer(UUID uuid) {
@@ -107,6 +111,7 @@ public class DirtPlayer implements User {
 		this.godModeEnabled = false;
 		this.customJoinMessage = "";
 		this.customLeaveMessage = "";
+		this.notes = new ArrayList<>();
 	}
 
 	public static @NonNull DirtPlayer get(Player player) {
