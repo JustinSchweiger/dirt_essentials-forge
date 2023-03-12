@@ -79,6 +79,14 @@ public class DirtPlayer implements User {
 	@Setter
 	private boolean godModeEnabled;
 
+	@Getter
+	@Setter
+	private String customJoinMessage;
+
+	@Getter
+	@Setter
+	private String customLeaveMessage;
+
 	public DirtPlayer() {}
 
 	public DirtPlayer(UUID uuid) {
@@ -97,6 +105,8 @@ public class DirtPlayer implements User {
 		this.homeAmount = EssentialsConfig.HOMES_SIZE.get();
 		this.flyingWhenLoggedOut = false;
 		this.godModeEnabled = false;
+		this.customJoinMessage = "";
+		this.customLeaveMessage = "";
 	}
 
 	public static @NonNull DirtPlayer get(Player player) {

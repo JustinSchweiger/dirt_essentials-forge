@@ -1,15 +1,19 @@
 package net.dirtcraft.mods.dirt_essentials.listeners;
 
 import com.mojang.logging.LogUtils;
+import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
 import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
 import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
 import net.dirtcraft.mods.dirt_essentials.manager.GodManager;
+import net.dirtcraft.mods.dirt_essentials.manager.JLManager;
 import net.dirtcraft.mods.dirt_essentials.manager.PlayerManager;
 import net.dirtcraft.mods.dirt_essentials.permissions.ChatPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
 import net.minecraft.Util;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -27,17 +31,27 @@ public class OnPlayerLoggedIn {
 	public static void event(PlayerEvent.PlayerLoggedInEvent event) {
 		ServerPlayer serverPlayer = (ServerPlayer) event.getPlayer();
 		UUID uuid = event.getPlayer().getUUID();
+		boolean isFirstJoin = false;
 
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			session.beginTransaction();
 			DirtPlayer player = session.get(DirtPlayer.class, uuid);
-
 			if (player == null) {
 				player = new DirtPlayer(uuid);
+				isFirstJoin = true;
 
 				LOGGER.info("» Creating new DirtPlayer for " + event.getPlayer().getGameProfile().getName());
 				PlayerManager.addPlayerData(uuid, event.getPlayer().getGameProfile().getName());
 			}
+
+			String message;
+			if (player.getCustomJoinMessage().isBlank()) {
+				message = "§6" + player.getUsername();
+			} else {
+				message = player.getCustomJoinMessage();
+			}
+			Component component = JLManager.getJoinMessage(message, event.getPlayer().getGameProfile().getName(), isFirstJoin, PermissionHandler.hasPermission(uuid, ChatPermissions.STAFF));
+			DirtEssentials.SERVER.getPlayerList().broadcastMessage(component, ChatType.SYSTEM, Util.NIL_UUID);
 
 			if (PermissionHandler.hasPermission(uuid, ChatPermissions.STAFF))
 				player.setStaff(true);

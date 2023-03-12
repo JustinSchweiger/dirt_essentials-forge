@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "net.dirtcraft.mods.dirt_essentials.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "dirt_essentials.refmap.json",
+  "mixins": [
+    "MixinJoinLeaveMessages"
+  ],
+  "client": [
+  ],
+  "minVersion": "0.8"
+}

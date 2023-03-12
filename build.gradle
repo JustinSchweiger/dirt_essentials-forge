@@ -1,8 +1,20 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net/' }
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+    }
+    dependencies {
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
+    }
+}
+
 plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
+
+apply plugin: 'org.spongepowered.mixin'
 
 group = 'net.dirtcraft.mods'
 version = '1.0'
@@ -89,6 +101,12 @@ configurations {
     implementation.extendsFrom shade
 }
 
+mixin {
+    add sourceSets.main, "dirt_essentials.refmap.json"
+
+    config "dirt_essentials.mixins.json"
+}
+
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'
 
@@ -102,6 +120,7 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok:1.18.26'
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 jar {

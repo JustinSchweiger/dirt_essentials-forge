@@ -83,4 +83,8 @@ public class EssentialsPermissions {
 	public static final String NBT = BASE + ".nbt";
 	public static final String NICK = BASE + ".nick";
 	public static final String NICK_OTHERS = NICK + ".others";
+	public static final String JOINMESSAGE = BASE + ".joinmessage";
+	public static final String JOINMESSAGE_OTHERS = JOINMESSAGE + ".others";
+	public static final String LEAVEMESSAGE = BASE + ".leavemessage";
+	public static final String LEAVEMESSAGE_OTHERS = LEAVEMESSAGE + ".others";
 }
