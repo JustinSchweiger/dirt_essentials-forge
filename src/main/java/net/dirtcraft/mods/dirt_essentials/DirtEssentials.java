@@ -49,6 +49,9 @@ import net.dirtcraft.mods.dirt_essentials.commands.essentials.NbtCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.NickCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.NoteCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.OtherhomeCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.PayCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.RadiuszapCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.RepairCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SethomeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SetwarpCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.ShowkitCommand;
@@ -272,6 +275,9 @@ public class DirtEssentials {
 		NickCommand.register(dispatcher);
 		NoteCommand.register(dispatcher);
 		OtherhomeCommand.register(dispatcher);
+		PayCommand.register(dispatcher);
+		RadiuszapCommand.register(dispatcher);
+		RepairCommand.register(dispatcher);
 
 		SethomeCommand.register(dispatcher);
 		SetwarpCommand.register(dispatcher);

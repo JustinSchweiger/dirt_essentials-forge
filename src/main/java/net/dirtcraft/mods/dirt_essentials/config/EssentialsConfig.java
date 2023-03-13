@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,6 +33,8 @@ public class EssentialsConfig {
 	public static final ForgeConfigSpec.ConfigValue<List<? extends String>> HELP;
 	public static final ForgeConfigSpec.ConfigValue<Integer> AUTOBROADCAST_DELAY;
 	public static final ForgeConfigSpec.ConfigValue<List<? extends String>> AUTOBROADCASTS;
+	public static final ForgeConfigSpec.ConfigValue<List<? extends String>> REPAIR_LIST;
+	public static final ForgeConfigSpec.ConfigValue<Boolean> REPAIR_LIST_BLACKLIST;
 
 	static {
 		BUILDER.comment("Config for Dirt Essentials");
@@ -123,6 +126,17 @@ public class EssentialsConfig {
 		HOMES_SIZE = BUILDER
 				.comment(".", "The amount of homes to display in /homes")
 				.defineInRange("homesSize", 10, 1, 20);
+
+		BUILDER.pop();
+		BUILDER.push("Repair Command");
+
+		REPAIR_LIST = BUILDER
+				.comment(".", "The list of items that are blacklisted/whitelisted for the repair command.", "Use the resource location of the item.", "Example: minecraft:iron_sword")
+				.defineList("repairList", ArrayList::new, o -> o instanceof String);
+
+		REPAIR_LIST_BLACKLIST = BUILDER
+				.comment(".", "Whether the repair list is a blacklist or a whitelist")
+				.define("repairListBlacklist", true);
 
 		BUILDER.pop();
 		BUILDER.push("Help");

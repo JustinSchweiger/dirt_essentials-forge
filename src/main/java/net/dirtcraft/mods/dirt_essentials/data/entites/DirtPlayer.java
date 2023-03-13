@@ -203,27 +203,7 @@ public class DirtPlayer implements User {
 	}
 
 	@Override
-	public Transaction.Response sendTo(User user, double amount) {
-		if (!hasAmount(amount)) {
-			return Transaction.Response.INSUFFICIENT_FUNDS;
-		}
-
-		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			session.beginTransaction();
-
-			balance -= amount;
-			user.depositMoney(amount, "Money sent from " + getUsername());
-			session.merge(this);
-			session.getTransaction().commit();
-			return Transaction.Response.SUCCESS;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return Transaction.Response.FAIL;
-		}
-	}
-
-	@Override
-	public Transaction.Response depositMoney(double amount, String reason) {
+	public Transaction.Response depositMoney(double amount) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			session.beginTransaction();
 
@@ -238,7 +218,7 @@ public class DirtPlayer implements User {
 	}
 
 	@Override
-	public Transaction.Response withdrawMoney(double amount, String reason) {
+	public Transaction.Response withdrawMoney(double amount) {
 		if (!hasAmount(amount)) {
 			return Transaction.Response.INSUFFICIENT_FUNDS;
 		}

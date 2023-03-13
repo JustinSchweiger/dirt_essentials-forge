@@ -2,7 +2,7 @@ package net.dirtcraft.mods.dirt_essentials.commands.essentials;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -25,7 +25,7 @@ public class BillCommand {
 				.literal("bill")
 				.requires(source -> PermissionHandler.hasPermission(source, EssentialsPermissions.BILL))
 				.then(Commands.argument("target", EntityArgument.player())
-						.then(Commands.argument("amount", IntegerArgumentType.integer())
+						.then(Commands.argument("amount", DoubleArgumentType.doubleArg(0.01))
 								.executes(BillCommand::execute)));
 
 		dispatcher.register(commandBuilder);
@@ -48,7 +48,7 @@ public class BillCommand {
 			return Command.SINGLE_SUCCESS;
 		}
 
-		int amount = IntegerArgumentType.getInteger(commandSourceStackCommandContext, "amount");
+		double amount = DoubleArgumentType.getDouble(commandSourceStackCommandContext, "amount");
 
 		TextComponent billMessage = new TextComponent(Strings.ESSENTIALS_PREFIX + "You have been billed by §6" + player.getGameProfile().getName() + " §7for " + DirtPlayer.getFormattedBalance(amount) + "§!");
 		TextComponent billButton = new TextComponent("§7[§a✔ Pay the bill§7]");

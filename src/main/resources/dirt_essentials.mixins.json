@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "dirt_essentials.refmap.json",
   "mixins": [
-    "MixinJoinLeaveMessages"
+    "MixinJoinLeaveMessages",
+    "MixinEntitySelector"
   ],
   "client": [
   ],

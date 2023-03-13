@@ -88,4 +88,8 @@ public class EssentialsPermissions {
 	public static final String LEAVEMESSAGE = BASE + ".leavemessage";
 	public static final String LEAVEMESSAGE_OTHERS = LEAVEMESSAGE + ".others";
 	public static final String NOTE = BASE + ".note";
+	public static final String PAY = BASE + ".pay";
+	public static final String RADIUSZAP = BASE + ".radiuszap";
+	public static final String REPAIR = BASE + ".repair";
+	public static final String USE_SELECTOR = BASE + ".use-selector";
 }

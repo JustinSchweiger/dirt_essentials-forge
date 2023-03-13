@@ -6,12 +6,6 @@ import net.dirtcraft.mods.dirt_essentials.economy.backend.transaction.Transactio
  * The base user.
  */
 public interface User {
-
-	/**
-	 * Should return a display name that is meant for end-user viewing.
-	 *
-	 * @return A display name for the User.
-	 */
 	String getUsername();
 
 	double getBalance();
@@ -24,9 +18,7 @@ public interface User {
 
 	Transaction.Response setBalance(double amount);
 
-	Transaction.Response sendTo(User user, double amount);
+	Transaction.Response depositMoney(double amount);
 
-	Transaction.Response depositMoney(double amount, String reason);
-
-	Transaction.Response withdrawMoney(double amount, String reason);
+	Transaction.Response withdrawMoney(double amount);
 }

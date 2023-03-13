@@ -8,7 +8,7 @@ public class JLManager {
 	public static Component getJoinMessage(String message, String playerName, boolean isFirst, boolean isStaff) {
 		String s = message.replace("{PLAYER}", playerName);
 		s = Utils.formatColorString(s);
-		s = (isFirst ? "§5§l▶ §dPlease welcome §b" : isStaff ? "§4§l▶ §7" : "§a§l▶ §7") + s;
+		s = (isFirst ? "§5§l▶ §dPlease welcome §b" : isStaff ? "§a§l▶ §c" : "§a§l▶ §7") + s;
 
 		return new TextComponent(s);
 	}
@@ -16,7 +16,7 @@ public class JLManager {
 	public static Component getLeaveMessage(String message, String playerName, boolean isStaff) {
 		String s = message.replace("{PLAYER}", playerName);
 		s = Utils.formatColorString(s);
-		s = (isStaff ? "§4§l◀ §7" : "§c§l◀ §7") + s;
+		s = (isStaff ? "§c§l◀ §c" : "§c§l◀ §7") + s;
 
 		return new TextComponent(s);
 	}
