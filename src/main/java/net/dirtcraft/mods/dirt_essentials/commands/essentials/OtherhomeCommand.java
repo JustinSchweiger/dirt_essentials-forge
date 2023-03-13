@@ -20,7 +20,6 @@ import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
-import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -73,7 +72,7 @@ public class OtherhomeCommand {
 			Home home = dirtPlayer.getHome(homeName);
 			session.getTransaction().commit();
 
-			ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(home.getLocation()));
+			ResourceKey<Level> dimension = ResourceKey.create(ResourceKey.createRegistryKey(new ResourceLocation(home.getRegistry())), new ResourceLocation(home.getLocation()));
 			ServerLevel level = DirtEssentials.SERVER.getLevel(dimension);
 			if (level == null) {
 				player.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "§cThe home you are trying to access is in a world that no longer exists!"), Util.NIL_UUID);

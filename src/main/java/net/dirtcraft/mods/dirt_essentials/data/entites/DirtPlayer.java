@@ -8,9 +8,12 @@ import lombok.NonNull;
 import lombok.Setter;
 import net.dirtcraft.mods.dirt_essentials.config.EssentialsConfig;
 import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
+import net.dirtcraft.mods.dirt_essentials.data.Location;
 import net.dirtcraft.mods.dirt_essentials.economy.backend.transaction.Transaction;
 import net.dirtcraft.mods.dirt_essentials.economy.backend.user.User;
 import net.dirtcraft.mods.dirt_essentials.manager.PlaytimeManager;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import org.hibernate.Session;
 
@@ -57,6 +60,10 @@ public class DirtPlayer implements User {
 
 	@Getter
 	@Setter
+	private LocalDateTime leaveDate;
+
+	@Getter
+	@Setter
 	private String currentPath;
 
 	@OneToMany
@@ -91,6 +98,16 @@ public class DirtPlayer implements User {
 	@OneToMany
 	private List<Note> notes;
 
+	@Getter
+	@Setter
+	private String lastKnownIp;
+
+	@Getter
+	@Setter
+	private String lastKnownDimension;
+
+	private String lastKnownLocation;
+
 	public DirtPlayer() {}
 
 	public DirtPlayer(UUID uuid) {
@@ -103,6 +120,7 @@ public class DirtPlayer implements User {
 		this.timesJoined = 0;
 		this.firstJoined = LocalDateTime.now();
 		this.lastJoined = null;
+		this.leaveDate = null;
 		this.currentPath = PlaytimeManager.getFirstRank().getName();
 		this.kitTrackers = new ArrayList<>();
 		this.homes = new ArrayList<>();
@@ -112,6 +130,26 @@ public class DirtPlayer implements User {
 		this.customJoinMessage = "";
 		this.customLeaveMessage = "";
 		this.notes = new ArrayList<>();
+		this.lastKnownIp = "";
+		this.lastKnownDimension = "";
+		this.lastKnownLocation = "";
+	}
+
+	public void setLastKnownLocation(Location location) {
+		this.lastKnownLocation = String.format("%s,%s,%s,%s,%s,%s,%s", location.getLevel().registry(), location.getLevel().location(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+	}
+
+	public Location getLastKnownLocation() {
+		if (lastKnownLocation.isEmpty()) return null;
+		String[] split = lastKnownLocation.split(",");
+		return new Location(
+				ResourceKey.create(ResourceKey.createRegistryKey(new ResourceLocation(split[0])), new ResourceLocation(split[1])),
+				Double.parseDouble(split[2]),
+				Double.parseDouble(split[3]),
+				Double.parseDouble(split[4]),
+				Float.parseFloat(split[5]),
+				Float.parseFloat(split[6])
+		);
 	}
 
 	public static @NonNull DirtPlayer get(Player player) {

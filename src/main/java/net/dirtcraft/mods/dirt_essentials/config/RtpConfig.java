@@ -50,7 +50,7 @@ public class RtpConfig {
 		BUILDER.push("World");
 		WORLD_LIST = BUILDER
 				.comment(".", "The list of worlds that the rtp command is either blacklisted or whitelisted from.")
-				.defineList("worlds", List.of("minecraft:overworld"), o -> o instanceof String);
+				.defineList("worlds", List.of("minecraft:dimension;;;minecraft:overworld"), o -> o instanceof String);
 
 		WORLD_LIST_TYPE = BUILDER
 				.comment(".", "Whether or not the world list is a blacklist or whitelist.")

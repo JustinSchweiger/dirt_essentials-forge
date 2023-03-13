@@ -17,7 +17,6 @@ import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
-import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -55,7 +54,7 @@ public class WarpCommand {
 				return Command.SINGLE_SUCCESS;
 			}
 
-			ResourceKey<Level> dim = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(warp.getLocation()));
+			ResourceKey<Level> dim = ResourceKey.create(ResourceKey.createRegistryKey(new ResourceLocation(warp.getRegistry())), new ResourceLocation(warp.getLocation()));
 			ServerLevel level = DirtEssentials.SERVER.getLevel(dim);
 			if (level == null) {
 				source.sendFailure(new TextComponent(Strings.ESSENTIALS_PREFIX + "§cThe warp you are trying to access is in a dimension that no longer exists!"));

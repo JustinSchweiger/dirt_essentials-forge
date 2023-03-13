@@ -5,7 +5,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
-import net.dirtcraft.mods.dirt_essentials.data.BackLocation;
+import net.dirtcraft.mods.dirt_essentials.data.Location;
 import net.dirtcraft.mods.dirt_essentials.events.PlayerTeleportEvent;
 import net.dirtcraft.mods.dirt_essentials.manager.BackManager;
 import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;
@@ -45,7 +45,7 @@ public class BackCommand {
 			return Command.SINGLE_SUCCESS;
 		}
 
-		BackLocation location = BackManager.getBackLocation(player.getUUID());
+		Location location = BackManager.getBackLocation(player.getUUID());
 		ServerLevel level = DirtEssentials.SERVER.getLevel(location.getLevel());
 		if (level == null) {
 			source.sendSuccess(new TextComponent(Strings.ESSENTIALS_PREFIX + "§cThe world you are trying to teleport to does no longer exist!"), false);

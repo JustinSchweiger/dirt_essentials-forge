@@ -1,11 +1,10 @@
 package net.dirtcraft.mods.dirt_essentials.manager;
 
 import net.dirtcraft.mods.dirt_essentials.config.EssentialsConfig;
-import net.dirtcraft.mods.dirt_essentials.data.BackLocation;
+import net.dirtcraft.mods.dirt_essentials.data.Location;
 import net.dirtcraft.mods.dirt_essentials.events.PlayerTeleportEvent;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
 import net.minecraft.Util;
-import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -22,13 +21,13 @@ import java.util.Map;
 import java.util.UUID;
 
 public class BackManager {
-	private static final Map<UUID, BackLocation> backLocations = new HashMap<>();
+	private static final Map<UUID, Location> backLocations = new HashMap<>();
 
-	public static void setBackLocation(UUID uuid, BackLocation location) {
+	public static void setBackLocation(UUID uuid, Location location) {
 		backLocations.put(uuid, location);
 	}
 
-	public static BackLocation getBackLocation(UUID uuid) {
+	public static Location getBackLocation(UUID uuid) {
 		return backLocations.get(uuid);
 	}
 
@@ -41,7 +40,7 @@ public class BackManager {
 		if (!(event.getEntity() instanceof ServerPlayer player))
 			return;
 
-		setBackLocation(player.getUUID(), new BackLocation(player.getCommandSenderWorld().dimension(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot()));
+		setBackLocation(player.getUUID(), new Location(player.getCommandSenderWorld().dimension(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot()));
 	}
 
 	@SubscribeEvent
@@ -49,7 +48,7 @@ public class BackManager {
 		if (!(event.getEntity() instanceof ServerPlayer player))
 			return;
 
-		setBackLocation(player.getUUID(), new BackLocation(player.getCommandSenderWorld().dimension(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot()));
+		setBackLocation(player.getUUID(), new Location(player.getCommandSenderWorld().dimension(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot()));
 	}
 
 	@SubscribeEvent
@@ -57,7 +56,7 @@ public class BackManager {
 		if (!(event.getEntity() instanceof ServerPlayer player))
 			return;
 
-		setBackLocation(player.getUUID(), new BackLocation(player.getCommandSenderWorld().dimension(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot()));
+		setBackLocation(player.getUUID(), new Location(player.getCommandSenderWorld().dimension(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot()));
 	}
 
 	@SubscribeEvent
@@ -68,8 +67,10 @@ public class BackManager {
 		List<String> backWorlds = new ArrayList<>(EssentialsConfig.BACK_WORLDS.get());
 		List<ResourceKey<Level>> worlds = new ArrayList<>();
 
-		for (String worldName : backWorlds) {
-			worlds.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(worldName)));
+		for (String world : backWorlds) {
+			String registry = world.split(";;;")[0];
+			String location = world.split(";;;")[1];
+			worlds.add(ResourceKey.create(ResourceKey.createRegistryKey(new ResourceLocation(registry)), new ResourceLocation(location)));
 		}
 
 		if (EssentialsConfig.BACK_WORLDS_WHITELIST.get()) {
@@ -83,6 +84,6 @@ public class BackManager {
 		}
 
 		player.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "Use §c/back §7to teleport back to where you died!"), Util.NIL_UUID);
-		BackManager.setBackLocation(player.getUUID(), new BackLocation(player.getCommandSenderWorld().dimension(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot()));
+		BackManager.setBackLocation(player.getUUID(), new Location(player.getCommandSenderWorld().dimension(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot()));
 	}
 }

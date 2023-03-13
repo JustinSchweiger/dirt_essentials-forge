@@ -7,7 +7,6 @@ import net.dirtcraft.mods.dirt_essentials.permissions.RtpPermissions;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundCustomSoundPacket;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
@@ -128,7 +127,9 @@ public class RtpManager {
 		List<ResourceKey<Level>> worlds = new ArrayList<>();
 
 		for (String worldName : worldList) {
-			worlds.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(worldName)));
+			String registry = worldName.split(";;;")[0];
+			String location = worldName.split(";;;")[1];
+			worlds.add(ResourceKey.create(ResourceKey.createRegistryKey(new ResourceLocation(registry)), new ResourceLocation(location)));
 		}
 
 		if (worldsWhitelist) {

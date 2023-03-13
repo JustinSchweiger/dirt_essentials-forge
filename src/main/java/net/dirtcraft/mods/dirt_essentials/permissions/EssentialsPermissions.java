@@ -92,4 +92,8 @@ public class EssentialsPermissions {
 	public static final String RADIUSZAP = BASE + ".radiuszap";
 	public static final String REPAIR = BASE + ".repair";
 	public static final String USE_SELECTOR = BASE + ".use-selector";
+	public static final String REPLY = BASE + ".reply";
+	public static final String RESETPLAYERDATA = BASE + ".resetplayerdata";
+	public static final String RESPECT = BASE + ".respect";
+	public static final String SEEN = BASE + ".seen";
 }

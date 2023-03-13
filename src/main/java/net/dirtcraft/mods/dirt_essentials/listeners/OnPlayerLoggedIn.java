@@ -3,6 +3,7 @@ package net.dirtcraft.mods.dirt_essentials.listeners;
 import com.mojang.logging.LogUtils;
 import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
 import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
+import net.dirtcraft.mods.dirt_essentials.data.Location;
 import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
 import net.dirtcraft.mods.dirt_essentials.data.entites.Note;
 import net.dirtcraft.mods.dirt_essentials.manager.GodManager;
@@ -51,6 +52,8 @@ public class OnPlayerLoggedIn {
 				PlayerManager.addPlayerData(uuid, event.getPlayer().getGameProfile().getName());
 			}
 
+			player.setLastKnownIp(((ServerPlayer) event.getPlayer()).getIpAddress());
+			player.setLastKnownLocation(new Location(event.getPlayer().level.dimension(), event.getPlayer().getX(), event.getPlayer().getY(), event.getPlayer().getZ(), event.getPlayer().getYRot(), event.getPlayer().getXRot()));
 			player.setUsername(event.getPlayer().getGameProfile().getName());
 			player.setTimesJoined(player.getTimesJoined() + 1);
 			player.setLastJoined(LocalDateTime.now());

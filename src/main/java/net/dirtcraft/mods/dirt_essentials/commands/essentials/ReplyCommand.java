@@ -12,22 +12,18 @@ import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 
-public class MsgCommand {
+public class ReplyCommand {
 	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
 		LiteralCommandNode<CommandSourceStack> commandBuilder = dispatcher.register(Commands
-				.literal("msg")
-				.requires(source -> PermissionHandler.hasPermission(source, EssentialsPermissions.MSG))
-				.then(Commands.argument("player", EntityArgument.player())
-						.then(Commands.argument("message", StringArgumentType.greedyString())
-								.executes(MsgCommand::execute))));
+				.literal("reply")
+				.requires(source -> PermissionHandler.hasPermission(source, EssentialsPermissions.REPLY))
+				.then(Commands.argument("message", StringArgumentType.greedyString())
+						.executes(ReplyCommand::execute)));
 
-		dispatcher.register(Commands.literal("tell").requires(source -> PermissionHandler.hasPermission(source, EssentialsPermissions.MSG)).redirect(commandBuilder));
-		dispatcher.register(Commands.literal("w").requires(source -> PermissionHandler.hasPermission(source, EssentialsPermissions.MSG)).redirect(commandBuilder));
-		dispatcher.register(Commands.literal("whisper").requires(source -> PermissionHandler.hasPermission(source, EssentialsPermissions.MSG)).redirect(commandBuilder));
+		dispatcher.register(Commands.literal("r").requires(source -> PermissionHandler.hasPermission(source, EssentialsPermissions.REPLY)).redirect(commandBuilder));
 	}
 
 	private static int execute(CommandContext<CommandSourceStack> commandSourceStackCommandContext) throws CommandSyntaxException {
@@ -37,18 +33,16 @@ public class MsgCommand {
 			return Command.SINGLE_SUCCESS;
 		}
 
-		ServerPlayer sender = source.getPlayerOrException();
-		ServerPlayer receiver = EntityArgument.getPlayer(commandSourceStackCommandContext, "player");
 		String message = StringArgumentType.getString(commandSourceStackCommandContext, "message");
-
-		if (receiver.getUUID().equals(sender.getUUID())) {
-			source.sendFailure(new TextComponent(Strings.ESSENTIALS_PREFIX + "§cYou can't message yourself!"));
+		ServerPlayer player = source.getPlayerOrException();
+		ServerPlayer target = MsgManager.getLastMessagedPlayer(player.getUUID());
+		if (target == null || target.hasDisconnected()) {
+			source.sendFailure(new TextComponent(Strings.ESSENTIALS_PREFIX + "§cYou have noone to reply to!"));
 			return Command.SINGLE_SUCCESS;
 		}
 
-		MsgManager.setLastMessagedPlayer(receiver.getUUID(), sender);
-		MsgManager.message(sender, receiver, message);
-
+		MsgManager.message(player, target, message);
+		MsgManager.setLastMessagedPlayer(target.getUUID(), player);
 		return Command.SINGLE_SUCCESS;
 	}
 }

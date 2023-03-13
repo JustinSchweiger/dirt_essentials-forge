@@ -76,7 +76,7 @@ public class EssentialsConfig {
 
 		BACK_WORLDS = BUILDER
 				.comment(".", "The list of worlds that players can use /back in")
-				.defineList("backWorlds", List.of("minecraft:overworld", "minecraft:the_nether", "minecraft:the_end"), o -> o instanceof String);
+				.defineList("backWorlds", List.of("minecraft:dimension;;;minecraft:overworld", "minecraft:dimension;;;minecraft:the_nether", "minecraft:dimension;;;minecraft:the_end"), o -> o instanceof String);
 
 		BACK_WORLDS_WHITELIST = BUILDER
 				.comment(".", "Whether the list of worlds is a whitelist or a blacklist")

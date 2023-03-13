@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 
-public class BackLocation {
+public class Location {
 	@Getter
 	private final ResourceKey<Level> level;
 	@Getter
@@ -18,7 +18,7 @@ public class BackLocation {
 	@Getter
 	private final float pitch;
 
-	public BackLocation(ResourceKey<Level> level, double x, double y, double z, float yaw, float pitch) {
+	public Location(ResourceKey<Level> level, double x, double y, double z, float yaw, float pitch) {
 		this.level = level;
 		this.x = x;
 		this.y = y;

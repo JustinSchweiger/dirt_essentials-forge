@@ -7,7 +7,6 @@ import net.dirtcraft.mods.dirt_essentials.gui.inv.ServerOnlyScreenHandler;
 import net.dirtcraft.mods.dirt_essentials.manager.WarpManager;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
 import net.minecraft.Util;
-import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceKey;
@@ -90,7 +89,7 @@ public class WarpsGui extends ServerOnlyScreenHandler {
 		if (warp == null)
 			return false;
 
-		ResourceKey<Level> dim = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(warp.getLocation()));
+		ResourceKey<Level> dim = ResourceKey.create(ResourceKey.createRegistryKey(new ResourceLocation(warp.getRegistry())), new ResourceLocation(warp.getLocation()));
 		ServerLevel level = DirtEssentials.SERVER.getLevel(dim);
 		if (level == null)
 			return false;
