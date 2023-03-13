@@ -27,6 +27,7 @@ import net.dirtcraft.mods.dirt_essentials.commands.essentials.FeedCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.FlyCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.GamemodeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.GcCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.GiveCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.GodCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.GrindstoneCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.HatCommand;
@@ -59,6 +60,12 @@ import net.dirtcraft.mods.dirt_essentials.commands.essentials.SeenCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SethomeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SetwarpCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.ShowkitCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.ShrugCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.SkullCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.SmiteCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.SmithingtableCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.SocialspyCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.SpawnCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.WarpCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.WarpsCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.playtime.PlaytimeCommand;
@@ -85,6 +92,7 @@ import net.dirtcraft.mods.dirt_essentials.manager.AfkManager;
 import net.dirtcraft.mods.dirt_essentials.manager.BackManager;
 import net.dirtcraft.mods.dirt_essentials.manager.GcManager;
 import net.dirtcraft.mods.dirt_essentials.manager.GodManager;
+import net.dirtcraft.mods.dirt_essentials.manager.MsgManager;
 import net.dirtcraft.mods.dirt_essentials.manager.PlayerManager;
 import net.dirtcraft.mods.dirt_essentials.manager.PlaytimeManager;
 import net.dirtcraft.mods.dirt_essentials.manager.RestartManager;
@@ -122,9 +130,6 @@ public class DirtEssentials {
 	public DirtEssentials() {
 		ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
 
-		registerConfigs();
-		enableFeatures();
-
 		MinecraftForge.EVENT_BUS.addListener(OnServerChat::event);
 		MinecraftForge.EVENT_BUS.addListener(OnPlayerLoggedIn::event);
 		MinecraftForge.EVENT_BUS.addListener(OnPlayerLoggedOut::event);
@@ -132,6 +137,9 @@ public class DirtEssentials {
 		MinecraftForge.EVENT_BUS.addListener(this::serverStartedEvent);
 		MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStartEvent);
 		MinecraftForge.EVENT_BUS.register(this);
+
+		registerConfigs();
+		enableFeatures();
 	}
 
 	private void registerConfigs() {
@@ -174,7 +182,7 @@ public class DirtEssentials {
 	}
 
 	@SubscribeEvent
-	public void registerCommands(RegisterCommandsEvent event) {
+	public void registerCommands(final RegisterCommandsEvent event) {
 		CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
 		List<String> commandsToRemove = new ArrayList<>();
 		commandsToRemove.add("enchant");
@@ -255,8 +263,9 @@ public class DirtEssentials {
 
 		FeedCommand.register(dispatcher);
 		FlyCommand.register(dispatcher);
-		GcCommand.register(dispatcher);
 		GamemodeCommand.register(dispatcher);
+		GcCommand.register(dispatcher);
+		GiveCommand.register(dispatcher);
 		GodCommand.register(dispatcher);
 		GrindstoneCommand.register(dispatcher);
 		HatCommand.register(dispatcher);
@@ -287,10 +296,14 @@ public class DirtEssentials {
 		RespectCommand.register(dispatcher);
 		SeenCommand.register(dispatcher);
 		SethomeCommand.register(dispatcher);
-
 		SetwarpCommand.register(dispatcher);
-
 		ShowkitCommand.register(dispatcher);
+		ShrugCommand.register(dispatcher);
+		SkullCommand.register(dispatcher);
+		SmiteCommand.register(dispatcher);
+		SmithingtableCommand.register(dispatcher);
+		SocialspyCommand.register(dispatcher);
+		SpawnCommand.register(dispatcher);
 
 		WarpCommand.register(dispatcher);
 		WarpsCommand.register(dispatcher);
@@ -346,5 +359,6 @@ public class DirtEssentials {
 		MinecraftForge.EVENT_BUS.addListener(BackManager::spreadCommandEvent);
 		MinecraftForge.EVENT_BUS.addListener(GodManager::onLivingHurt);
 		MinecraftForge.EVENT_BUS.addListener(GodManager::onLivingAttack);
+		MinecraftForge.EVENT_BUS.addListener(MsgManager::onWhisper);
 	}
 }

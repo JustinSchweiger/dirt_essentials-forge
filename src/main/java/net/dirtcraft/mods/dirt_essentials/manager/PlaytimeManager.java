@@ -70,6 +70,8 @@ public class PlaytimeManager {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			for (ServerPlayer player : DirtEssentials.SERVER.getPlayerList().getPlayers()) {
 				DirtPlayer dirtPlayer = session.get(DirtPlayer.class, player.getUUID());
+				if (dirtPlayer == null) continue;
+
 				dirtPlayer.setTimePlayed(dirtPlayer.getTimePlayed() + (getTime() - lastTime));
 
 				PlaytimeConfig.Rank currentRank = ranks.stream().filter(r -> r.getName().equalsIgnoreCase(dirtPlayer.getCurrentPath())).findFirst().orElse(null);
@@ -85,7 +87,7 @@ public class PlaytimeManager {
 
 					if (PlaytimeConfig.ANNOUNCE_RANKUPS_IN_CHAT.get()) {
 						DirtEssentials.SERVER.getPlayerList().broadcastMessage(
-								new TextComponent(Strings.PLAYTIME_PREFIX + "§3" + dirtPlayer.getUsername() + " §7just ranked up to " + nextGroupPrefix + "§7!"),
+								new TextComponent(Strings.PLAYTIME_PREFIX + "§d" + dirtPlayer.getUsername() + " §7just ranked up to " + nextGroupPrefix + "§7!"),
 								ChatType.CHAT,
 								Util.NIL_UUID
 						);

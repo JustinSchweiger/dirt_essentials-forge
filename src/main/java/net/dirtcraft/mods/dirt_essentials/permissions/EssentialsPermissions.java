@@ -96,4 +96,15 @@ public class EssentialsPermissions {
 	public static final String RESETPLAYERDATA = BASE + ".resetplayerdata";
 	public static final String RESPECT = BASE + ".respect";
 	public static final String SEEN = BASE + ".seen";
+	public static final String SETSPAWN = BASE + ".setspawn";
+	public static final String SHRUG = BASE + ".shrug";
+	public static final String SKULL = BASE + ".skull";
+	public static final String GIVE = BASE + ".give";
+	public static final String SMITE = BASE + ".smite";
+	public static final String SMITHINGTABLE = BASE + ".smithingtable";
+	public static final String SOCIALSPY = BASE + ".socialspy";
+	public static final String SPAWN = BASE + ".spawn";
+	public static final String SPAWN_OTHERS = SPAWN + ".others";
+	public static final String SPAWN_SET = SPAWN + ".set";
+	public static final String SPAWN_REMOVE = SPAWN + ".remove";
 }

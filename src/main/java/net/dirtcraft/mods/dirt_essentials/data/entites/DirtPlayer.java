@@ -108,6 +108,14 @@ public class DirtPlayer implements User {
 
 	private String lastKnownLocation;
 
+	@Getter
+	@Setter
+	private boolean socialSpyEnabled;
+
+	@Getter
+	@Setter
+	private boolean teleportToSpawnOnNextLogin;
+
 	public DirtPlayer() {}
 
 	public DirtPlayer(UUID uuid) {
@@ -133,6 +141,8 @@ public class DirtPlayer implements User {
 		this.lastKnownIp = "";
 		this.lastKnownDimension = "";
 		this.lastKnownLocation = "";
+		this.socialSpyEnabled = false;
+		this.teleportToSpawnOnNextLogin = false;
 	}
 
 	public void setLastKnownLocation(Location location) {

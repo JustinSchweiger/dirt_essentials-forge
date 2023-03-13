@@ -5,6 +5,7 @@ import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
 import net.dirtcraft.mods.dirt_essentials.data.Location;
 import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
 import net.dirtcraft.mods.dirt_essentials.manager.JLManager;
+import net.dirtcraft.mods.dirt_essentials.manager.MsgManager;
 import net.dirtcraft.mods.dirt_essentials.permissions.ChatPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.minecraft.Util;
@@ -34,6 +35,7 @@ public class OnPlayerLoggedOut {
 			Component component = JLManager.getLeaveMessage(message, player.getGameProfile().getName(), PermissionHandler.hasPermission(player.getUUID(), ChatPermissions.STAFF));
 			DirtEssentials.SERVER.getPlayerList().broadcastMessage(component, ChatType.SYSTEM, Util.NIL_UUID);
 
+			MsgManager.disableSocialSpy(player.getUUID());
 			dirtPlayer.setLeaveDate(LocalDateTime.now());
 			dirtPlayer.setLastKnownIp(player.getIpAddress());
 			dirtPlayer.setLastKnownLocation(new Location(player.level.dimension(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot()));

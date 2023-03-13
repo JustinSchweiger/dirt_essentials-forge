@@ -7,6 +7,7 @@ import net.dirtcraft.mods.dirt_essentials.data.entites.Kit;
 import net.dirtcraft.mods.dirt_essentials.data.entites.KitTracker;
 import net.dirtcraft.mods.dirt_essentials.data.entites.Note;
 import net.dirtcraft.mods.dirt_essentials.data.entites.Rule;
+import net.dirtcraft.mods.dirt_essentials.data.entites.Spawn;
 import net.dirtcraft.mods.dirt_essentials.data.entites.Warp;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -28,10 +29,11 @@ public class HibernateUtil {
 						.addAnnotatedClass(Home.class)
 						.addAnnotatedClass(Warp.class)
 						.addAnnotatedClass(Note.class)
+						.addAnnotatedClass(Spawn.class)
 						.setProperty("hibernate.connection.driver_class", "org.h2.Driver")
 						.setProperty("hibernate.connection.url", "jdbc:h2:" + DirtEssentials.DIRT_MODS_DIR + "/dirt_essentials")
-						.setProperty("hibernate.connection.pool_size", "3")
-						.setProperty("show_sql", "false")
+						.setProperty("hibernate.connection.pool_size", "5")
+						.setProperty("show_sql", "true")
 						.setProperty("hibernate.hbm2ddl.auto", "update")
 						.setProperty("hibernate.connection.autocommit", "true");
 

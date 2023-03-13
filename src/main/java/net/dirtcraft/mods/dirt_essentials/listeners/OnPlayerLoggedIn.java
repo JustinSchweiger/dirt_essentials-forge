@@ -8,7 +8,9 @@ import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
 import net.dirtcraft.mods.dirt_essentials.data.entites.Note;
 import net.dirtcraft.mods.dirt_essentials.manager.GodManager;
 import net.dirtcraft.mods.dirt_essentials.manager.JLManager;
+import net.dirtcraft.mods.dirt_essentials.manager.MsgManager;
 import net.dirtcraft.mods.dirt_essentials.manager.PlayerManager;
+import net.dirtcraft.mods.dirt_essentials.manager.SpawnManager;
 import net.dirtcraft.mods.dirt_essentials.permissions.ChatPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
@@ -21,6 +23,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -50,6 +53,13 @@ public class OnPlayerLoggedIn {
 
 				LOGGER.info("» Creating new DirtPlayer for " + event.getPlayer().getGameProfile().getName());
 				PlayerManager.addPlayerData(uuid, event.getPlayer().getGameProfile().getName());
+				SpawnManager.SpawnResult result = SpawnManager.teleportToOverworldSpawn(uuid);
+				if (result == SpawnManager.SpawnResult.NO_OVERWORLD_SPAWN) {
+					LOGGER.info("» No overworld spawn found, teleporting to default world spawn");
+					ServerLevel overworld = DirtEssentials.SERVER.overworld();
+					serverPlayer.teleportTo(overworld, overworld.getSharedSpawnPos().getX(), overworld.getSharedSpawnPos().getY(), overworld.getSharedSpawnPos().getZ(), 0, 0);
+
+				}
 			}
 
 			player.setLastKnownIp(((ServerPlayer) event.getPlayer()).getIpAddress());
@@ -113,6 +123,17 @@ public class OnPlayerLoggedIn {
 				serverPlayer.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "Creative flight is now §aenabled§7!"), Util.NIL_UUID);
 			}
 
+			if (player.isSocialSpyEnabled() && PermissionHandler.hasPermission(uuid, EssentialsPermissions.SOCIALSPY)) {
+				MsgManager.enableSocialSpy(uuid);
+				serverPlayer.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "SocialSpy is now §aenabled§7!"), Util.NIL_UUID);
+			}
+
+			if (player.isTeleportToSpawnOnNextLogin()) {
+				SpawnManager.teleportToOverworldSpawn(uuid);
+				player.setTeleportToSpawnOnNextLogin(false);
+				serverPlayer.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "You have been teleported to spawn!"), Util.NIL_UUID);
+			}
+
 			if (player.isGodModeEnabled() && PermissionHandler.hasPermission(uuid, EssentialsPermissions.GOD)) {
 				serverPlayer.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "God mode is now §aenabled§7!"), Util.NIL_UUID);
 				GodManager.setGodModeEnabled(uuid, true);
@@ -120,6 +141,8 @@ public class OnPlayerLoggedIn {
 
 			session.persist(player);
 			session.getTransaction().commit();
-		} catch (Exception ignored) {}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
