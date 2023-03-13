@@ -107,4 +107,11 @@ public class EssentialsPermissions {
 	public static final String SPAWN_OTHERS = SPAWN + ".others";
 	public static final String SPAWN_SET = SPAWN + ".set";
 	public static final String SPAWN_REMOVE = SPAWN + ".remove";
+	public static final String SPEED = BASE + ".speed";
+	public static final String SPEED_OTHERS = SPEED + ".others";
+	public static final String STONECUTTER = BASE + ".stonecutter";
+	public static final String SUDO = BASE + ".sudo";
+	public static final String TIME = BASE + ".time";
+	public static final String TOGGLEAUTOBROADCASTS = BASE + ".toggleautobroadcasts";
+	public static final String TOP = BASE + ".top";
 }

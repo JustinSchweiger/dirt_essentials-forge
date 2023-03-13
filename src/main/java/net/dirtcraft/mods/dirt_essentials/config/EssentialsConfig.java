@@ -1,6 +1,7 @@
 package net.dirtcraft.mods.dirt_essentials.config;
 
 import lombok.Getter;
+import net.dirtcraft.mods.dirt_essentials.util.Utils;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 
@@ -210,7 +211,6 @@ public class EssentialsConfig {
 		@Getter
 		private final String hoverEventText;
 
-		@Getter
 		private final List<String> lines;
 
 		public Autobroadcast(ClickEvent.Action action, String clickValue, String hoverEventText, List<String> lines) {
@@ -218,6 +218,14 @@ public class EssentialsConfig {
 			this.clickValue = clickValue;
 			this.hoverEventText = hoverEventText;
 			this.lines = lines;
+		}
+
+		public List<String> getLines() {
+			List<String> temp = new ArrayList<>();
+			for (String line : lines)
+				temp.add(Utils.formatColorString(line));
+
+			return temp;
 		}
 
 		public static Autobroadcast deserialize(String serialized) {

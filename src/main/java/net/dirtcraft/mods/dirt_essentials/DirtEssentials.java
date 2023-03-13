@@ -66,6 +66,12 @@ import net.dirtcraft.mods.dirt_essentials.commands.essentials.SmiteCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SmithingtableCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SocialspyCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SpawnCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.SpeedCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.StonecutterCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.SudoCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.TimeCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.ToggleautobroadcastsCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.TopCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.WarpCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.WarpsCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.playtime.PlaytimeCommand;
@@ -89,6 +95,7 @@ import net.dirtcraft.mods.dirt_essentials.listeners.OnPlayerLoggedIn;
 import net.dirtcraft.mods.dirt_essentials.listeners.OnPlayerLoggedOut;
 import net.dirtcraft.mods.dirt_essentials.listeners.OnServerChat;
 import net.dirtcraft.mods.dirt_essentials.manager.AfkManager;
+import net.dirtcraft.mods.dirt_essentials.manager.AutobroadcastManager;
 import net.dirtcraft.mods.dirt_essentials.manager.BackManager;
 import net.dirtcraft.mods.dirt_essentials.manager.GcManager;
 import net.dirtcraft.mods.dirt_essentials.manager.GodManager;
@@ -304,6 +311,12 @@ public class DirtEssentials {
 		SmithingtableCommand.register(dispatcher);
 		SocialspyCommand.register(dispatcher);
 		SpawnCommand.register(dispatcher);
+		SpeedCommand.register(dispatcher);
+		StonecutterCommand.register(dispatcher);
+		SudoCommand.register(dispatcher);
+		TimeCommand.register(dispatcher);
+		ToggleautobroadcastsCommand.register(dispatcher);
+		TopCommand.register(dispatcher);
 
 		WarpCommand.register(dispatcher);
 		WarpsCommand.register(dispatcher);
@@ -360,5 +373,6 @@ public class DirtEssentials {
 		MinecraftForge.EVENT_BUS.addListener(GodManager::onLivingHurt);
 		MinecraftForge.EVENT_BUS.addListener(GodManager::onLivingAttack);
 		MinecraftForge.EVENT_BUS.addListener(MsgManager::onWhisper);
+		MinecraftForge.EVENT_BUS.addListener(AutobroadcastManager::tick);
 	}
 }

@@ -116,6 +116,10 @@ public class DirtPlayer implements User {
 	@Setter
 	private boolean teleportToSpawnOnNextLogin;
 
+	@Getter
+	@Setter
+	private boolean autobroadcastsDisabled;
+
 	public DirtPlayer() {}
 
 	public DirtPlayer(UUID uuid) {
@@ -143,6 +147,7 @@ public class DirtPlayer implements User {
 		this.lastKnownLocation = "";
 		this.socialSpyEnabled = false;
 		this.teleportToSpawnOnNextLogin = false;
+		this.autobroadcastsDisabled = false;
 	}
 
 	public void setLastKnownLocation(Location location) {

@@ -6,6 +6,7 @@ import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
 import net.dirtcraft.mods.dirt_essentials.data.Location;
 import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
 import net.dirtcraft.mods.dirt_essentials.data.entites.Note;
+import net.dirtcraft.mods.dirt_essentials.manager.AutobroadcastManager;
 import net.dirtcraft.mods.dirt_essentials.manager.GodManager;
 import net.dirtcraft.mods.dirt_essentials.manager.JLManager;
 import net.dirtcraft.mods.dirt_essentials.manager.MsgManager;
@@ -126,6 +127,10 @@ public class OnPlayerLoggedIn {
 			if (player.isSocialSpyEnabled() && PermissionHandler.hasPermission(uuid, EssentialsPermissions.SOCIALSPY)) {
 				MsgManager.enableSocialSpy(uuid);
 				serverPlayer.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "SocialSpy is now §aenabled§7!"), Util.NIL_UUID);
+			}
+
+			if (player.isAutobroadcastsDisabled()) {
+				AutobroadcastManager.disableAutobroadcasts(uuid);
 			}
 
 			if (player.isTeleportToSpawnOnNextLogin()) {
