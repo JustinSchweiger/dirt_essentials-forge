@@ -66,14 +66,19 @@ import net.dirtcraft.mods.dirt_essentials.commands.essentials.SmiteCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SmithingtableCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SocialspyCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SpawnCommand;
-import net.dirtcraft.mods.dirt_essentials.commands.essentials.SpeedCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.StonecutterCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.SudoCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.TimeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.ToggleautobroadcastsCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.TopCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.TrashCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.UnaliveCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.WarpCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.WarpsCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.WeatherCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.WhoisCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.WorldCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.XpCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.playtime.PlaytimeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.restart.DirtRestartCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.rtp.RtpCommand;
@@ -311,15 +316,21 @@ public class DirtEssentials {
 		SmithingtableCommand.register(dispatcher);
 		SocialspyCommand.register(dispatcher);
 		SpawnCommand.register(dispatcher);
-		SpeedCommand.register(dispatcher);
 		StonecutterCommand.register(dispatcher);
 		SudoCommand.register(dispatcher);
 		TimeCommand.register(dispatcher);
 		ToggleautobroadcastsCommand.register(dispatcher);
 		TopCommand.register(dispatcher);
 
+		TrashCommand.register(dispatcher);
+		UnaliveCommand.register(dispatcher);
 		WarpCommand.register(dispatcher);
 		WarpsCommand.register(dispatcher);
+		WeatherCommand.register(dispatcher);
+		WhoisCommand.register(dispatcher);
+		WorldCommand.register(dispatcher);
+
+		XpCommand.register(dispatcher);
 	}
 
 	private void enableFeatures() {
