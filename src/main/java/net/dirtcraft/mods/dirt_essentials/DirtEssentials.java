@@ -71,6 +71,11 @@ import net.dirtcraft.mods.dirt_essentials.commands.essentials.SudoCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.TimeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.ToggleautobroadcastsCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.TopCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.TpCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.TpallCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.TphereCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.TpposCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.TptoggleCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.TrashCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.UnaliveCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.WarpCommand;
@@ -322,6 +327,15 @@ public class DirtEssentials {
 		ToggleautobroadcastsCommand.register(dispatcher);
 		TopCommand.register(dispatcher);
 
+
+
+
+		TpallCommand.register(dispatcher);
+		TpCommand.register(dispatcher);
+
+		TphereCommand.register(dispatcher);
+		TpposCommand.register(dispatcher);
+		TptoggleCommand.register(dispatcher);
 		TrashCommand.register(dispatcher);
 		UnaliveCommand.register(dispatcher);
 		WarpCommand.register(dispatcher);
@@ -329,6 +343,7 @@ public class DirtEssentials {
 		WeatherCommand.register(dispatcher);
 		WhoisCommand.register(dispatcher);
 		WorldCommand.register(dispatcher);
+
 
 		XpCommand.register(dispatcher);
 	}

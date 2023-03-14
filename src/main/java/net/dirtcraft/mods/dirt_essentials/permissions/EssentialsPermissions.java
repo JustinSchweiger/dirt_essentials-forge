@@ -118,4 +118,11 @@ public class EssentialsPermissions {
 	public static final String WORLD = BASE + ".world";
 	public static final String XP = BASE + ".xp";
 	public static final String WHOIS = BASE + ".whois";
+	public static final String TP = BASE + ".tp";
+	public static final String TP_BYPASS = TP + ".bypass";
+	public static final String TPHERE = BASE + ".tphere";
+	public static final String TPALL = BASE + ".tpall";
+	public static final String TPPOS = BASE + ".tppos";
+	public static final String TPPOS_OTHERS = TPPOS + ".others";
+	public static final String TPTOGGLE = BASE + ".tptoggle";
 }

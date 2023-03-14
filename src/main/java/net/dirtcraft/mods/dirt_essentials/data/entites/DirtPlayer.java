@@ -1,5 +1,6 @@
 package net.dirtcraft.mods.dirt_essentials.data.entites;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -120,6 +121,11 @@ public class DirtPlayer implements User {
 	@Setter
 	private boolean autobroadcastsDisabled;
 
+	@Getter
+	@Setter
+	@Column(columnDefinition = "boolean default false")
+	private boolean tpDisabled;
+
 	public DirtPlayer() {}
 
 	public DirtPlayer(UUID uuid) {
@@ -148,6 +154,7 @@ public class DirtPlayer implements User {
 		this.socialSpyEnabled = false;
 		this.teleportToSpawnOnNextLogin = false;
 		this.autobroadcastsDisabled = false;
+		this.tpDisabled = false;
 	}
 
 	public void setLastKnownLocation(Location location) {

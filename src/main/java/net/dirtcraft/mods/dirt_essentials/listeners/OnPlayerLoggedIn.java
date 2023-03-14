@@ -12,6 +12,7 @@ import net.dirtcraft.mods.dirt_essentials.manager.JLManager;
 import net.dirtcraft.mods.dirt_essentials.manager.MsgManager;
 import net.dirtcraft.mods.dirt_essentials.manager.PlayerManager;
 import net.dirtcraft.mods.dirt_essentials.manager.SpawnManager;
+import net.dirtcraft.mods.dirt_essentials.manager.TeleportManager;
 import net.dirtcraft.mods.dirt_essentials.permissions.ChatPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
@@ -131,6 +132,10 @@ public class OnPlayerLoggedIn {
 
 			if (player.isAutobroadcastsDisabled()) {
 				AutobroadcastManager.disableAutobroadcasts(uuid);
+			}
+
+			if (player.isTpDisabled()) {
+				TeleportManager.disableTeleports(uuid);
 			}
 
 			if (player.isTeleportToSpawnOnNextLogin()) {
