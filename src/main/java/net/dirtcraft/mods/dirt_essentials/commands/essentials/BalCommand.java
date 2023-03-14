@@ -5,7 +5,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
+import net.dirtcraft.mods.dirt_essentials.database.DirtPlayer;
 import net.dirtcraft.mods.dirt_essentials.manager.PlayerManager;
 import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;

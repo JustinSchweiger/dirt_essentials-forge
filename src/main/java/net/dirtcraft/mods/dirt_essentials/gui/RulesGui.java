@@ -1,7 +1,7 @@
 package net.dirtcraft.mods.dirt_essentials.gui;
 
-import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
-import net.dirtcraft.mods.dirt_essentials.data.entites.Rule;
+import net.dirtcraft.mods.dirt_essentials.database.DirtPlayer;
+import net.dirtcraft.mods.dirt_essentials.database.Rule;
 import net.dirtcraft.mods.dirt_essentials.gui.inv.SeparateInventory;
 import net.dirtcraft.mods.dirt_essentials.gui.inv.ServerOnlyScreenHandler;
 import net.dirtcraft.mods.dirt_essentials.manager.RulesManager;

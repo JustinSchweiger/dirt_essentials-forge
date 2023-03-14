@@ -1,7 +1,7 @@
 package net.dirtcraft.mods.dirt_essentials.manager;
 
-import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
-import net.dirtcraft.mods.dirt_essentials.data.entites.Warp;
+import net.dirtcraft.mods.dirt_essentials.database.HibernateUtil;
+import net.dirtcraft.mods.dirt_essentials.database.Warp;
 import org.hibernate.Session;
 
 import java.util.List;

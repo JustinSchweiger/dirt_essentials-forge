@@ -1,4 +1,4 @@
-package net.dirtcraft.mods.dirt_essentials.data.entites;
+package net.dirtcraft.mods.dirt_essentials.database;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import net.dirtcraft.mods.dirt_essentials.config.EssentialsConfig;
-import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
 import net.dirtcraft.mods.dirt_essentials.data.Location;
 import net.dirtcraft.mods.dirt_essentials.economy.backend.transaction.Transaction;
 import net.dirtcraft.mods.dirt_essentials.economy.backend.user.User;

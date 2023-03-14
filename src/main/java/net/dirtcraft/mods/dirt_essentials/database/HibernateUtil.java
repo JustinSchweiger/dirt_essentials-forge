@@ -1,14 +1,6 @@
-package net.dirtcraft.mods.dirt_essentials.data;
+package net.dirtcraft.mods.dirt_essentials.database;
 
 import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
-import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
-import net.dirtcraft.mods.dirt_essentials.data.entites.Home;
-import net.dirtcraft.mods.dirt_essentials.data.entites.Kit;
-import net.dirtcraft.mods.dirt_essentials.data.entites.KitTracker;
-import net.dirtcraft.mods.dirt_essentials.data.entites.Note;
-import net.dirtcraft.mods.dirt_essentials.data.entites.Rule;
-import net.dirtcraft.mods.dirt_essentials.data.entites.Spawn;
-import net.dirtcraft.mods.dirt_essentials.data.entites.Warp;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

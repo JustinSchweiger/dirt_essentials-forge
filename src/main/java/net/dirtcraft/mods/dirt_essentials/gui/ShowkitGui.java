@@ -1,6 +1,6 @@
 package net.dirtcraft.mods.dirt_essentials.gui;
 
-import net.dirtcraft.mods.dirt_essentials.data.entites.Kit;
+import net.dirtcraft.mods.dirt_essentials.database.Kit;
 import net.dirtcraft.mods.dirt_essentials.gui.inv.SeparateInventory;
 import net.dirtcraft.mods.dirt_essentials.gui.inv.ServerOnlyScreenHandler;
 import net.dirtcraft.mods.dirt_essentials.manager.KitManager;

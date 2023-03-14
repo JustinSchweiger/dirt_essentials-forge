@@ -2,10 +2,10 @@ package net.dirtcraft.mods.dirt_essentials.listeners;
 
 import com.mojang.logging.LogUtils;
 import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
-import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
+import net.dirtcraft.mods.dirt_essentials.database.HibernateUtil;
 import net.dirtcraft.mods.dirt_essentials.data.Location;
-import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
-import net.dirtcraft.mods.dirt_essentials.data.entites.Note;
+import net.dirtcraft.mods.dirt_essentials.database.DirtPlayer;
+import net.dirtcraft.mods.dirt_essentials.database.Note;
 import net.dirtcraft.mods.dirt_essentials.manager.AutobroadcastManager;
 import net.dirtcraft.mods.dirt_essentials.manager.GodManager;
 import net.dirtcraft.mods.dirt_essentials.manager.JLManager;

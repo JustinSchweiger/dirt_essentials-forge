@@ -1,9 +1,9 @@
 package net.dirtcraft.mods.dirt_essentials.manager;
 
 import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
-import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
-import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
-import net.dirtcraft.mods.dirt_essentials.data.entites.Rule;
+import net.dirtcraft.mods.dirt_essentials.database.HibernateUtil;
+import net.dirtcraft.mods.dirt_essentials.database.DirtPlayer;
+import net.dirtcraft.mods.dirt_essentials.database.Rule;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
 import net.minecraft.Util;
 import net.minecraft.network.chat.TextComponent;

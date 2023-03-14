@@ -35,8 +35,21 @@ public class TpCommand {
 				return Command.SINGLE_SUCCESS;
 			}
 
+			if (player.getUUID().equals(target1.getUUID())) {
+				source.sendFailure(new TextComponent(Strings.ESSENTIALS_PREFIX + "§cYou cannot teleport to yourself!"));
+				return Command.SINGLE_SUCCESS;
+			}
+
+			PlayerTeleportEvent event = new PlayerTeleportEvent(player, target1.getX(), target1.getY(), target1.getZ());
+			MinecraftForge.EVENT_BUS.post(event);
+
 			player.teleportTo(target1.getLevel(), target1.getX(), target1.getY(), target1.getZ(), target1.getYRot(), target1.getXRot());
 			source.sendSuccess(new TextComponent(Strings.ESSENTIALS_PREFIX + "You teleported to §6" + target1.getName().getString()), false);
+			return Command.SINGLE_SUCCESS;
+		}
+
+		if (target1.getUUID().equals(target2.getUUID())) {
+			source.sendFailure(new TextComponent(Strings.ESSENTIALS_PREFIX + "§cYou cannot teleport a player to themselves!"));
 			return Command.SINGLE_SUCCESS;
 		}
 

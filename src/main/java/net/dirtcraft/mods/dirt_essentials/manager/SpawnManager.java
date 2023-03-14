@@ -1,9 +1,9 @@
 package net.dirtcraft.mods.dirt_essentials.manager;
 
 import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
-import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
-import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
-import net.dirtcraft.mods.dirt_essentials.data.entites.Spawn;
+import net.dirtcraft.mods.dirt_essentials.database.HibernateUtil;
+import net.dirtcraft.mods.dirt_essentials.database.DirtPlayer;
+import net.dirtcraft.mods.dirt_essentials.database.Spawn;
 import net.dirtcraft.mods.dirt_essentials.events.PlayerTeleportEvent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;

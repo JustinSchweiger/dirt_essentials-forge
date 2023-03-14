@@ -6,7 +6,7 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
+import net.dirtcraft.mods.dirt_essentials.database.DirtPlayer;
 import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;

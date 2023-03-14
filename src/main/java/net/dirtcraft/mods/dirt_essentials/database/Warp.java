@@ -1,9 +1,8 @@
-package net.dirtcraft.mods.dirt_essentials.data.entites;
+package net.dirtcraft.mods.dirt_essentials.database;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
-import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;

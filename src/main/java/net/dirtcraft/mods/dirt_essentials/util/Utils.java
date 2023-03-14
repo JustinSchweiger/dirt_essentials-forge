@@ -1,7 +1,7 @@
 package net.dirtcraft.mods.dirt_essentials.util;
 
 import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
-import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
+import net.dirtcraft.mods.dirt_essentials.database.DirtPlayer;
 import net.dirtcraft.mods.dirt_essentials.permissions.ChatPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.minecraft.nbt.CompoundTag;

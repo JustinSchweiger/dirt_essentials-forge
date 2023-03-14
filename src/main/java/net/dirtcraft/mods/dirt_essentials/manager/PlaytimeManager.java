@@ -2,8 +2,8 @@ package net.dirtcraft.mods.dirt_essentials.manager;
 
 import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
 import net.dirtcraft.mods.dirt_essentials.config.PlaytimeConfig;
-import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
-import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
+import net.dirtcraft.mods.dirt_essentials.database.HibernateUtil;
+import net.dirtcraft.mods.dirt_essentials.database.DirtPlayer;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
 import net.minecraft.Util;

@@ -1,4 +1,4 @@
-package net.dirtcraft.mods.dirt_essentials.data.entites;
+package net.dirtcraft.mods.dirt_essentials.database;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import jakarta.persistence.Column;
@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
-import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
 import net.dirtcraft.mods.dirt_essentials.data.TimeUnit;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;

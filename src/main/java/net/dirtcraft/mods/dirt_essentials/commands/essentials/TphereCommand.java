@@ -32,6 +32,11 @@ public class TphereCommand {
 
 		ServerPlayer player = source.getPlayerOrException();
 
+		if (player.getUUID().equals(target.getUUID())) {
+			player.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "§cYou cannot teleport to yourself!"), Util.NIL_UUID);
+			return Command.SINGLE_SUCCESS;
+		}
+
 		PlayerTeleportEvent event = new PlayerTeleportEvent(target, player.getX(), player.getY(), player.getZ());
 		MinecraftForge.EVENT_BUS.post(event);
 

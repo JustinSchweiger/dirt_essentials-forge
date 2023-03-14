@@ -1,4 +1,4 @@
-package net.dirtcraft.mods.dirt_essentials.data.entites;
+package net.dirtcraft.mods.dirt_essentials.database;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,7 +1,7 @@
 package net.dirtcraft.mods.dirt_essentials.gui;
 
 import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
-import net.dirtcraft.mods.dirt_essentials.data.entites.Warp;
+import net.dirtcraft.mods.dirt_essentials.database.Warp;
 import net.dirtcraft.mods.dirt_essentials.events.PlayerTeleportEvent;
 import net.dirtcraft.mods.dirt_essentials.gui.inv.SeparateInventory;
 import net.dirtcraft.mods.dirt_essentials.gui.inv.ServerOnlyScreenHandler;

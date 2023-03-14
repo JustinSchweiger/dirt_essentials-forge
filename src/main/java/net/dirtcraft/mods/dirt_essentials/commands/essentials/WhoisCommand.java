@@ -4,7 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.dirtcraft.mods.dirt_essentials.data.entites.DirtPlayer;
+import net.dirtcraft.mods.dirt_essentials.database.DirtPlayer;
 import net.dirtcraft.mods.dirt_essentials.manager.GodManager;
 import net.dirtcraft.mods.dirt_essentials.manager.HomeManager;
 import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;

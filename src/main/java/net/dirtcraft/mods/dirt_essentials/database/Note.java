@@ -1,4 +1,4 @@
-package net.dirtcraft.mods.dirt_essentials.data.entites;
+package net.dirtcraft.mods.dirt_essentials.database;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
