@@ -57,7 +57,7 @@ public class GcCommand {
 		source.sendSuccess(new TextComponent("§7▼ §8§oHover for more info! §7▼"), false);
 		source.sendSuccess(new TextComponent(""), false);
 		for (ServerLevel level : levels) {
-			TextComponent worldComponent = new TextComponent("§3▪ §a§o" + level.dimension().registry() + " §r§7| §e§o" + level.dimension().location());
+			TextComponent worldComponent = new TextComponent("§3▪ §9§o" + level.dimension().location());
 			worldComponent.setStyle(worldComponent.getStyle().withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(
 					"§6Mean Tick§7:\n" +
 							"  §8▪ " + GcManager.formatTickTime(GcManager.getMeanTickTime(level)) + "\n" +

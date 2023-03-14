@@ -126,4 +126,8 @@ public class EssentialsPermissions {
 	public static final String TPPOS_OTHERS = TPPOS + ".others";
 	public static final String TPTOGGLE = BASE + ".tptoggle";
 	public static final String TPA = BASE + ".tpa";
+	public static final String TPAHERE = BASE + ".tpahere";
+	public static final String TPDENY = BASE + ".tpdeny";
+	public static final String TPACCEPT = BASE + ".tpaccept";
+	public static final String TPACANCEL = BASE + ".tpacancel";
 }

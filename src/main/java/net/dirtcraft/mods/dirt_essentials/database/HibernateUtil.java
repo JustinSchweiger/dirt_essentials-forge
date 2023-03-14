@@ -25,7 +25,7 @@ public class HibernateUtil {
 						.setProperty("hibernate.connection.driver_class", "org.h2.Driver")
 						.setProperty("hibernate.connection.url", "jdbc:h2:" + DirtEssentials.DIRT_MODS_DIR + "/dirt_essentials")
 						.setProperty("hibernate.connection.pool_size", "5")
-						.setProperty("show_sql", "true")
+						.setProperty("hibernate.show_sql", "false")
 						.setProperty("hibernate.hbm2ddl.auto", "update")
 						.setProperty("hibernate.connection.autocommit", "true");
 

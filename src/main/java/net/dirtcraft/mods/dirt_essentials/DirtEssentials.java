@@ -72,7 +72,12 @@ import net.dirtcraft.mods.dirt_essentials.commands.essentials.TimeCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.ToggleautobroadcastsCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.TopCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.TpCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.TpaCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.TpacancelCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.TpacceptCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.TpahereCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.TpallCommand;
+import net.dirtcraft.mods.dirt_essentials.commands.essentials.TpdenyCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.TphereCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.TpposCommand;
 import net.dirtcraft.mods.dirt_essentials.commands.essentials.TptoggleCommand;
@@ -95,8 +100,8 @@ import net.dirtcraft.mods.dirt_essentials.config.RestartConfig;
 import net.dirtcraft.mods.dirt_essentials.config.RtpConfig;
 import net.dirtcraft.mods.dirt_essentials.config.RulesConfig;
 import net.dirtcraft.mods.dirt_essentials.config.SpamFixConfig;
-import net.dirtcraft.mods.dirt_essentials.database.HibernateUtil;
 import net.dirtcraft.mods.dirt_essentials.database.DirtPlayer;
+import net.dirtcraft.mods.dirt_essentials.database.HibernateUtil;
 import net.dirtcraft.mods.dirt_essentials.filter.JavaFilter;
 import net.dirtcraft.mods.dirt_essentials.filter.Log4jFilter;
 import net.dirtcraft.mods.dirt_essentials.filter.SystemFilter;
@@ -114,6 +119,7 @@ import net.dirtcraft.mods.dirt_essentials.manager.PlayerManager;
 import net.dirtcraft.mods.dirt_essentials.manager.PlaytimeManager;
 import net.dirtcraft.mods.dirt_essentials.manager.RestartManager;
 import net.dirtcraft.mods.dirt_essentials.manager.RulesManager;
+import net.dirtcraft.mods.dirt_essentials.manager.TeleportManager;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
@@ -326,13 +332,13 @@ public class DirtEssentials {
 		TimeCommand.register(dispatcher);
 		ToggleautobroadcastsCommand.register(dispatcher);
 		TopCommand.register(dispatcher);
-
-
-
-
+		TpacancelCommand.register(dispatcher);
+		TpacceptCommand.register(dispatcher);
+		TpaCommand.register(dispatcher);
+		TpahereCommand.register(dispatcher);
 		TpallCommand.register(dispatcher);
 		TpCommand.register(dispatcher);
-
+		TpdenyCommand.register(dispatcher);
 		TphereCommand.register(dispatcher);
 		TpposCommand.register(dispatcher);
 		TptoggleCommand.register(dispatcher);
@@ -400,5 +406,6 @@ public class DirtEssentials {
 		MinecraftForge.EVENT_BUS.addListener(GodManager::onLivingAttack);
 		MinecraftForge.EVENT_BUS.addListener(MsgManager::onWhisper);
 		MinecraftForge.EVENT_BUS.addListener(AutobroadcastManager::tick);
+		MinecraftForge.EVENT_BUS.addListener(TeleportManager::tick);
 	}
 }
