@@ -19,9 +19,6 @@ public class Home {
 	private DirtPlayer owner;
 
 	@Getter
-	private String registry;
-
-	@Getter
 	private String location;
 
 	@Getter
@@ -44,7 +41,6 @@ public class Home {
 	public Home(String name, DirtPlayer owner, ResourceKey<Level> dimension, double x, double y, double z, float yaw, float pitch) {
 		this.name = name;
 		this.owner = owner;
-		this.registry = dimension.registry().toString();
 		this.location = dimension.location().toString();
 		this.x = x;
 		this.y = y;

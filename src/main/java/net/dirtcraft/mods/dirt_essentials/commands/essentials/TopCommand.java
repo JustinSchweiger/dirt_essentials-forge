@@ -4,6 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.dirtcraft.mods.dirt_essentials.events.PlayerTeleportEvent;
 import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
@@ -12,6 +13,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraftforge.common.MinecraftForge;
 
 public class TopCommand {
 	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -30,6 +32,9 @@ public class TopCommand {
 
 		ServerPlayer player = source.getPlayerOrException();
 		int y = player.getLevel().getHeight(Heightmap.Types.MOTION_BLOCKING, player.getBlockX(), player.getBlockZ());
+
+		PlayerTeleportEvent event = new PlayerTeleportEvent(player, player.getX(), y + 2, player.getZ());
+		MinecraftForge.EVENT_BUS.post(event);
 
 		player.teleportTo(player.getX(), y + 2, player.getZ());
 		source.sendSuccess(new TextComponent(Strings.ESSENTIALS_PREFIX + "§7You have been teleported to the §ahighest block above you§7!"), false);

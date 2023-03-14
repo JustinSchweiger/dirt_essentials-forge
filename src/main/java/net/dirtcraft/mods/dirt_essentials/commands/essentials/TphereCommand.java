@@ -3,6 +3,7 @@ package net.dirtcraft.mods.dirt_essentials.commands.essentials;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.dirtcraft.mods.dirt_essentials.events.PlayerTeleportEvent;
 import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
@@ -12,6 +13,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.common.MinecraftForge;
 
 public class TphereCommand {
 	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -29,6 +31,9 @@ public class TphereCommand {
 		}
 
 		ServerPlayer player = source.getPlayerOrException();
+
+		PlayerTeleportEvent event = new PlayerTeleportEvent(target, player.getX(), player.getY(), player.getZ());
+		MinecraftForge.EVENT_BUS.post(event);
 
 		target.teleportTo(player.getLevel(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
 		player.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "§aTeleported §6" + target.getName().getString() + " §ato you!"), Util.NIL_UUID);

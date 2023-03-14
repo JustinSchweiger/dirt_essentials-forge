@@ -52,13 +52,9 @@ public class SpawnCommand {
 		}
 
 		ResourceKey<Level> dimension = source.getLevel().dimension();
-		ServerPlayer player = source.getPlayerOrException();
 
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			Spawn spawn = session.createQuery("FROM Spawn WHERE registry = :registry AND location = :location", Spawn.class)
-					.setParameter("registry", player.getLevel().dimension().registry().toString())
-					.setParameter("location", player.getLevel().dimension().location().toString())
-					.getSingleResultOrNull();
+			Spawn spawn = session.get(Spawn.class, dimension.location().toString());
 
 			if (spawn == null) {
 				source.sendFailure(new TextComponent(Strings.ESSENTIALS_PREFIX + "§cSpawn not set for world §d" + dimension.location() + "§c!"));

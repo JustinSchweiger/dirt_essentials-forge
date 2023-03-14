@@ -20,9 +20,6 @@ public class Warp {
 	private String item;
 
 	@Getter
-	private String registry;
-
-	@Getter
 	private String location;
 
 	@Getter
@@ -45,7 +42,6 @@ public class Warp {
 	public Warp(String name, ItemStack item, ResourceKey<Level> dimension, double x, double y, double z, float yaw, float pitch) {
 		this.name = name;
 		this.item = serialize(item);
-		this.registry = dimension.registry().toString();
 		this.location = dimension.location().toString();
 		this.x = x;
 		this.y = y;

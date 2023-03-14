@@ -2,6 +2,7 @@ package net.dirtcraft.mods.dirt_essentials.commands.essentials;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import net.dirtcraft.mods.dirt_essentials.events.PlayerTeleportEvent;
 import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
@@ -14,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.common.MinecraftForge;
 
 public class TpposCommand {
 	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -30,8 +32,11 @@ public class TpposCommand {
 	}
 
 	private static int teleport(CommandSourceStack source, BlockPos pos, ServerLevel dimension, ServerPlayer player) {
+		PlayerTeleportEvent event = new PlayerTeleportEvent(player, pos.getX(), pos.getY(), pos.getZ());
+		MinecraftForge.EVENT_BUS.post(event);
+
 		player.teleportTo(dimension, pos.getX(), pos.getY(), pos.getZ(), player.getYRot(), player.getXRot());
-		source.sendSuccess(new TextComponent(Strings.ESSENTIALS_PREFIX + "§aTeleported §6" + player.getName().getString() + " §ato §e" + pos.getX() + " " + pos.getY() + " " + pos.getZ() + " §7in §e" + dimension.dimension().location()), false);
+		source.sendSuccess(new TextComponent(Strings.ESSENTIALS_PREFIX + "Teleported §6" + player.getName().getString() + " §7to §e" + pos.getX() + " " + pos.getY() + " " + pos.getZ() + " §7in §e" + dimension.dimension().location()), false);
 		return Command.SINGLE_SUCCESS;
 	}
 }

@@ -2,11 +2,13 @@ package net.dirtcraft.mods.dirt_essentials.gui;
 
 import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
 import net.dirtcraft.mods.dirt_essentials.data.entites.Warp;
+import net.dirtcraft.mods.dirt_essentials.events.PlayerTeleportEvent;
 import net.dirtcraft.mods.dirt_essentials.gui.inv.SeparateInventory;
 import net.dirtcraft.mods.dirt_essentials.gui.inv.ServerOnlyScreenHandler;
 import net.dirtcraft.mods.dirt_essentials.manager.WarpManager;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
 import net.minecraft.Util;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceKey;
@@ -21,6 +23,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -89,10 +92,13 @@ public class WarpsGui extends ServerOnlyScreenHandler {
 		if (warp == null)
 			return false;
 
-		ResourceKey<Level> dim = ResourceKey.create(ResourceKey.createRegistryKey(new ResourceLocation(warp.getRegistry())), new ResourceLocation(warp.getLocation()));
+		ResourceKey<Level> dim = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(warp.getLocation()));
 		ServerLevel level = DirtEssentials.SERVER.getLevel(dim);
 		if (level == null)
 			return false;
+
+		PlayerTeleportEvent event = new PlayerTeleportEvent(player, player.getX(), player.getY(), player.getZ());
+		MinecraftForge.EVENT_BUS.post(event);
 
 		player.teleportTo(level, warp.getX(), warp.getY(), warp.getZ(), player.getYRot(), player.getXRot());
 		player.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "Teleported to warp §e" + warp.getName() + "§7!"), Util.NIL_UUID);

@@ -98,7 +98,7 @@ public class HomesCommand {
 					homeComponent.setStyle(homeComponent.getStyle()
 							.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/otherhome " + StringArgumentType.getString(context, "target") + " teleport " + home.getName()))
 							.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(
-									"§6World§7: §b" + home.getRegistry() + " | " + home.getLocation() + "\n" +
+									"§6World§7: §b" + home.getLocation() + "\n" +
 											"§6Coords§7: §b" + Utils.formatCoordinates(home.getX(), home.getY(), home.getZ()) + "\n" +
 											"\n" +
 											"§aClick to teleport to this players home!"
@@ -107,7 +107,7 @@ public class HomesCommand {
 					homeComponent.setStyle(homeComponent.getStyle()
 							.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/home " + home.getName()))
 							.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(
-									"§6World§7: §b" + home.getRegistry() + " | " + home.getLocation() + "\n" +
+									"§6World§7: §b" + home.getLocation() + "\n" +
 											"§6Coords§7: §b" + Utils.formatCoordinates(home.getX(), home.getY(), home.getZ()) + "\n" +
 											"\n" +
 											"§aClick to teleport to this home!"

@@ -111,7 +111,7 @@ public class RtpManager {
 
 		String coords = String.format("§b%d§7, §b%d§7, §b%d", islandX, y, islandZ);
 
-		PlayerTeleportEvent event = new PlayerTeleportEvent(player, player.getX(), player.getY(), player.getZ());
+		PlayerTeleportEvent event = new PlayerTeleportEvent(player, islandX, y, islandZ);
 		MinecraftForge.EVENT_BUS.post(event);
 
 		player.teleportTo(world, islandX, y, islandZ, player.getYRot(), player.getXRot());
@@ -229,7 +229,7 @@ public class RtpManager {
 
 			String coords = String.format("§b%d§7, §b%d§7, §b%d", x, y, z);
 
-			PlayerTeleportEvent event = new PlayerTeleportEvent(player, player.getX(), player.getY(), player.getZ());
+			PlayerTeleportEvent event = new PlayerTeleportEvent(player, x + 0.5, y, z + 0.5);
 			MinecraftForge.EVENT_BUS.post(event);
 
 			player.teleportTo(level, x + 0.5, y, z + 0.5, player.getYRot(), player.getXRot());

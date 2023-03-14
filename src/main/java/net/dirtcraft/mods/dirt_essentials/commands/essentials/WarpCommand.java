@@ -9,6 +9,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
 import net.dirtcraft.mods.dirt_essentials.data.HibernateUtil;
 import net.dirtcraft.mods.dirt_essentials.data.entites.Warp;
+import net.dirtcraft.mods.dirt_essentials.events.PlayerTeleportEvent;
 import net.dirtcraft.mods.dirt_essentials.manager.WarpManager;
 import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
@@ -17,12 +18,14 @@ import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.MinecraftForge;
 import org.hibernate.Session;
 
 public class WarpCommand {
@@ -54,12 +57,15 @@ public class WarpCommand {
 				return Command.SINGLE_SUCCESS;
 			}
 
-			ResourceKey<Level> dim = ResourceKey.create(ResourceKey.createRegistryKey(new ResourceLocation(warp.getRegistry())), new ResourceLocation(warp.getLocation()));
+			ResourceKey<Level> dim = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(warp.getLocation()));
 			ServerLevel level = DirtEssentials.SERVER.getLevel(dim);
 			if (level == null) {
 				source.sendFailure(new TextComponent(Strings.ESSENTIALS_PREFIX + "§cThe warp you are trying to access is in a dimension that no longer exists!"));
 				return Command.SINGLE_SUCCESS;
 			}
+
+			PlayerTeleportEvent event = new PlayerTeleportEvent(player, warp.getX(), warp.getY(), warp.getZ());
+			MinecraftForge.EVENT_BUS.post(event);
 
 			player.teleportTo(level, warp.getX(), warp.getY(), warp.getZ(), player.getYRot(), player.getXRot());
 			player.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "Teleported to warp §e" + warp.getName() + "§7!"), Util.NIL_UUID);

@@ -5,6 +5,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.dirtcraft.mods.dirt_essentials.DirtEssentials;
+import net.dirtcraft.mods.dirt_essentials.events.PlayerTeleportEvent;
 import net.dirtcraft.mods.dirt_essentials.permissions.EssentialsPermissions;
 import net.dirtcraft.mods.dirt_essentials.permissions.PermissionHandler;
 import net.dirtcraft.mods.dirt_essentials.util.Strings;
@@ -13,6 +14,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.common.MinecraftForge;
 
 public class TpallCommand {
 	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -37,6 +39,8 @@ public class TpallCommand {
 				continue;
 
 			teleported++;
+			PlayerTeleportEvent event = new PlayerTeleportEvent(player, target.getX(), target.getY(), target.getZ());
+			MinecraftForge.EVENT_BUS.post(event);
 			player.teleportTo(target.getLevel(), target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
 			player.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "§aYou have been teleported to §6" + target.getGameProfile().getName()), Util.NIL_UUID);
 		}

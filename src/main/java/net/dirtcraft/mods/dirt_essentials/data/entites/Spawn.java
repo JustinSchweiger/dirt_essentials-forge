@@ -4,15 +4,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 @Entity
 public class Spawn {
-	@Id
-	@Column(length = 9999)
-	private String registry;
 	@Id
 	@Column(length = 9999)
 	private String location;
@@ -30,7 +28,6 @@ public class Spawn {
 	public Spawn() {}
 
 	public Spawn(ResourceKey<Level> world, double x, double y, double z, float yaw, float pitch) {
-		this.registry = world.registry().toString();
 		this.location = world.location().toString();
 		this.x = x;
 		this.y = y;
@@ -40,6 +37,6 @@ public class Spawn {
 	}
 
 	public ResourceKey<Level> getLevel() {
-		return ResourceKey.create(ResourceKey.createRegistryKey(new ResourceLocation(registry)), new ResourceLocation(location));
+		return ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(location));
 	}
 }

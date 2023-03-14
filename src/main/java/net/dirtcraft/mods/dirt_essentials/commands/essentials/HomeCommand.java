@@ -18,6 +18,7 @@ import net.dirtcraft.mods.dirt_essentials.util.Strings;
 import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -74,14 +75,14 @@ public class HomeCommand {
 			DirtPlayer dirtPlayer = session.get(DirtPlayer.class, player.getUUID());
 			Home home = dirtPlayer.getHome(name);
 
-			ResourceKey<Level> dimension = ResourceKey.create(ResourceKey.createRegistryKey(new ResourceLocation(home.getRegistry())), new ResourceLocation(home.getLocation()));
+			ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(home.getLocation()));
 			ServerLevel level = DirtEssentials.SERVER.getLevel(dimension);
 			if (level == null) {
 				player.sendMessage(new TextComponent(Strings.ESSENTIALS_PREFIX + "§cThe home you are trying to access is in a world that no longer exists!"), Util.NIL_UUID);
 				return Command.SINGLE_SUCCESS;
 			}
 
-			PlayerTeleportEvent event = new PlayerTeleportEvent(player, player.getX(), player.getY(), player.getZ());
+			PlayerTeleportEvent event = new PlayerTeleportEvent(player, home.getX(), home.getY(), home.getZ());
 			MinecraftForge.EVENT_BUS.post(event);
 
 			player.teleportTo(level, home.getX(), home.getY(), home.getZ(), home.getYaw(), home.getPitch());
